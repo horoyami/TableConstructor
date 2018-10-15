@@ -1,0 +1,35 @@
+* {
+    box-sizing: padding-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 800px;
+}
+
+.main_wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editable_table {
+    width: 800px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.editable_table tr td {
+    border: 1px solid #e2e2e2;
+    padding: 10px;
+}
+
+table.editable_table tr td:focus {
+    outline: none;
+    background: cornsilk;
+}
