@@ -57,3 +57,11 @@ table.editable_table tr td:focus {
 .table_wrapper {
     position: relative;
 }
+
+.cell {
+    padding: 10px;
+}
+
+.inputField {
+    outline: none;
+}

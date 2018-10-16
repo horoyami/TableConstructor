@@ -12,10 +12,10 @@ let horHover = document.getElementsByClassName("hor_hover")[0];
 function generateClearCell() {
     let cell = document.createElement("td");
     let div = cell.appendChild(document.createElement("div"));
-    cell.style.padding = "10px";
     div.setAttribute("contenteditable", "true");
-    div.style.outline = "none";
+    div.classList.add("inputField");
     div.addEventListener("input", hideAllBorder);
+    cell.classList.add("cell");
     cell.addEventListener("mousemove", checkMouseIsNearBorderListener);
     return cell;
 }
@@ -45,28 +45,29 @@ function addColumnTable(pos = Infinity) {
     }
 }
 
-
 function getPositionOfElement(elem) {
+    let rect = elem.getBoundingClientRect();
     return {
-        y: elem.getBoundingClientRect().top + pageYOffset,
-        x: elem.getBoundingClientRect().left + pageXOffset
+        y1: rect.top + pageYOffset,
+        x1: rect.left + pageXOffset,
+        x2: rect.right + pageXOffset,
+        y2: rect.bottom + pageYOffset
     }
 }
 
 function getPositionMouseRegardingElementByEvent(event) {
-    let rect = event.currentTarget.getBoundingClientRect();
+    let rect = getPositionOfElement(event.currentTarget);
     return {
-        top: rect.top + pageYOffset,
-        left: rect.left + pageXOffset,
-        bottom: rect.bottom + pageYOffset,
-        right: rect.right + pageXOffset,
+        top: rect.y1,
+        left: rect.x1,
+        bottom: rect.y2,
+        right: rect.x2,
         x: event.pageX,
         y: event.pageY
     };
 }
 
 function showHoverBorder(elem, x, y) {
-
     elem.style.top = y + "px";
     elem.style.left = x + "px";
     elem.style.visibility = "visible";
@@ -95,25 +96,27 @@ function checkMouseIsNearBorderListener(event) {
     let pos = getPositionMouseRegardingElementByEvent(event);
     let posTable = getPositionOfElement(table);
     let adding = (event.currentTarget === table_editor) ? 10 : 0;
+
     if (Math.abs(pos.y - pos.top) <= 10) {
-        changeHoverBorder(horHover, verHover, 0, pos.top - posTable.y + adding);
+        changeHoverBorder(horHover, verHover, 0, (pos.top - posTable.y1 + adding));
     } else if (Math.abs(pos.y - pos.bottom) <= 10) {
-        changeHoverBorder(horHover, verHover, 0, pos.bottom - posTable.y - adding);
+        changeHoverBorder(horHover, verHover, 0, (pos.bottom - posTable.y1 - adding));
     } else if (Math.abs(pos.x - pos.left) <= 10) {
-        changeHoverBorder(verHover, horHover, pos.left - posTable.x + adding, 0);
+        changeHoverBorder(verHover, horHover, (pos.left - posTable.x1 + adding), 0);
     } else if (Math.abs(pos.x - pos.right) <= 10) {
-        changeHoverBorder(verHover, horHover, pos.right - posTable.x - adding, 0);
+        changeHoverBorder(verHover, horHover, (pos.right - posTable.x1 - adding), 0);
     } else {
-        hideHoverBorder(verHover);
-        hideHoverBorder(horHover);
-        hovered_border = null;
+        hideAllBorder();
     }
 }
 
+
+
+
+
+addColumnTable();
+addColumnTable();
+addStringTable();
+addStringTable();
+
 table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
-
-
-addColumnTable();
-addColumnTable();
-addStringTable();
-addStringTable();
