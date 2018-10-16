@@ -7,14 +7,17 @@ let activated_border = null;
 let hovered_border = null;
 let verHover = document.getElementsByClassName("ver_hover")[0];
 let horHover = document.getElementsByClassName("hor_hover")[0];
-
+let verActive = document.getElementsByClassName("ver_active")[0];
+let horActive = document.getElementsByClassName("hor_active")[0];
+let addButton = document.getElementsByClassName("add_button")[0];
 
 function generateClearCell() {
     let cell = document.createElement("td");
     let div = cell.appendChild(document.createElement("div"));
     div.setAttribute("contenteditable", "true");
     div.classList.add("inputField");
-    div.addEventListener("input", hideAllBorder);
+    div.addEventListener("input", hideAllHoverBorder);
+    div.addEventListener("focus", hideAllBorder);
     cell.classList.add("cell");
     cell.addEventListener("mousemove", checkMouseIsNearBorderListener);
     return cell;
@@ -67,27 +70,27 @@ function getPositionMouseRegardingElementByEvent(event) {
     };
 }
 
-function showHoverBorder(elem, x, y) {
+function showBorder(elem, x, y) {
     elem.style.top = y + "px";
     elem.style.left = x + "px";
     elem.style.visibility = "visible";
 }
 
-function hideHoverBorder(elem) {
+function hideBorder(elem) {
     elem.style.visibility = "hidden";
 }
 
-function changeHoverBorder(show, hide, x, y) {
+function changeBorder(show, hide, x, y) {
     if (show !== hovered_border) {
         hovered_border = show;
-        showHoverBorder(show, x, y);
-        hideHoverBorder(hide);
+        showBorder(show, x, y);
+        hideBorder(hide);
     }
 }
 
-function hideAllBorder() {
-    hideHoverBorder(verHover);
-    hideHoverBorder(horHover);
+function hideAllHoverBorder() {
+    hideBorder(verHover);
+    hideBorder(horHover);
     hovered_border = null;
 }
 
@@ -98,21 +101,63 @@ function checkMouseIsNearBorderListener(event) {
     let adding = (event.currentTarget === table_editor) ? 10 : 0;
 
     if (Math.abs(pos.y - pos.top) <= 10) {
-        changeHoverBorder(horHover, verHover, 0, (pos.top - posTable.y1 + adding));
+        changeBorder(horHover, verHover, 0, (pos.top - posTable.y1 + adding));
     } else if (Math.abs(pos.y - pos.bottom) <= 10) {
-        changeHoverBorder(horHover, verHover, 0, (pos.bottom - posTable.y1 - adding));
+        changeBorder(horHover, verHover, 0, (pos.bottom - posTable.y1 - adding));
     } else if (Math.abs(pos.x - pos.left) <= 10) {
-        changeHoverBorder(verHover, horHover, (pos.left - posTable.x1 + adding), 0);
+        changeBorder(verHover, horHover, (pos.left - posTable.x1 + adding), 0);
     } else if (Math.abs(pos.x - pos.right) <= 10) {
-        changeHoverBorder(verHover, horHover, (pos.right - posTable.x1 - adding), 0);
+        changeBorder(verHover, horHover, (pos.right - posTable.x1 - adding), 0);
     } else {
-        hideAllBorder();
+        hideAllHoverBorder();
     }
 }
 
+function hideAllBorder() {
+    hideAllHoverBorder();
+    hideBorder(verActive);
+    hideBorder(horActive);
+    activated_border = null;
+    hideAddButton();
+}
 
+function changeHoverToActive(active, hover) {
+    active.style.top = hover.style.top;
+    active.style.left = hover.style.left;
+    active.style.visibility = "visible";
+    activated_border = active;
+    hideBorder(hover);
+    showAddButton(Number.parseInt(hover.style.left), Number.parseInt(hover.style.top));
+}
 
+function borderClickListener(event) {
+    if (hovered_border !== null) {
+        if (activated_border !== null) {
+            hideBorder(activated_border);
+            hideAddButton();
+        }
+        if (hovered_border === horHover)
+            changeHoverToActive(horActive, horHover);
+        else
+            changeHoverToActive(verActive, verHover);
+    }
+}
 
+function showAddButton(x, y) {
+    let style = getComputedStyle(addButton);
+    addButton.style.top = (y - Number.parseInt(style.height) / 2) + "px";
+    addButton.style.left = (x - Number.parseInt(style.width) / 2 + 1) + "px";
+    addButton.style.visibility = "visible";
+}
+
+function hideAddButton() {
+    addButton.style.visibility = "hidden";
+}
+
+function addButtonClick(event) {
+    event.stopPropagation();
+
+}
 
 addColumnTable();
 addColumnTable();
@@ -120,3 +165,5 @@ addStringTable();
 addStringTable();
 
 table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
+table_editor.addEventListener("click", borderClickListener);
+addButton.addEventListener("click", addButtonClick);

@@ -34,22 +34,30 @@ table.editable_table tr td:focus {
     padding-right: 10px;
     padding-left: 10px;
     padding-bottom: 9px;
+    margin-left: 12px;
 }
 
-.bor_hover {
-    background: gray;
+.bor {
     position: absolute;
     top: 0px;
     left: 0px;
     visibility: hidden;
 }
 
-.hor_hover {
+.bor_hover {
+    background: gray;
+}
+
+.bor_active {
+    background: #368be6;
+}
+
+.hor_hover, .hor_active {
     min-height: 1px;
     width: 100%;
 }
 
-.ver_hover {
+.ver_hover, .ver_active {
     min-width: 1px;
     height: 100%;
 }
@@ -64,4 +72,11 @@ table.editable_table tr td:focus {
 
 .inputField {
     outline: none;
+}
+
+.add_button {
+    position: absolute;
+    visibility: hidden;
+    height: 15px;
+    width: 15px;
 }
