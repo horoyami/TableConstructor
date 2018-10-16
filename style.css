@@ -26,6 +26,34 @@ table.editable_table tr td {
 }
 
 table.editable_table tr td:focus {
-    outline: none;
     background: cornsilk;
+}
+
+.table_editor {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 9px;
+}
+
+.bor_hover {
+    background: gray;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    visibility: hidden;
+}
+
+.hor_hover {
+    min-height: 1px;
+    width: 100%;
+}
+
+.ver_hover {
+    min-width: 1px;
+    height: 100%;
+}
+
+.table_wrapper {
+    position: relative;
 }
