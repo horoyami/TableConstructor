@@ -4,7 +4,10 @@ let numberColumns = 0;
 let numberStrings = 0;
 
 let activated_border = null;
+let activated_border_pos;
+let isRight = null;
 let hovered_border = null;
+let hover_block = null;
 let verHover = document.getElementsByClassName("ver_hover")[0];
 let horHover = document.getElementsByClassName("hor_hover")[0];
 let verActive = document.getElementsByClassName("ver_active")[0];
@@ -18,6 +21,12 @@ function generateClearCell() {
     div.classList.add("inputField");
     div.addEventListener("input", hideAllHoverBorder);
     div.addEventListener("focus", hideAllBorder);
+    div.addEventListener("focus", () => {
+        cell.style.background = "cornsilk";
+    });
+    div.addEventListener("blur", () => {
+        cell.style.background = "white";
+    });
     cell.classList.add("cell");
     cell.addEventListener("mousemove", checkMouseIsNearBorderListener);
     return cell;
@@ -102,12 +111,16 @@ function checkMouseIsNearBorderListener(event) {
 
     if (Math.abs(pos.y - pos.top) <= 10) {
         changeBorder(horHover, verHover, 0, (pos.top - posTable.y1 + adding));
+        isRight = false;
     } else if (Math.abs(pos.y - pos.bottom) <= 10) {
         changeBorder(horHover, verHover, 0, (pos.bottom - posTable.y1 - adding));
+        isRight = true;
     } else if (Math.abs(pos.x - pos.left) <= 10) {
         changeBorder(verHover, horHover, (pos.left - posTable.x1 + adding), 0);
+        isRight = false;
     } else if (Math.abs(pos.x - pos.right) <= 10) {
         changeBorder(verHover, horHover, (pos.right - posTable.x1 - adding), 0);
+        isRight = true;
     } else {
         hideAllHoverBorder();
     }
@@ -131,15 +144,22 @@ function changeHoverToActive(active, hover) {
 }
 
 function borderClickListener(event) {
+    hover_block = event.target;
     if (hovered_border !== null) {
         if (activated_border !== null) {
             hideBorder(activated_border);
             hideAddButton();
         }
-        if (hovered_border === horHover)
+        if (hovered_border === horHover) {
             changeHoverToActive(horActive, horHover);
-        else
+            calculateBorderPosition(table, hover_block.parentElement);
+        }
+        else {
             changeHoverToActive(verActive, verHover);
+            calculateBorderPosition(hover_block.parentElement, hover_block);
+        }
+    } else if (hover_block.tagName === "TD") {
+        hover_block.firstElementChild.focus();
     }
 }
 
@@ -154,9 +174,51 @@ function hideAddButton() {
     addButton.style.visibility = "hidden";
 }
 
+function calculateBorderPosition(parent, child) {
+    if (hover_block === table_editor) {
+        activated_border_pos = (isRight) ? Infinity : 0;
+        return;
+    }
+    let pos = 0;
+    while (pos < parent.children.length && parent.children[pos++] !== child) ;
+    activated_border_pos = pos + ((isRight) ? 1 : 0) - 1;
+}
+
 function addButtonClick(event) {
     event.stopPropagation();
+    if (activated_border === horActive) {
+        addStringTable(activated_border_pos);
+    } else {
+        addColumnTable(activated_border_pos);
+    }
+    hideAllBorder();
+}
 
+function globalPressKeyListener(event) {
+    if (event.code === "Enter") {
+        if (event.target.className === "inputField")
+            return;
+        addStringTable();
+    }
+    if (event.code === "Backspace") {
+        if (table.children.length === 1)
+            return;
+        for (let i = 0; i < table.children.length; i++) {
+            let ok = true;
+            let row = table.children[i];
+
+            for (let j = 0; j < row.children.length; j++) {
+                let div = row.children[j].firstElementChild;
+                if (div.innerText !== "")
+                    ok = false;
+            }
+
+            if (ok) {
+                table.removeChild(row);
+                return;
+            }
+        }
+    }
 }
 
 addColumnTable();
@@ -167,3 +229,4 @@ addStringTable();
 table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
 table_editor.addEventListener("click", borderClickListener);
 addButton.addEventListener("click", addButtonClick);
+document.addEventListener("keydown", globalPressKeyListener);
