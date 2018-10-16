@@ -230,3 +230,4 @@ table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
 table_editor.addEventListener("click", borderClickListener);
 addButton.addEventListener("click", addButtonClick);
 document.addEventListener("keydown", globalPressKeyListener);
+/**/
