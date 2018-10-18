@@ -9,6 +9,7 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "build": "webpack --mode=development ./src/HorBorder.js --output ./src/bundle.js"
+    "build": "webpack --mode=production ./src/HorBorder.js --output ./src/bundle.js",
+    "test" : "webpack --mode=development ./example.js --output ./bundle.js"
   }
 }

@@ -1,8 +1,11 @@
-import "./Border.js";
+import {Border} from "./Border.js";
 
-let HorBorder = function () {
+export let HorBorder = function (table) {
+    Border.call(this, table);
+
     let elem = document.createElement("div");
-    elem.classList.add("hb-bor hb-hor");
+    console.log(elem);
+    elem.classList.add("hb-bor", "hb-hor");
 };
 
 /// TODO не готово

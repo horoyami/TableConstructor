@@ -1,13 +1,13 @@
-let Border = function (table) {
+export let Border = function (table) {
 
-    this._addButton;
+    let self = this;
 
     function _generateAddButton() {
-        this._addButton = document.createElement("img");
-        this._addButton.setAttribute("src", "./img/plus.svg");
-        this._addButton.setAttribute("alt", "Add");
-        this._addButton.classList.add("b-add_button");
-        this._addButton.addEventListener("click", () => {
+        self._addButton = document.createElement("img");
+        self._addButton.setAttribute("src", "./src/img/plus.svg");
+        self._addButton.setAttribute("alt", "Add");
+        self._addButton.classList.add("b-add_button");
+        self._addButton.addEventListener("click", () => {
             table.dispatchEvent(new CustomEvent("addButtonClick"));
         });
     }
