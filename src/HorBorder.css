@@ -1,0 +1,18 @@
+.hb-hor_wrapper {
+    width: 100%;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: absolute;
+}
+
+.hb-hor {
+    min-height: 1px;
+    width: 100%;
+    margin-right: 10px;
+}
+
+.hb-hidden {
+    visibility: hidden;
+}

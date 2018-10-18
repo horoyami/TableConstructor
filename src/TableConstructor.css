@@ -1,5 +1,6 @@
 @import "TableGenerator.css";
 @import "Border.css";
+@import "HorBorder.css";
 
 .editable_table {
     width: 800px;
@@ -22,26 +23,6 @@ table.editable_table tr td:focus {
     padding-left: 10px;
     padding-bottom: 9px;
     margin-left: 12px;
-}
-
-.bor {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    visibility: hidden;
-}
-
-.bor_hover {
-    background: gray;
-}
-
-.bor_active {
-    background: #368be6;
-}
-
-.hor_hover, .hor_active {
-    min-height: 1px;
-    width: 100%;
 }
 
 .ver_hover, .ver_active {

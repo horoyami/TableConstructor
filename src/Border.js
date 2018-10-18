@@ -1,5 +1,4 @@
 export let Border = function (table) {
-
     let self = this;
 
     function _generateAddButton() {

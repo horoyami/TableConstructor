@@ -1,5 +1,5 @@
 function getPositionOfElement(elem) {
-    let rect = elem.getBoundingClientRect();
+    let rect = _elem.getBoundingClientRect();
     return {
         y1: rect.top + pageYOffset,
         x1: rect.left + pageXOffset,
@@ -21,13 +21,13 @@ function getPositionMouseRegardingElementByEvent(event) {
 }
 
 function showBorder(elem, x, y) {
-    elem.style.top = y + "px";
-    elem.style.left = x + "px";
-    elem.style.visibility = "visible";
+    _elem.style.top = y + "px";
+    _elem.style.left = x + "px";
+    _elem.style.visibility = "visible";
 }
 
 function hideBorder(elem) {
-    elem.style.visibility = "hidden";
+    _elem.style.visibility = "hidden";
 }
 
 function changeBorder(show, hide, x, y) {

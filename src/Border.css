@@ -1,6 +1,8 @@
 .b-add_button {
-    position: absolute;
-    visibility: hidden;
-    height: 15px;
-    width: 15px;
+    height: 19px;
+    width: 19px;
+}
+
+.b-bor {
+    background: #368be6;
 }
