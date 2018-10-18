@@ -1,0 +1,6 @@
+.b-add_button {
+    position: absolute;
+    visibility: hidden;
+    height: 15px;
+    width: 15px;
+}
