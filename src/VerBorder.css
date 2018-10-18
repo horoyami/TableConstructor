@@ -1,0 +1,14 @@
+.vb-ver_wrapper {
+    height: 100%;
+    width: 21px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+.vb-ver {
+    min-width: 1px;
+    height: 100%;
+    margin-bottom: 10px;
+}

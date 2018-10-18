@@ -1,20 +1,12 @@
 @import "TableGenerator.css";
 @import "Border.css";
 @import "HorBorder.css";
+@import "VerBorder.css";
 
 .editable_table {
     width: 800px;
     border-collapse: collapse;
     table-layout: fixed;
-}
-
-table.editable_table tr td {
-    border: 1px solid #e2e2e2;
-    padding: 10px;
-}
-
-table.editable_table tr td:focus {
-    background: cornsilk;
 }
 
 .table_editor {
@@ -23,11 +15,6 @@ table.editable_table tr td:focus {
     padding-left: 10px;
     padding-bottom: 9px;
     margin-left: 12px;
-}
-
-.ver_hover, .ver_active {
-    min-width: 1px;
-    height: 100%;
 }
 
 .table_wrapper {

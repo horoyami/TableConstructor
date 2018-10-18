@@ -6,3 +6,7 @@
 .b-bor {
     background: #368be6;
 }
+
+.b-hidden {
+    visibility: hidden;
+}
