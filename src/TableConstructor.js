@@ -172,8 +172,7 @@ table_editor.addEventListener("click", borderClickListener);
 addButton.addEventListener("click", addButtonClick);
 document.addEventListener("keydown", globalPressKeyListener);
 
-let TableConstructor = (function () {
-
+let TableConstructor = function () {
     let table = document.getElementsByClassName("editable_table")[0].getElementsByTagName("tbody")[0];
     let table_editor = document.getElementsByClassName("table_editor")[0];
     let activated_border = null;
@@ -188,11 +187,14 @@ let TableConstructor = (function () {
     let addButton = document.getElementsByClassName("add_button")[0];
 
 
-    function create() {
+    function hangEventHandlers() {
+
+    }
+
+    this.create = function () {
         hangEventHandlers();
     }
-    
-    function hangEventHandlers() {
-        
-    }
-})();
+};
+
+
+/// TODO не готово
