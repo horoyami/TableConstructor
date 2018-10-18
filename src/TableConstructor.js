@@ -1,62 +1,3 @@
-let table = document.getElementsByClassName("editable_table")[0].getElementsByTagName("tbody")[0];
-let table_editor = document.getElementsByClassName("table_editor")[0];
-let numberColumns = 0;
-let numberStrings = 0;
-
-let activated_border = null;
-let activated_border_pos;
-let isRight = null;
-let hovered_border = null;
-let hover_block = null;
-let verHover = document.getElementsByClassName("ver_hover")[0];
-let horHover = document.getElementsByClassName("hor_hover")[0];
-let verActive = document.getElementsByClassName("ver_active")[0];
-let horActive = document.getElementsByClassName("hor_active")[0];
-let addButton = document.getElementsByClassName("add_button")[0];
-
-function generateClearCell() {
-    let cell = document.createElement("td");
-    let div = cell.appendChild(document.createElement("div"));
-    div.setAttribute("contenteditable", "true");
-    div.classList.add("inputField");
-    div.addEventListener("input", hideAllHoverBorder);
-    div.addEventListener("focus", hideAllBorder);
-    div.addEventListener("focus", () => {
-        cell.style.background = "cornsilk";
-    });
-    div.addEventListener("blur", () => {
-        cell.style.background = "white";
-    });
-    cell.classList.add("cell");
-    cell.addEventListener("mousemove", checkMouseIsNearBorderListener);
-    return cell;
-}
-
-function generateClearString() {
-    let str = document.createElement("tr");
-    for (let i = 0; i < numberColumns; i++) {
-        str.appendChild(generateClearCell());
-    }
-    return str;
-}
-
-function addChildToElem(elem, pos, generator) {
-    let str = generator();
-    elem.insertBefore(str, (pos >= elem.children.length) ? null : elem.children[pos]);
-}
-
-function addStringTable(pos = Infinity) {
-    numberStrings++;
-    addChildToElem(table, pos, generateClearString);
-}
-
-function addColumnTable(pos = Infinity) {
-    numberColumns++;
-    for (let i = 0; i < table.children.length; i++) {
-        addChildToElem(table.children[i], pos, generateClearCell);
-    }
-}
-
 function getPositionOfElement(elem) {
     let rect = elem.getBoundingClientRect();
     return {
@@ -230,3 +171,28 @@ table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
 table_editor.addEventListener("click", borderClickListener);
 addButton.addEventListener("click", addButtonClick);
 document.addEventListener("keydown", globalPressKeyListener);
+
+let TableConstructor = (function () {
+
+    let table = document.getElementsByClassName("editable_table")[0].getElementsByTagName("tbody")[0];
+    let table_editor = document.getElementsByClassName("table_editor")[0];
+    let activated_border = null;
+    let activated_border_pos;
+    let isRight = null;
+    let hovered_border = null;
+    let hover_block = null;
+    let verHover = document.getElementsByClassName("ver_hover")[0];
+    let horHover = document.getElementsByClassName("hor_hover")[0];
+    let verActive = document.getElementsByClassName("ver_active")[0];
+    let horActive = document.getElementsByClassName("hor_active")[0];
+    let addButton = document.getElementsByClassName("add_button")[0];
+
+
+    function create() {
+        hangEventHandlers();
+    }
+    
+    function hangEventHandlers() {
+        
+    }
+})();
