@@ -2,14 +2,14 @@ html, body {
     height: 100%;
     width: 100%;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main_wrapper {
-    height: 100%;
-    width: 100%;
-    /*display: flex;
-    justify-content: center;
-    align-items: center;*/
+    height: 400px;
+    width: 400px;
 }
 
 .editable_table {

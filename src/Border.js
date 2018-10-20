@@ -16,6 +16,9 @@ export let Border = function (table, classes) {
         self._elem.classList.add(classes[0], "b-hidden");
         self._elem.appendChild(self._addButton);
         self._elem.appendChild(self._border);
+        self._elem.addEventListener("mousemove", (event) => {
+            event.stopPropagation();
+        })
     }
 
     function _generate1pxLine() {

@@ -12,7 +12,6 @@ export let Position = (function () {
 
     function getPositionMouseRegardingElementByEvent(event) {
         let rect = getPositionOfElement(event.currentTarget);
-        console.log()
         return {
             top: rect.y1,
             left: rect.x1,

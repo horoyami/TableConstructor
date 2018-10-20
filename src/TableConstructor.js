@@ -13,29 +13,6 @@ function hideAllHoverBorder() {
     hovered_border = null;
 }
 
-function checkMouseIsNearBorderListener(event) {
-    event.stopPropagation();
-    let pos = getPositionMouseRegardingElementByEvent(event);
-    let posTable = getPositionOfElement(table);
-    let adding = (event.currentTarget === table_editor) ? 10 : 0;
-
-    if (Math.abs(pos.y - pos.top) <= 10) {
-        changeBorder(horHover, verHover, 0, (pos.top - posTable.y1 + adding));
-        isRight = false;
-    } else if (Math.abs(pos.y - pos.bottom) <= 10) {
-        changeBorder(horHover, verHover, 0, (pos.bottom - posTable.y1 - adding));
-        isRight = true;
-    } else if (Math.abs(pos.x - pos.left) <= 10) {
-        changeBorder(verHover, horHover, (pos.left - posTable.x1 + adding), 0);
-        isRight = false;
-    } else if (Math.abs(pos.x - pos.right) <= 10) {
-        changeBorder(verHover, horHover, (pos.right - posTable.x1 - adding), 0);
-        isRight = true;
-    } else {
-        hideAllHoverBorder();
-    }
-}
-
 function hideAllBorder() {
     hideAllHoverBorder();
     hideBorder(verActive);
@@ -145,6 +122,7 @@ import {TableGenerator} from "./TableGenerator";
 
 export let TableConstructor = function (frame) {
     let table_editor;
+    let table_editor_pos;
     let verBorder;
     let horBorder;
     let table;
@@ -154,9 +132,6 @@ export let TableConstructor = function (frame) {
     let isRight = null;
     let hovered_border = null;
     let hover_block = null;
-
-    let addButton = document.getElementsByClassName("add_button")[0];
-
 
     function createTable() {
         table = document.createElement("table");
@@ -179,22 +154,36 @@ export let TableConstructor = function (frame) {
         createTable();
     }
 
-    function selectPositionForInsert(elem, conteiner, addPxels = 0) {
-        console.log(elem);
+    function activeHorBorder(pos) {
+        horBorder.activeIn(pos);
+        verBorder.hide();
+    }
+
+    function activeVerBorder(pos) {
+        verBorder.activeIn(pos);
+        horBorder.hide();
+    }
+
+    function selectPositionForInsert(elem, isWrapper = 0) {
+        table_editor_pos = Position.getPositionOfElement(table_editor);
+        let paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
+        let paddingCorrectLow = (isWrapper) ? (0) : (-10);
+
         if (elem.y - elem.top <= 10 && elem.y - elem.top >= 0) {
-            console.log("top");
+            activeHorBorder(elem.top - table_editor_pos.y1 + paddingCorrectLow);
         }
-        else if (elem.bottom - elem.y <= 10 + addPxels && elem.bottom - elem.y >= 0) {
-            console.log("bottom");
+        else if (elem.bottom - elem.y <= 10 + isWrapper && elem.bottom - elem.y >= 0) {
+            activeHorBorder(elem.bottom - table_editor_pos.y1 + paddingCorrectHigh);
         }
         else if (elem.x - elem.left <= 10 && elem.x - elem.left >= 0) {
-            console.log("left");
+            activeVerBorder(elem.left - table_editor_pos.x1 + paddingCorrectLow);
         }
-        else if (elem.right - elem.x <= 10 + addPxels && elem.right - elem.y >= 0) {
-            console.log("right");
+        else if (elem.right - elem.x <= 10 + isWrapper && elem.right - elem.y >= 0) {
+            activeVerBorder(elem.right - table_editor_pos.x1 + paddingCorrectHigh);
         }
         else {
-            console.log("none");
+            verBorder.hide();
+            horBorder.hide();
         }
     }
 
@@ -204,13 +193,13 @@ export let TableConstructor = function (frame) {
     table.addEventListener("mouseMoveCell", (event) => {
         event.stopPropagation();
         let pos = event.detail.pos;
-        selectPositionForInsert(pos, posTable);
+        selectPositionForInsert(pos);
     });
 
     table_editor.addEventListener('mousemove', (event) => {
         event.stopPropagation();
         let pos = Position.getPositionMouseRegardingElementByEvent(event);
-        selectPositionForInsert(pos, posTable, 1);
+        selectPositionForInsert(pos, 1);
     });
 };
 
