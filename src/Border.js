@@ -13,7 +13,7 @@ export let Border = function (table, classes) {
 
     function _generateElement() {
         self._elem = document.createElement("div");
-        self._elem.classList.add(classes[0]);
+        self._elem.classList.add(classes[0], "b-hidden");
         self._elem.appendChild(self._addButton);
         self._elem.appendChild(self._border);
     }

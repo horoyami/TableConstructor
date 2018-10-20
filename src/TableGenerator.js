@@ -1,4 +1,4 @@
-let TableGenerator = function (table = null) {
+export let TableGenerator = function (table = null) {
     if (table === null)
         return null;
 
@@ -29,6 +29,7 @@ let TableGenerator = function (table = null) {
         cell.appendChild(generateContenteditablePartOfCell(cell));
         cell.classList.add("tg-cell");
         cell.addEventListener("mousemove", () => {
+            event.stopPropagation();
             table.dispatchEvent(new CustomEvent("mouseMoveCell"));
         });
         return cell;

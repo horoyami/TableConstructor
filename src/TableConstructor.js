@@ -1,4 +1,4 @@
-function getPositionOfElement(elem) {
+/*function getPositionOfElement(elem) {
     let rect = _elem.getBoundingClientRect();
     return {
         y1: rect.top + pageYOffset,
@@ -20,15 +20,6 @@ function getPositionMouseRegardingElementByEvent(event) {
     };
 }
 
-function showBorder(elem, x, y) {
-    _elem.style.top = y + "px";
-    _elem.style.left = x + "px";
-    _elem.style.visibility = "visible";
-}
-
-function hideBorder(elem) {
-    _elem.style.visibility = "hidden";
-}
 
 function changeBorder(show, hide, x, y) {
     if (show !== hovered_border) {
@@ -162,38 +153,47 @@ function globalPressKeyListener(event) {
     }
 }
 
-addColumnTable();
-addColumnTable();
-addStringTable();
-addStringTable();
 
 table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
 table_editor.addEventListener("click", borderClickListener);
 addButton.addEventListener("click", addButtonClick);
-document.addEventListener("keydown", globalPressKeyListener);
+document.addEventListener("keydown", globalPressKeyListener);*/
 
-let TableConstructor = function () {
-    let table = document.getElementsByClassName("editable_table")[0].getElementsByTagName("tbody")[0];
-    let table_editor = document.getElementsByClassName("table_editor")[0];
+import {VerBorder} from "./VerBorder";
+import {HorBorder} from "./HorBorder";
+
+export let TableConstructor = function (frame) {
+    let table_editor;
+    let verBorder;
+    let horBorder;
+    let table;
     let activated_border = null;
     let activated_border_pos;
     let isRight = null;
     let hovered_border = null;
     let hover_block = null;
-    let verHover = document.getElementsByClassName("ver_hover")[0];
-    let horHover = document.getElementsByClassName("hor_hover")[0];
-    let verActive = document.getElementsByClassName("ver_active")[0];
-    let horActive = document.getElementsByClassName("hor_active")[0];
+
     let addButton = document.getElementsByClassName("add_button")[0];
 
 
-    function hangEventHandlers() {
-
+    function createTable() {
+        table = document.createElement("table");
+        table.classList.add("editable_table");
+        table.appendChild(document.createElement("tbody"));
     }
 
-    this.create = function () {
-        hangEventHandlers();
+    function createTableFrame() {
+        table_editor = document.createElement("div");
+        table_editor.classList.add("table_editor");
+        verBorder = new VerBorder(table_editor);
+        horBorder = new HorBorder(table_editor);
+        createTable();
+        table_editor.appendChild(table);
+        table = table.firstElementChild;
     }
+
+    createTableFrame();
+    frame.appendChild(table_editor);
 };
 
 
