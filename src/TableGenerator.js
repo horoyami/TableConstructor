@@ -15,7 +15,11 @@ export let TableGenerator = function (table = null) {
             table.dispatchEvent(new CustomEvent("inputInputField"));
         });
         div.addEventListener("focus", () => {
-            table.dispatchEvent(new CustomEvent("focusInputField"));
+            table.dispatchEvent(new CustomEvent("focusInputField", {
+                "detail": {
+                    "elem": cell
+                }
+            }));
         });
         div.addEventListener("focus", () => {
             cell.style.background = "cornsilk";
@@ -46,11 +50,7 @@ export let TableGenerator = function (table = null) {
     function addChildToElem(elem, pos, generator) {
         let str = generator();
         elem.insertBefore(str, (pos >= elem.children.length) ? null : elem.children[pos]);
-    }
-
-    function addStringTable(pos = Infinity) {
-        numberStrings++;
-        addChildToElem(table, pos, generateClearString);
+        return str;
     }
 
     function generateClearString() {
@@ -70,7 +70,7 @@ export let TableGenerator = function (table = null) {
 
     this.addStringTable = function (pos = Infinity) {
         numberStrings++;
-        addChildToElem(table, pos, generateClearString);
+        return addChildToElem(table, pos, generateClearString);
     };
 };
 

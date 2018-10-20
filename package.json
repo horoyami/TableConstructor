@@ -1,6 +1,6 @@
 {
   "name": "TableConstructor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/TableConstructor.js",
   "repository": "https://github.com/horoyami/TableConstructor.git",
   "author": "Vinogradov Victor <re.horoyami.not@gmail.com>",

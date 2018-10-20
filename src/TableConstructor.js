@@ -58,6 +58,12 @@ export let TableConstructor = function (extra) {
         activated_border = verBorder;
     }
 
+    function hideBorders() {
+        verBorder.hide();
+        horBorder.hide();
+        activated_border = null;
+    }
+
     function selectPositionForInsert(elem, isWrapper = 0) {
         table_editor_pos = Position.getPositionOfElement(table_editor);
         let paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
@@ -80,9 +86,7 @@ export let TableConstructor = function (extra) {
             isRight = true;
         }
         else {
-            verBorder.hide();
-            horBorder.hide();
-            activated_border = null;
+            hideBorders();
         }
     }
 
@@ -103,20 +107,26 @@ export let TableConstructor = function (extra) {
         timer = setTimeout(activated_border.hide, 500);
     }
 
+    function setHoverBlock(content) {
+        hover_block = content;
+        while(!(hover_block === null || hover_block.tagName === "TD" || hover_block === table_editor))
+            hover_block = hover_block.parentElement;
+    }
+
     createTableFrame();
 
     table.addEventListener("mouseMoveCell", (event) => {
         event.stopPropagation();
         let pos = event.detail.pos;
         selectPositionForInsert(pos);
-        hover_block = event.detail.elem;
+        setHoverBlock(event.detail.elem);
     });
 
     table_editor.addEventListener("mousemove", (event) => {
         event.stopPropagation();
         let pos = Position.getPositionMouseRegardingElementByEvent(event);
         selectPositionForInsert(pos, 1);
-        hover_block = event.target;
+        setHoverBlock(event.target);
     });
 
     table_editor.addEventListener("addButtonClick", (event) => {
@@ -136,6 +146,62 @@ export let TableConstructor = function (extra) {
         }
     });
 
+    table.addEventListener("inputInputField", () => {
+        hideBorders();
+    });
+
+    table.addEventListener("focusInputField", (event) => {
+        hover_block = event.detail.elem;
+    });
+
+    let cntrlPass = false;
+
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Enter") {
+            if (event.target.className === "tg-inputField" && !cntrlPass) {
+                return;
+            }
+            if (hover_block !== null) {
+                isRight = true;
+                let border_pos = calculateBorderPosition(table, hover_block.parentElement);
+                let newstr = table_generator.addStringTable(border_pos);
+                newstr.firstElementChild.firstElementChild.focus();
+            } else {
+                table_generator.addStringTable();
+            }
+        }
+        if (event.code === "Backspace") {
+            if (event.target.className === "tg-inputField")
+                return;
+            if (table.children.length === 1)
+                return;
+            for (let i = 0; i < table.children.length; i++) {
+                let ok = true;
+                let row = table.children[i];
+
+                for (let j = 0; j < row.children.length; j++) {
+                    let div = row.children[j].firstElementChild;
+                    if (div.innerText !== "")
+                        ok = false;
+                }
+
+                if (ok) {
+                    table.removeChild(row);
+                    hideBorders();
+                    return;
+                }
+            }
+        }
+        if (event.code === "ControlLeft") {
+            cntrlPass = true;
+        }
+    });
+
+    document.addEventListener("keyup", () => {
+        if (event.code === "ControlLeft") {
+            cntrlPass = false;
+        }
+    });
 
     this.getTableDOM = function () {
         return table_editor;
