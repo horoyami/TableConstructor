@@ -6,7 +6,6 @@ export let TableGenerator = function (table = null) {
 
     let numberColumns = 0;
     let numberStrings = 0;
-    let i = 0;
 
     function generateContenteditablePartOfCell(cell) {
         let div = document.createElement("div");
@@ -24,9 +23,6 @@ export let TableGenerator = function (table = null) {
         div.addEventListener("blur", () => {
             cell.style.background = "white";
         });
-
-        div.innerText = "" + (i++);
-
         return div;
     }
 

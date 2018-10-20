@@ -95,7 +95,10 @@ export let TableConstructor = function (extra) {
         return pos + ((isRight) ? 1 : 0) - 1;
     }
 
-    function dellayAddButton() {
+    function dellayAddButton(pos) {
+        table_editor_pos = Position.getPositionOfElement(table_editor);
+        activated_border.activeIn(pos() - 10);
+        activated_border.hideLine();
         clearTimeout(timer);
         timer = setTimeout(activated_border.hide, 500);
     }
@@ -118,19 +121,21 @@ export let TableConstructor = function (extra) {
 
     table_editor.addEventListener("addButtonClick", (event) => {
         event.stopPropagation();
-        table_editor_pos = Position.getPositionOfElement(table_editor);
         if (activated_border === horBorder) {
             let border_pos = calculateBorderPosition(table, hover_block.parentElement);
             table_generator.addStringTable(border_pos);
-            activated_border.activeIn(event.detail.y - table_editor_pos.y1 + 10);
+            dellayAddButton(() => {
+                return event.detail.y - table_editor_pos.y1
+            });
         } else {
             let border_pos = calculateBorderPosition(hover_block.parentElement, hover_block);
             table_generator.addColumnTable(border_pos);
-            activated_border.activeIn(event.detail.x - table_editor_pos.x1 - 10);
+            dellayAddButton(() => {
+                return event.detail.x - table_editor_pos.x1;
+            });
         }
-        activated_border.hideLine();
-        dellayAddButton();
     });
+
 
     this.getTableDOM = function () {
         return table_editor;
