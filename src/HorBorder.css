@@ -5,6 +5,7 @@
     align-items: center;
     flex-direction: row;
     position: absolute;
+    left: 0px;
 }
 
 .hb-hor {
