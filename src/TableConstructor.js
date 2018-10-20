@@ -1,26 +1,4 @@
-/*function getPositionOfElement(elem) {
-    let rect = _elem.getBoundingClientRect();
-    return {
-        y1: rect.top + pageYOffset,
-        x1: rect.left + pageXOffset,
-        x2: rect.right + pageXOffset,
-        y2: rect.bottom + pageYOffset
-    }
-}
-
-function getPositionMouseRegardingElementByEvent(event) {
-    let rect = getPositionOfElement(event.currentTarget);
-    return {
-        top: rect.y1,
-        left: rect.x1,
-        bottom: rect.y2,
-        right: rect.x2,
-        x: event.pageX,
-        y: event.pageY
-    };
-}
-
-
+/*
 function changeBorder(show, hide, x, y) {
     if (show !== hovered_border) {
         hovered_border = show;
@@ -161,7 +139,9 @@ document.addEventListener("keydown", globalPressKeyListener);*/
 
 import {VerBorder} from "./VerBorder";
 import {HorBorder} from "./HorBorder";
+import {Position} from "./PositionUtils";
 import {TableGenerator} from "./TableGenerator";
+
 
 export let TableConstructor = function (frame) {
     let table_editor;
@@ -199,8 +179,39 @@ export let TableConstructor = function (frame) {
         createTable();
     }
 
+    function selectPositionForInsert(elem, conteiner, addPxels = 0) {
+        console.log(elem);
+        if (elem.y - elem.top <= 10 && elem.y - elem.top >= 0) {
+            console.log("top");
+        }
+        else if (elem.bottom - elem.y <= 10 + addPxels && elem.bottom - elem.y >= 0) {
+            console.log("bottom");
+        }
+        else if (elem.x - elem.left <= 10 && elem.x - elem.left >= 0) {
+            console.log("left");
+        }
+        else if (elem.right - elem.x <= 10 + addPxels && elem.right - elem.y >= 0) {
+            console.log("right");
+        }
+        else {
+            console.log("none");
+        }
+    }
+
     createTableFrame();
     frame.appendChild(table_editor);
+
+    table.addEventListener("mouseMoveCell", (event) => {
+        event.stopPropagation();
+        let pos = event.detail.pos;
+        selectPositionForInsert(pos, posTable);
+    });
+
+    table_editor.addEventListener('mousemove', (event) => {
+        event.stopPropagation();
+        let pos = Position.getPositionMouseRegardingElementByEvent(event);
+        selectPositionForInsert(pos, posTable, 1);
+    });
 };
 
 

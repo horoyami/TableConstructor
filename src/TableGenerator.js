@@ -1,3 +1,5 @@
+import {Position} from "./PositionUtils";
+
 export let TableGenerator = function (table = null) {
     if (table === null)
         return null;
@@ -28,9 +30,14 @@ export let TableGenerator = function (table = null) {
         let cell = document.createElement("td");
         cell.appendChild(generateContenteditablePartOfCell(cell));
         cell.classList.add("tg-cell");
-        cell.addEventListener("mousemove", () => {
+        cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
-            table.dispatchEvent(new CustomEvent("mouseMoveCell"));
+            let pos = Position.getPositionMouseRegardingElementByEvent(event);
+            table.dispatchEvent(new CustomEvent("mouseMoveCell", {
+                "detail": {
+                    "pos": pos
+                }
+            }));
         });
         return cell;
     }
