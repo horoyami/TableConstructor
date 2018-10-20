@@ -110,7 +110,7 @@ import {Position} from "./PositionUtils";
 import {TableGenerator} from "./TableGenerator";
 
 
-export let TableConstructor = function (frame) {
+export let TableConstructor = function (extra) {
     let table_editor;
     let table_editor_pos;
     let verBorder;
@@ -134,12 +134,22 @@ export let TableConstructor = function (frame) {
         table_generator.addColumnTable();
     }
 
+    function handleExtra() {
+        if (extra === undefined)
+            return;
+        if (extra.width !== undefined)
+            table_editor.style.width = extra.width;
+        if (extra.height !== undefined)
+            table_editor.style.height = extra.height;
+    }
+
     function createTableFrame() {
         table_editor = document.createElement("div");
         table_editor.classList.add("table_editor");
         verBorder = new VerBorder(table_editor);
         horBorder = new HorBorder(table_editor);
         createTable();
+        handleExtra();
     }
 
     function activeHorBorder(pos) {
@@ -192,7 +202,6 @@ export let TableConstructor = function (frame) {
     }
 
     createTableFrame();
-    frame.appendChild(table_editor);
 
     table.addEventListener("mouseMoveCell", (event) => {
         event.stopPropagation();
@@ -218,6 +227,10 @@ export let TableConstructor = function (frame) {
             table_generator.addColumnTable(border_pos);
         }
     });
+
+    this.getTableDOM = function () {
+        return table_editor;
+    }
 };
 
 
