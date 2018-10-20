@@ -161,12 +161,14 @@ document.addEventListener("keydown", globalPressKeyListener);*/
 
 import {VerBorder} from "./VerBorder";
 import {HorBorder} from "./HorBorder";
+import {TableGenerator} from "./TableGenerator";
 
 export let TableConstructor = function (frame) {
     let table_editor;
     let verBorder;
     let horBorder;
     let table;
+    let table_generator;
     let activated_border = null;
     let activated_border_pos;
     let isRight = null;
@@ -180,6 +182,13 @@ export let TableConstructor = function (frame) {
         table = document.createElement("table");
         table.classList.add("editable_table");
         table.appendChild(document.createElement("tbody"));
+        table_editor.appendChild(table);
+        table = table.firstElementChild;
+        table_generator = new TableGenerator(table);
+        table_generator.addStringTable();
+        table_generator.addColumnTable();
+        table_generator.addStringTable();
+        table_generator.addColumnTable();
     }
 
     function createTableFrame() {
@@ -188,8 +197,6 @@ export let TableConstructor = function (frame) {
         verBorder = new VerBorder(table_editor);
         horBorder = new HorBorder(table_editor);
         createTable();
-        table_editor.appendChild(table);
-        table = table.firstElementChild;
     }
 
     createTableFrame();

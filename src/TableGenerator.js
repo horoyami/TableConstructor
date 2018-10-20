@@ -37,7 +37,7 @@ export let TableGenerator = function (table = null) {
 
     function addChildToElem(elem, pos, generator) {
         let str = generator();
-        _elem.insertBefore(str, (pos >= _elem.children.length) ? null : _elem.children[pos]);
+        elem.insertBefore(str, (pos >= elem.children.length) ? null : elem.children[pos]);
     }
 
     function addStringTable(pos = Infinity) {
