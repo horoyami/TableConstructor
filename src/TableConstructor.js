@@ -1,114 +1,7 @@
-/*
-function changeBorder(show, hide, x, y) {
-    if (show !== hovered_border) {
-        hovered_border = show;
-        showBorder(show, x, y);
-        hideBorder(hide);
-    }
-}
-
-function hideAllHoverBorder() {
-    hideBorder(verHover);
-    hideBorder(horHover);
-    hovered_border = null;
-}
-
-function hideAllBorder() {
-    hideAllHoverBorder();
-    hideBorder(verActive);
-    hideBorder(horActive);
-    activated_border = null;
-    hideAddButton();
-}
-
-function changeHoverToActive(active, hover) {
-    active.style.top = hover.style.top;
-    active.style.left = hover.style.left;
-    active.style.visibility = "visible";
-    activated_border = active;
-    hideBorder(hover);
-    showAddButton(Number.parseInt(hover.style.left), Number.parseInt(hover.style.top));
-}
-
-function borderClickListener(event) {
-    hover_block = event.target;
-    if (hovered_border !== null) {
-        if (activated_border !== null) {
-            hideBorder(activated_border);
-            hideAddButton();
-        }
-        if (hovered_border === horHover) {
-            changeHoverToActive(horActive, horHover);
-            calculateBorderPosition(table, hover_block.parentElement);
-        }
-        else {
-            changeHoverToActive(verActive, verHover);
-            calculateBorderPosition(hover_block.parentElement, hover_block);
-        }
-    } else if (hover_block.tagName === "TD") {
-        hover_block.firstElementChild.focus();
-    }
-}
-
-function showAddButton(x, y) {
-    let style = getComputedStyle(addButton);
-    addButton.style.top = (y - Number.parseInt(style.height) / 2) + "px";
-    addButton.style.left = (x - Number.parseInt(style.width) / 2 + 1) + "px";
-    addButton.style.visibility = "visible";
-}
-
-function hideAddButton() {
-    addButton.style.visibility = "hidden";
-}
-
-function addButtonClick(event) {
-    event.stopPropagation();
-    if (activated_border === horActive) {
-        addStringTable(activated_border_pos);
-    } else {
-        addColumnTable(activated_border_pos);
-    }
-    hideAllBorder();
-}
-
-function globalPressKeyListener(event) {
-    if (event.code === "Enter") {
-        if (event.target.className === "inputField")
-            return;
-        addStringTable();
-    }
-    if (event.code === "Backspace") {
-        if (table.children.length === 1)
-            return;
-        for (let i = 0; i < table.children.length; i++) {
-            let ok = true;
-            let row = table.children[i];
-
-            for (let j = 0; j < row.children.length; j++) {
-                let div = row.children[j].firstElementChild;
-                if (div.innerText !== "")
-                    ok = false;
-            }
-
-            if (ok) {
-                table.removeChild(row);
-                return;
-            }
-        }
-    }
-}
-
-
-table_editor.addEventListener("mousemove", checkMouseIsNearBorderListener);
-table_editor.addEventListener("click", borderClickListener);
-addButton.addEventListener("click", addButtonClick);
-document.addEventListener("keydown", globalPressKeyListener);*/
-
 import {VerBorder} from "./VerBorder";
 import {HorBorder} from "./HorBorder";
 import {Position} from "./PositionUtils";
 import {TableGenerator} from "./TableGenerator";
-
 
 export let TableConstructor = function (extra) {
     let table_editor;
@@ -120,6 +13,7 @@ export let TableConstructor = function (extra) {
     let activated_border = null;
     let isRight = null;
     let hover_block = null;
+    let timer;
 
     function createTable() {
         table = document.createElement("table");
@@ -201,6 +95,11 @@ export let TableConstructor = function (extra) {
         return pos + ((isRight) ? 1 : 0) - 1;
     }
 
+    function dellayAddButton() {
+        clearTimeout(timer);
+        timer = setTimeout(activated_border.hide, 500);
+    }
+
     createTableFrame();
 
     table.addEventListener("mouseMoveCell", (event) => {
@@ -217,21 +116,23 @@ export let TableConstructor = function (extra) {
         hover_block = event.target;
     });
 
-    table_editor.addEventListener("addButtonClick", () => {
+    table_editor.addEventListener("addButtonClick", (event) => {
         event.stopPropagation();
+        table_editor_pos = Position.getPositionOfElement(table_editor);
         if (activated_border === horBorder) {
             let border_pos = calculateBorderPosition(table, hover_block.parentElement);
             table_generator.addStringTable(border_pos);
+            activated_border.activeIn(event.detail.y - table_editor_pos.y1 + 10);
         } else {
             let border_pos = calculateBorderPosition(hover_block.parentElement, hover_block);
             table_generator.addColumnTable(border_pos);
+            activated_border.activeIn(event.detail.x - table_editor_pos.x1 - 10);
         }
+        activated_border.hideLine();
+        dellayAddButton();
     });
 
     this.getTableDOM = function () {
         return table_editor;
     }
 };
-
-
-/// TODO не готово
