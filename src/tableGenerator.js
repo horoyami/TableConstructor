@@ -1,6 +1,6 @@
 import {Position} from "./positionUtils";
 
-export let TableGenerator = function (table = null) {
+export const TableGenerator = function (table = null) {
     if (table === null)
         return null;
 
@@ -8,7 +8,7 @@ export let TableGenerator = function (table = null) {
     let numberStrings = 0;
 
     function generateContenteditablePartOfCell(cell) {
-        let div = document.createElement("div");
+        const div = document.createElement("div");
         div.classList.add("TCM__editable-table__input-field");
         div.setAttribute("contenteditable", "true");
         div.addEventListener("input", () => {
@@ -31,12 +31,12 @@ export let TableGenerator = function (table = null) {
     }
 
     function generateClearCell() {
-        let cell = document.createElement("td");
+        const cell = document.createElement("td");
         cell.appendChild(generateContenteditablePartOfCell(cell));
         cell.classList.add("TCM__editable-table__cell");
         cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
-            let pos = Position.getPositionMouseRegardingElementByEvent(event);
+            const pos = Position.getPositionMouseRegardingElementByEvent(event);
             table.dispatchEvent(new CustomEvent("mouseMoveCell", {
                 "detail": {
                     "pos": pos,
@@ -48,13 +48,13 @@ export let TableGenerator = function (table = null) {
     }
 
     function addChildToElem(elem, pos, generator) {
-        let str = generator();
+        const str = generator();
         elem.insertBefore(str, (pos >= elem.children.length) ? null : elem.children[pos]);
         return str;
     }
 
     function generateClearString() {
-        let str = document.createElement("tr");
+        const str = document.createElement("tr");
         for (let i = 0; i < numberColumns; i++) {
             str.appendChild(generateClearCell());
         }

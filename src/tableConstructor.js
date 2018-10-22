@@ -66,8 +66,8 @@ export let TableConstructor = function (extra) {
 
     function selectPositionForInsert(elem, isWrapper = 0) {
         table_editor_pos = Position.getPositionOfElement(table_editor);
-        let paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
-        let paddingCorrectLow = (isWrapper) ? (0) : (-10);
+        const paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
+        const paddingCorrectLow = (isWrapper) ? (0) : (-10);
 
         if (elem.y - elem.top <= 10 && elem.y - elem.top >= 0) {
             activeHorBorder(elem.top - table_editor_pos.y1 + paddingCorrectLow);
@@ -117,14 +117,14 @@ export let TableConstructor = function (extra) {
 
     table.addEventListener("mouseMoveCell", (event) => {
         event.stopPropagation();
-        let pos = event.detail.pos;
+        const pos = event.detail.pos;
         selectPositionForInsert(pos);
         setHoverBlock(event.detail.elem);
     });
 
     table_editor.addEventListener("mousemove", (event) => {
         event.stopPropagation();
-        let pos = Position.getPositionMouseRegardingElementByEvent(event);
+        const pos = Position.getPositionMouseRegardingElementByEvent(event);
         selectPositionForInsert(pos, 1);
         setHoverBlock(event.target);
     });
@@ -132,13 +132,13 @@ export let TableConstructor = function (extra) {
     table_editor.addEventListener("addButtonClick", (event) => {
         event.stopPropagation();
         if (activated_border === horBorder) {
-            let border_pos = calculateBorderPosition(table, hover_block.parentElement);
+            const border_pos = calculateBorderPosition(table, hover_block.parentElement);
             table_generator.addStringTable(border_pos);
             dellayAddButton(() => {
                 return event.detail.y - table_editor_pos.y1
             });
         } else {
-            let border_pos = calculateBorderPosition(hover_block.parentElement, hover_block);
+            const border_pos = calculateBorderPosition(hover_block.parentElement, hover_block);
             table_generator.addColumnTable(border_pos);
             dellayAddButton(() => {
                 return event.detail.x - table_editor_pos.x1;
@@ -154,17 +154,17 @@ export let TableConstructor = function (extra) {
         hover_block = event.detail.elem;
     });
 
-    let cntrlPass = false;
+    let IsCntrlPassed = false;
 
     document.addEventListener("keydown", (event) => {
         if (event.code === "Enter") {
-            if (event.target.className === "tg-inputField" && !cntrlPass) {
+            if (event.target.className === "tg-inputField" && !IsCntrlPassed) {
                 return;
             }
             if (hover_block !== null) {
                 isRight = true;
-                let border_pos = calculateBorderPosition(table, hover_block.parentElement);
-                let newstr = table_generator.addStringTable(border_pos);
+                const border_pos = calculateBorderPosition(table, hover_block.parentElement);
+                const newstr = table_generator.addStringTable(border_pos);
                 newstr.firstElementChild.firstElementChild.focus();
             } else {
                 table_generator.addStringTable();
@@ -177,10 +177,10 @@ export let TableConstructor = function (extra) {
                 return;
             for (let i = 0; i < table.children.length; i++) {
                 let ok = true;
-                let row = table.children[i];
+                const row = table.children[i];
 
                 for (let j = 0; j < row.children.length; j++) {
-                    let div = row.children[j].firstElementChild;
+                    const div = row.children[j].firstElementChild;
                     if (div.innerText !== "")
                         ok = false;
                 }
@@ -193,13 +193,13 @@ export let TableConstructor = function (extra) {
             }
         }
         if (event.code === "ControlLeft") {
-            cntrlPass = true;
+            IsCntrlPassed = true;
         }
     });
 
     document.addEventListener("keyup", () => {
         if (event.code === "ControlLeft") {
-            cntrlPass = false;
+            IsCntrlPassed = false;
         }
     });
 

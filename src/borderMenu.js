@@ -1,5 +1,5 @@
-export let BorderMenu = function (table, classes) {
-    let self = this;
+export const BorderMenu = function (table, classes) {
+    const self = this;
 
     function _generateAddButton() {
         self._addButton = document.createElement("img");

@@ -1,7 +1,7 @@
-export let Position = (function () {
+export const Position = (function () {
 
     function getPositionOfElement(elem) {
-        let rect = elem.getBoundingClientRect();
+        const rect = elem.getBoundingClientRect();
         return {
             y1: rect.top + pageYOffset,
             x1: rect.left + pageXOffset,
@@ -11,7 +11,7 @@ export let Position = (function () {
     }
 
     function getPositionMouseRegardingElementByEvent(event) {
-        let rect = getPositionOfElement(event.currentTarget);
+        const rect = getPositionOfElement(event.currentTarget);
         return {
             top: rect.y1,
             left: rect.x1,
