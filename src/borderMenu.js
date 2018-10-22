@@ -31,10 +31,14 @@ export const BorderMenu = function (table, classes) {
         self._border.classList.add("TCM__border-menu", classes[1]);
     }
 
-    _generateAddButton();
-    _generate1pxLine();
-    _generateElement();
-    table.appendChild(this._elem);
+    function _init() {
+        _generateAddButton();
+        _generate1pxLine();
+        _generateElement();
+        table.appendChild(this._elem);
+    }
+
+    _init();
 
     this.hide = function () {
         self._elem.classList.add("TCM__border-menu_hidden");
