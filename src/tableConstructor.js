@@ -118,6 +118,44 @@ export let TableConstructor = function (extra) {
             hoverBlock = hoverBlock.parentElement;
     }
 
+    function pressedBackSpace(event) {
+        if (event.target.classList.contains("TCM__editable-table__input-field"))
+            return;
+        if (table.children.length === 1)
+            return;
+        for (let i = 0; i < table.children.length; i++) {
+            let ok = true;
+            const row = table.children[i];
+
+            for (let j = 0; j < row.children.length; j++) {
+                const div = row.children[j].firstElementChild;
+                if (div.innerText !== "")
+                    ok = false;
+            }
+
+            if (ok) {
+                table.removeChild(row);
+                hideBorders();
+                return;
+            }
+        }
+    }
+
+    function pressedEnter(event) {
+        if (event.target.classList.contains("TCM__editable-table__input-field") && !IsCntrlPassed) {
+            return;
+        }
+        console.log(hoverBlock);
+        if (hoverBlock !== null) {
+            isEnd = true;
+            const borderPos = calculateBorderPosition(table, hoverBlock.parentElement);
+            const newstr = tableGenerator.addStringTable(borderPos);
+            if (IsCntrlPassed) newstr.firstElementChild.firstElementChild.focus();
+        } else {
+            tableGenerator.addStringTable();
+        }
+    }
+
     createTableFrame();
 
     table.addEventListener("mouseMoveCell", (event) => {
@@ -159,43 +197,18 @@ export let TableConstructor = function (extra) {
         hoverBlock = event.detail.elem;
     });
 
+    table.addEventListener("blurInputField", () => {
+        hoverBlock = null;
+    });
+
     let IsCntrlPassed = false;
 
     document.addEventListener("keydown", (event) => {
         if (event.code === "Enter") {
-            if (event.target.className === "tg-inputField" && !IsCntrlPassed) {
-                return;
-            }
-            if (hoverBlock !== null) {
-                isEnd = true;
-                const borderPos = calculateBorderPosition(table, hoverBlock.parentElement);
-                const newstr = tableGenerator.addStringTable(borderPos);
-                newstr.firstElementChild.firstElementChild.focus();
-            } else {
-                tableGenerator.addStringTable();
-            }
+            pressedEnter(event);
         }
         if (event.code === "Backspace") {
-            if (event.target.className === "tg-inputField")
-                return;
-            if (table.children.length === 1)
-                return;
-            for (let i = 0; i < table.children.length; i++) {
-                let ok = true;
-                const row = table.children[i];
-
-                for (let j = 0; j < row.children.length; j++) {
-                    const div = row.children[j].firstElementChild;
-                    if (div.innerText !== "")
-                        ok = false;
-                }
-
-                if (ok) {
-                    table.removeChild(row);
-                    hideBorders();
-                    return;
-                }
-            }
+            pressedBackSpace(event);
         }
         if (event.code === "ControlLeft") {
             IsCntrlPassed = true;

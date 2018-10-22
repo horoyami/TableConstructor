@@ -21,6 +21,9 @@ export const TableGenerator = function (table = null) {
                 }
             }));
         });
+        div.addEventListener("blur", () => {
+            table.dispatchEvent(new CustomEvent("blurInputField"));
+        });
         div.addEventListener("focus", () => {
             cell.style.background = "cornsilk";
         });
