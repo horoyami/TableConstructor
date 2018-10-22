@@ -4,85 +4,85 @@ import {Position} from "./positionUtils";
 import {TableGenerator} from "./tableGenerator";
 
 export let TableConstructor = function (extra) {
-    let table_editor;
-    let table_editor_pos;
-    let verBorder;
-    let horBorder;
+    let tableEditor;
+    let tableEditorPos;
+    let verticalBorder;
+    let horizontalBorder;
     let table;
-    let table_generator;
-    let activated_border = null;
+    let tableGenerator;
+    let activatedBorder = null;
     let isRight = null;
-    let hover_block = null;
+    let hoverBlock = null;
     let timer;
 
     function createTable() {
         table = document.createElement("table");
         table.classList.add("TCM__editable-table");
         table.appendChild(document.createElement("tbody"));
-        table_editor.appendChild(table);
+        tableEditor.appendChild(table);
         table = table.firstElementChild;
-        table_generator = new TableGenerator(table);
-        table_generator.addStringTable();
-        table_generator.addColumnTable();
-        table_generator.addStringTable();
-        table_generator.addColumnTable();
+        tableGenerator = new TableGenerator(table);
+        tableGenerator.addStringTable();
+        tableGenerator.addColumnTable();
+        tableGenerator.addStringTable();
+        tableGenerator.addColumnTable();
     }
 
     function handleExtra() {
         if (extra === undefined)
             return;
         if (extra.width !== undefined)
-            table_editor.style.width = extra.width;
+            tableEditor.style.width = extra.width;
         if (extra.height !== undefined)
-            table_editor.style.height = extra.height;
+            tableEditor.style.height = extra.height;
     }
 
     function createTableFrame() {
-        table_editor = document.createElement("div");
-        table_editor.classList.add("TCM__table-editor");
-        verBorder = new VerticalBorder(table_editor);
-        horBorder = new HorizontalBorderMenu(table_editor);
+        tableEditor = document.createElement("div");
+        tableEditor.classList.add("TCM__table-editor");
+        verticalBorder = new VerticalBorder(tableEditor);
+        horizontalBorder = new HorizontalBorderMenu(tableEditor);
         createTable();
         handleExtra();
     }
 
     function activeHorBorder(pos) {
-        horBorder.activeIn(pos);
-        verBorder.hide();
-        activated_border = horBorder;
+        horizontalBorder.activeIn(pos);
+        verticalBorder.hide();
+        activatedBorder = horizontalBorder;
     }
 
     function activeVerBorder(pos) {
-        verBorder.activeIn(pos);
-        horBorder.hide();
-        activated_border = verBorder;
+        verticalBorder.activeIn(pos);
+        horizontalBorder.hide();
+        activatedBorder = verticalBorder;
     }
 
     function hideBorders() {
-        verBorder.hide();
-        horBorder.hide();
-        activated_border = null;
+        verticalBorder.hide();
+        horizontalBorder.hide();
+        activatedBorder = null;
     }
 
     function selectPositionForInsert(elem, isWrapper = 0) {
-        table_editor_pos = Position.getPositionOfElement(table_editor);
+        tableEditorPos = Position.getPositionOfElement(tableEditor);
         const paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
         const paddingCorrectLow = (isWrapper) ? (0) : (-10);
 
         if (elem.y - elem.top <= 10 && elem.y - elem.top >= 0) {
-            activeHorBorder(elem.top - table_editor_pos.y1 + paddingCorrectLow);
+            activeHorBorder(elem.top - tableEditorPos.y1 + paddingCorrectLow);
             isRight = false;
         }
         else if (elem.bottom - elem.y <= 10 + isWrapper && elem.bottom - elem.y >= 0) {
-            activeHorBorder(elem.bottom - table_editor_pos.y1 + paddingCorrectHigh);
+            activeHorBorder(elem.bottom - tableEditorPos.y1 + paddingCorrectHigh);
             isRight = true;
         }
         else if (elem.x - elem.left <= 10 && elem.x - elem.left >= 0) {
-            activeVerBorder(elem.left - table_editor_pos.x1 + paddingCorrectLow);
+            activeVerBorder(elem.left - tableEditorPos.x1 + paddingCorrectLow);
             isRight = false;
         }
         else if (elem.right - elem.x <= 10 + isWrapper && elem.right - elem.y >= 0) {
-            activeVerBorder(elem.right - table_editor_pos.x1 + paddingCorrectHigh);
+            activeVerBorder(elem.right - tableEditorPos.x1 + paddingCorrectHigh);
             isRight = true;
         }
         else {
@@ -91,7 +91,7 @@ export let TableConstructor = function (extra) {
     }
 
     function calculateBorderPosition(parent, child) {
-        if (hover_block === table_editor) {
+        if (hoverBlock === tableEditor) {
             return (isRight) ? Infinity : 0;
         }
         let pos = 0;
@@ -100,17 +100,17 @@ export let TableConstructor = function (extra) {
     }
 
     function dellayAddButton(pos) {
-        table_editor_pos = Position.getPositionOfElement(table_editor);
-        activated_border.activeIn(pos() - 10);
-        activated_border.hideLine();
+        tableEditorPos = Position.getPositionOfElement(tableEditor);
+        activatedBorder.activeIn(pos() - 10);
+        activatedBorder.hideLine();
         clearTimeout(timer);
-        timer = setTimeout(activated_border.hide, 500);
+        timer = setTimeout(activatedBorder.hide, 500);
     }
 
     function setHoverBlock(content) {
-        hover_block = content;
-        while(!(hover_block === null || hover_block.tagName === "TD" || hover_block === table_editor))
-            hover_block = hover_block.parentElement;
+        hoverBlock = content;
+        while(!(hoverBlock === null || hoverBlock.tagName === "TD" || hoverBlock === tableEditor))
+            hoverBlock = hoverBlock.parentElement;
     }
 
     createTableFrame();
@@ -122,26 +122,26 @@ export let TableConstructor = function (extra) {
         setHoverBlock(event.detail.elem);
     });
 
-    table_editor.addEventListener("mousemove", (event) => {
+    tableEditor.addEventListener("mousemove", (event) => {
         event.stopPropagation();
         const pos = Position.getPositionMouseRegardingElementByEvent(event);
         selectPositionForInsert(pos, 1);
         setHoverBlock(event.target);
     });
 
-    table_editor.addEventListener("addButtonClick", (event) => {
+    tableEditor.addEventListener("addButtonClick", (event) => {
         event.stopPropagation();
-        if (activated_border === horBorder) {
-            const border_pos = calculateBorderPosition(table, hover_block.parentElement);
-            table_generator.addStringTable(border_pos);
+        if (activatedBorder === horizontalBorder) {
+            const borderPos = calculateBorderPosition(table, hoverBlock.parentElement);
+            tableGenerator.addStringTable(borderPos);
             dellayAddButton(() => {
-                return event.detail.y - table_editor_pos.y1
+                return event.detail.y - tableEditorPos.y1
             });
         } else {
-            const border_pos = calculateBorderPosition(hover_block.parentElement, hover_block);
-            table_generator.addColumnTable(border_pos);
+            const borderPos = calculateBorderPosition(hoverBlock.parentElement, hoverBlock);
+            tableGenerator.addColumnTable(borderPos);
             dellayAddButton(() => {
-                return event.detail.x - table_editor_pos.x1;
+                return event.detail.x - tableEditorPos.x1;
             });
         }
     });
@@ -151,7 +151,7 @@ export let TableConstructor = function (extra) {
     });
 
     table.addEventListener("focusInputField", (event) => {
-        hover_block = event.detail.elem;
+        hoverBlock = event.detail.elem;
     });
 
     let IsCntrlPassed = false;
@@ -161,13 +161,13 @@ export let TableConstructor = function (extra) {
             if (event.target.className === "tg-inputField" && !IsCntrlPassed) {
                 return;
             }
-            if (hover_block !== null) {
+            if (hoverBlock !== null) {
                 isRight = true;
-                const border_pos = calculateBorderPosition(table, hover_block.parentElement);
-                const newstr = table_generator.addStringTable(border_pos);
+                const borderPos = calculateBorderPosition(table, hoverBlock.parentElement);
+                const newstr = tableGenerator.addStringTable(borderPos);
                 newstr.firstElementChild.firstElementChild.focus();
             } else {
-                table_generator.addStringTable();
+                tableGenerator.addStringTable();
             }
         }
         if (event.code === "Backspace") {
@@ -204,6 +204,6 @@ export let TableConstructor = function (extra) {
     });
 
     this.getTableDOM = function () {
-        return table_editor;
+        return tableEditor;
     }
 };

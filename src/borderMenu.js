@@ -16,7 +16,7 @@ export const BorderMenu = function (table, classes) {
         });
     }
 
-    function _generateElement() {
+    function _generateBorderMenu() {
         self._elem = document.createElement("div");
         self._elem.classList.add(classes[0], "TCM__border-menu_hidden");
         self._elem.appendChild(self._addButton);
@@ -34,7 +34,7 @@ export const BorderMenu = function (table, classes) {
     function _init() {
         _generateAddButton();
         _generate1pxLine();
-        _generateElement();
+        _generateBorderMenu();
         table.appendChild(this._elem);
     }
 
