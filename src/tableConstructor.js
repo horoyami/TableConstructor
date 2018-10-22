@@ -1,7 +1,7 @@
-import {VerBorder} from "./VerBorder";
-import {HorBorder} from "./HorBorder";
-import {Position} from "./PositionUtils";
-import {TableGenerator} from "./TableGenerator";
+import {VerticalBorder} from "./verticalBorder";
+import {HorizontalBorderMenu} from "./horizontalBorderMenu";
+import {Position} from "./positionUtils";
+import {TableGenerator} from "./tableGenerator";
 
 export let TableConstructor = function (extra) {
     let table_editor;
@@ -17,7 +17,7 @@ export let TableConstructor = function (extra) {
 
     function createTable() {
         table = document.createElement("table");
-        table.classList.add("editable_table");
+        table.classList.add("TCM__editable-table");
         table.appendChild(document.createElement("tbody"));
         table_editor.appendChild(table);
         table = table.firstElementChild;
@@ -39,9 +39,9 @@ export let TableConstructor = function (extra) {
 
     function createTableFrame() {
         table_editor = document.createElement("div");
-        table_editor.classList.add("table_editor");
-        verBorder = new VerBorder(table_editor);
-        horBorder = new HorBorder(table_editor);
+        table_editor.classList.add("TCM__table-editor");
+        verBorder = new VerticalBorder(table_editor);
+        horBorder = new HorizontalBorderMenu(table_editor);
         createTable();
         handleExtra();
     }

@@ -1,4 +1,4 @@
-import {Position} from "./PositionUtils";
+import {Position} from "./positionUtils";
 
 export let TableGenerator = function (table = null) {
     if (table === null)
@@ -9,7 +9,7 @@ export let TableGenerator = function (table = null) {
 
     function generateContenteditablePartOfCell(cell) {
         let div = document.createElement("div");
-        div.classList.add("tg-inputField");
+        div.classList.add("TCM__editable-table__input-field");
         div.setAttribute("contenteditable", "true");
         div.addEventListener("input", () => {
             table.dispatchEvent(new CustomEvent("inputInputField"));
@@ -33,7 +33,7 @@ export let TableGenerator = function (table = null) {
     function generateClearCell() {
         let cell = document.createElement("td");
         cell.appendChild(generateContenteditablePartOfCell(cell));
-        cell.classList.add("tg-cell");
+        cell.classList.add("TCM__editable-table__cell");
         cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
             let pos = Position.getPositionMouseRegardingElementByEvent(event);

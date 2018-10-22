@@ -1,9 +1,11 @@
-.tg-cell {
+/* TCM - project's prefix*/
+
+.TCM__editable-table__cell {
     padding: 10px;
     border: 1px solid #e2e2e2;
 }
 
-.tg-inputField {
+.TCM__editable-table__input-field {
     outline: none;
     width: 100%;
     height: 100%;

@@ -1,16 +1,18 @@
-@import "TableGenerator.css";
-@import "Border.css";
-@import "HorBorder.css";
-@import "VerBorder.css";
+/* TCM - project's prefix*/
 
-.editable_table {
+@import "tableGenerator.css";
+@import "borderMenu.css";
+@import "horizontalBorderMenu.css";
+@import "verticalBorder.css";
+
+.TCM__editable-table {
     width: 100%;
     height: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-.table_editor {
+.TCM__table-editor {
     min-width: 50px;
     min-height: 50px;
     box-sizing: border-box;

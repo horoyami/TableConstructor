@@ -1,4 +1,6 @@
-.vb-ver_wrapper {
+/* TCM - project's prefix*/
+
+.TCM__border-menu_vertical {
     height: 100%;
     width: 21px;
     display: flex;
@@ -9,7 +11,7 @@
     left: 0px;
 }
 
-.vb-ver {
+.TCM__border-menu__1pxline_vertical {
     min-width: 1px;
     height: 100%;
     margin-bottom: 10px;
