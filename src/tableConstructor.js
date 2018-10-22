@@ -11,7 +11,7 @@ export let TableConstructor = function (extra) {
     let table;
     let tableGenerator;
     let activatedBorder = null;
-    let isRight = null;
+    let isEnd = null;
     let hoverBlock = null;
     let timer;
 
@@ -64,26 +64,31 @@ export let TableConstructor = function (extra) {
         activatedBorder = null;
     }
 
+    const PADDING_CORRECT_END_FROM_WRAPPER = ((-2) * 10 - 1);
+    const PADDING_CORRECT_FROM_TABLE_CELL = (-10);
+    const PADDING_CORRECT_START_FROM_WRAPPER = 0;
+    const PADDING = 10;
+
     function selectPositionForInsert(elem, isWrapper = 0) {
         tableEditorPos = Position.getPositionOfElement(tableEditor);
-        const paddingCorrectHigh = (isWrapper) ? ((-2) * 10 - 1) : (-10);
-        const paddingCorrectLow = (isWrapper) ? (0) : (-10);
+        const paddingCorrectEnd = (isWrapper) ? PADDING_CORRECT_END_FROM_WRAPPER : PADDING_CORRECT_FROM_TABLE_CELL;
+        const paddingCorrectStart = (isWrapper) ? PADDING_CORRECT_START_FROM_WRAPPER : PADDING_CORRECT_FROM_TABLE_CELL;
 
-        if (elem.y - elem.top <= 10 && elem.y - elem.top >= 0) {
-            activeHorBorder(elem.top - tableEditorPos.y1 + paddingCorrectLow);
-            isRight = false;
+        if (elem.y - elem.top <= PADDING && elem.y - elem.top >= 0) {
+            activeHorBorder(elem.top - tableEditorPos.y1 + paddingCorrectStart);
+            isEnd = false;
         }
-        else if (elem.bottom - elem.y <= 10 + isWrapper && elem.bottom - elem.y >= 0) {
-            activeHorBorder(elem.bottom - tableEditorPos.y1 + paddingCorrectHigh);
-            isRight = true;
+        else if (elem.bottom - elem.y <= PADDING + isWrapper && elem.bottom - elem.y >= 0) {
+            activeHorBorder(elem.bottom - tableEditorPos.y1 + paddingCorrectEnd);
+            isEnd = true;
         }
-        else if (elem.x - elem.left <= 10 && elem.x - elem.left >= 0) {
-            activeVerBorder(elem.left - tableEditorPos.x1 + paddingCorrectLow);
-            isRight = false;
+        else if (elem.x - elem.left <= PADDING && elem.x - elem.left >= 0) {
+            activeVerBorder(elem.left - tableEditorPos.x1 + paddingCorrectStart);
+            isEnd = false;
         }
-        else if (elem.right - elem.x <= 10 + isWrapper && elem.right - elem.y >= 0) {
-            activeVerBorder(elem.right - tableEditorPos.x1 + paddingCorrectHigh);
-            isRight = true;
+        else if (elem.right - elem.x <= PADDING + isWrapper && elem.right - elem.y >= 0) {
+            activeVerBorder(elem.right - tableEditorPos.x1 + paddingCorrectEnd);
+            isEnd = true;
         }
         else {
             hideBorders();
@@ -92,11 +97,11 @@ export let TableConstructor = function (extra) {
 
     function calculateBorderPosition(parent, child) {
         if (hoverBlock === tableEditor) {
-            return (isRight) ? Infinity : 0;
+            return (isEnd) ? Infinity : 0;
         }
         let pos = 0;
         while (pos < parent.children.length && parent.children[pos++] !== child) ;
-        return pos + ((isRight) ? 1 : 0) - 1;
+        return pos + ((isEnd) ? 1 : 0) - 1;
     }
 
     function dellayAddButton(pos) {
@@ -109,7 +114,7 @@ export let TableConstructor = function (extra) {
 
     function setHoverBlock(content) {
         hoverBlock = content;
-        while(!(hoverBlock === null || hoverBlock.tagName === "TD" || hoverBlock === tableEditor))
+        while (!(hoverBlock === null || hoverBlock.tagName === "TD" || hoverBlock === tableEditor))
             hoverBlock = hoverBlock.parentElement;
     }
 
@@ -162,7 +167,7 @@ export let TableConstructor = function (extra) {
                 return;
             }
             if (hoverBlock !== null) {
-                isRight = true;
+                isEnd = true;
                 const borderPos = calculateBorderPosition(table, hoverBlock.parentElement);
                 const newstr = tableGenerator.addStringTable(borderPos);
                 newstr.firstElementChild.firstElementChild.focus();

@@ -35,7 +35,7 @@ export const BorderMenu = function (table, classes) {
         _generateAddButton();
         _generate1pxLine();
         _generateBorderMenu();
-        table.appendChild(this._elem);
+        table.appendChild(self._elem);
     }
 
     _init();
