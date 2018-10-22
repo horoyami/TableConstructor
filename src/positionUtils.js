@@ -1,5 +1,13 @@
+/**
+ * The object provides helper methods for working with coordinates
+ */
 export const Position = (function () {
 
+    /**
+     * Get item position relative to document
+     * @param elem - item
+     * @returns coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
+     */
     function getPositionOfElement(elem) {
         const rect = elem.getBoundingClientRect();
         return {
@@ -10,6 +18,11 @@ export const Position = (function () {
         }
     }
 
+    /**
+     * Get item and mouse position relative to document
+     * @param event - Mouse element and coordinates are taken relative to some mouse event
+     * @returns coordinates of the upper left (x1,y1) and lower right(x2,y2) corners and mouse
+     */
     function getPositionMouseRegardingElementByEvent(event) {
         const rect = getPositionOfElement(event.currentTarget);
         return {

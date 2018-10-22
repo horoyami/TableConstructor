@@ -1,6 +1,16 @@
+/**
+ * An item with a menu that appears when you hover over a table border
+ * @param table - Container where table is
+ * @param classes - Css classes for the element and 1pxline inside
+ * @constructor
+ */
 export const BorderMenu = function (table, classes) {
     const self = this;
 
+    /**
+     * Generates a menu button to add rows and columns.
+     * @private
+     */
     function _generateAddButton() {
         self._addButton = document.createElement("img");
         self._addButton.setAttribute("src", "./src/img/plus.svg");
@@ -16,6 +26,10 @@ export const BorderMenu = function (table, classes) {
         });
     }
 
+    /**
+     * Generates the main component of the class
+     * @private
+     */
     function _generateBorderMenu() {
         self._elem = document.createElement("div");
         self._elem.classList.add(classes[0], "TCM__border-menu_hidden");
@@ -26,11 +40,19 @@ export const BorderMenu = function (table, classes) {
         })
     }
 
+    /**
+     * Generates line which сover border of table
+     * @private
+     */
     function _generate1pxLine() {
         self._border = document.createElement("div");
         self._border.classList.add("TCM__border-menu", classes[1]);
     }
 
+    /**
+     * Runs all generators and initializes the class
+     * @private
+     */
     function _init() {
         _generateAddButton();
         _generate1pxLine();
@@ -40,15 +62,24 @@ export const BorderMenu = function (table, classes) {
 
     _init();
 
+    /**
+     * Make the entire item invisible
+     */
     this.hide = function () {
         self._elem.classList.add("TCM__border-menu_hidden");
     };
 
+    /**
+     * Make the entire item visible
+     */
     this.active = function () {
         self._elem.classList.remove("TCM__border-menu_hidden");
         self._border.classList.remove("TCM__border-menu_hidden");
     };
 
+    /**
+     * Hide only 1
+     */
     this.hideLine = function () {
         self._border.classList.add("TCM__border-menu_hidden");
     };

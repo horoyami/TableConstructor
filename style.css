@@ -13,7 +13,7 @@ html, body {
     align-items: center;
 }
 
-.TCM__editable-table {
-    width: 80px;
-    height: 80px;
+.something {
+    background: #e2e2e2;
+    height: 500px;
 }
