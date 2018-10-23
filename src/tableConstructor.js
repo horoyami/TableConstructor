@@ -106,19 +106,24 @@ export const TableConstructor = function (extra) {
         tableEditorPos = Position.getPositionOfElement(tableEditor);
         const errorOfPaddingWhenPositioning = (isWrapper) ? PADDING_OF_TOP_CONTAINER : 0;
 
-        if (elem.y - elem.top <= ACTIVATION_AREA && elem.y - elem.top >= 0) {
+        const mouseInTopArea = (elem.y - elem.top <= ACTIVATION_AREA && elem.y - elem.top >= 0);
+        const mouseInBottomArea = (elem.bottom - elem.y <= ACTIVATION_AREA + isWrapper && elem.bottom - elem.y >= 0);
+        const mouseInLeftArea = (elem.x - elem.left <= ACTIVATION_AREA && elem.x - elem.left >= 0);
+        const mouseInRightArea = (elem.right - elem.x <= ACTIVATION_AREA + isWrapper && elem.right - elem.y >= 0);
+
+        if (mouseInTopArea) {
             _activateHorBorder(elem.top - tableEditorPos.y1 + errorOfPaddingWhenPositioning);
             isEnd = false;
         }
-        else if (elem.bottom - elem.y <= ACTIVATION_AREA + isWrapper && elem.bottom - elem.y >= 0) {
+        else if (mouseInBottomArea) {
             _activateHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning -1);
             isEnd = true;
         }
-        else if (elem.x - elem.left <= ACTIVATION_AREA && elem.x - elem.left >= 0) {
+        else if (mouseInLeftArea) {
             _activateVerBorder(elem.left - tableEditorPos.x1 + errorOfPaddingWhenPositioning);
             isEnd = false;
         }
-        else if (elem.right - elem.x <= ACTIVATION_AREA + isWrapper && elem.right - elem.y >= 0) {
+        else if (mouseInRightArea) {
             _activateVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning -1);
             isEnd = true;
         }
