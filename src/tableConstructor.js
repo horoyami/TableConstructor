@@ -293,7 +293,7 @@ export const TableConstructor = function (extra) {
     /**
      * Hotkey handler
      */
-    document.addEventListener("keydown", (event) => {
+    tableEditor.addEventListener("keydown", (event) => {
         if (event.code === "Enter") {
             _enterPressed(event);
         }
