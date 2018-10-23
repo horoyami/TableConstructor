@@ -178,8 +178,10 @@ export const TableConstructor = function (extra) {
      * @private
      */
     function _backSpacePressed(event) {
+        // If the table cell is being edited, do not delete
         if (event.target.classList.contains("TCM-editable-table__input-field"))
             return;
+        // If there is only one line, do not delete
         if (table.children.length === 1)
             return;
         for (let i = 0; i < table.children.length; i++) {
@@ -188,7 +190,7 @@ export const TableConstructor = function (extra) {
 
             for (let j = 0; j < row.children.length; j++) {
                 const div = row.children[j].firstElementChild;
-                if (div.innerText !== "")
+                if (div.innerText.trim() !== "")
                     ok = false;
             }
 
@@ -207,10 +209,10 @@ export const TableConstructor = function (extra) {
      * @private
      */
     function _enterPressed(event) {
+        // If the cell is being edited, insert a new row only if the control is pressed
         if (event.target.classList.contains("TCM-editable-table__input-field") && !IsCntrlPassed) {
             return;
         }
-        console.log(hoverBlock);
         if (hoverBlock !== null) {
             isEnd = true;
             const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
