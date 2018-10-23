@@ -1,6 +1,6 @@
 /* TCM - project's prefix*/
 
-.TCM__border-menu_vertical {
+.TCM-border-menu--vertical {
     height: 100%;
     width: 21px;
     display: flex;
@@ -11,7 +11,7 @@
     left: 0px;
 }
 
-.TCM__border-menu__1pxline_vertical {
+.TCM-border-menu__1pxline--vertical {
     min-width: 1px;
     height: 100%;
     margin-bottom: 10px;

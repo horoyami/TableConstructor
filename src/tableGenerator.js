@@ -20,7 +20,7 @@ export const TableGenerator = function (table = null) {
      */
     function _generateContenteditablePartOfCell(cell) {
         const div = document.createElement("div");
-        div.classList.add("TCM__editable-table__input-field");
+        div.classList.add("TCM-editable-table__input-field");
         div.setAttribute("contenteditable", "true");
         div.addEventListener("input", () => {
             table.dispatchEvent(new CustomEvent("inputInputField"));
@@ -52,7 +52,7 @@ export const TableGenerator = function (table = null) {
     function _generateClearCell() {
         const cell = document.createElement("td");
         cell.appendChild(_generateContenteditablePartOfCell(cell));
-        cell.classList.add("TCM__editable-table__cell");
+        cell.classList.add("TCM-editable-table__cell");
         cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
             const pos = Position.getPositionMouseRegardingElementByEvent(event);

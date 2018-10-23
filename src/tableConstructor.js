@@ -26,7 +26,7 @@ export let TableConstructor = function (extra) {
      */
     function _createTable() {
         table = document.createElement("table");
-        table.classList.add("TCM__editable-table");
+        table.classList.add("TCM-editable-table");
         table.appendChild(document.createElement("tbody"));
         tableEditor.appendChild(table);
         table = table.firstElementChild;
@@ -56,7 +56,7 @@ export let TableConstructor = function (extra) {
      */
     function _createTableFrame() {
         tableEditor = document.createElement("div");
-        tableEditor.classList.add("TCM__table-editor");
+        tableEditor.classList.add("TCM-table-editor");
         verticalBorder = new VerticalBorder(tableEditor);
         horizontalBorder = new HorizontalBorderMenu(tableEditor);
         _createTable();
@@ -178,7 +178,7 @@ export let TableConstructor = function (extra) {
      * @private
      */
     function _pressedBackSpace(event) {
-        if (event.target.classList.contains("TCM__editable-table__input-field"))
+        if (event.target.classList.contains("TCM-editable-table__input-field"))
             return;
         if (table.children.length === 1)
             return;
@@ -207,7 +207,7 @@ export let TableConstructor = function (extra) {
      * @private
      */
     function _pressedEnter(event) {
-        if (event.target.classList.contains("TCM__editable-table__input-field") && !IsCntrlPassed) {
+        if (event.target.classList.contains("TCM-editable-table__input-field") && !IsCntrlPassed) {
             return;
         }
         console.log(hoverBlock);
