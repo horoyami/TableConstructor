@@ -6,7 +6,7 @@ import {DOM} from "./documentUtils";
 
 /**
  * Chief constructor. Creates a TableConstructor
- * @param extra - supported settings
+ * @param {object} extra - supported settings
  * @constructor
  */
 export const TableConstructor = function (extra) {
@@ -63,7 +63,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Makes the horizontal menu visible above a certain border
-     * @param pos - position
+     * @param {number} pos - position
      * @private
      */
     function _activateHorBorder(pos) {
@@ -74,7 +74,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Makes the vertical menu visible above a certain border.
-     * @param pos - position
+     * @param {number} pos - position
      * @private
      */
     function _activateVerBorder(pos) {
@@ -98,11 +98,11 @@ export const TableConstructor = function (extra) {
 
     /**
      * Detects whether the mouse is suitable for the border and activates the action.
-     * @param elem - Coordinates of the checked element
-     * @param isWrapper - 1 if the mouse go outside and 0 else
+     * @param {HTMLElement} elem - Coordinates of the checked element
+     * @param {boolean} isWrapper - 1 if the mouse go outside and 0 else
      * @private
      */
-    function _selectPositionForInsert(elem, isWrapper = 0) {
+    function _selectPositionForInsert(elem, isWrapper = false) {
         tableEditorPos = Position.getPositionOfElement(tableEditor);
         const errorOfPaddingWhenPositioning = (isWrapper) ? PADDING_OF_TOP_CONTAINER : 0;
 
@@ -134,9 +134,9 @@ export const TableConstructor = function (extra) {
 
     /**
      * Finds the position at which the new element can be inserted so that it is immediately after the child
-     * @param parent - The search happens among the children of this element
-     * @param child - Looking for a place after this item
-     * @returns position - position where new item can be inserted
+     * @param {HTMLElement} parent - The search happens among the children of this element
+     * @param {HTMLElement} child - Looking for a place after this item
+     * @returns {number} position - position where new item can be inserted
      * @private
      */
     function _calculateBorderPosition(parent, child) {
@@ -150,7 +150,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Causes the add button to linger for 500 milliseconds under the mouse after click
-     * @param pos - mouse position
+     * @param {function} pos - function which returns mouse position
      * @private
      */
     function _delayAddButtonForMultiClickingNearMouse(pos) {
@@ -163,7 +163,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Fixes which of the table cells is currently active
-     * @param content - cell
+     * @param {HTMLElement} content - cell
      * @private
      */
     function _setHoverBlock(content) {
@@ -174,7 +174,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Clicking on the backspace deletes the empty string.
-     * @param event - object of event
+     * @param {object} event - object of event
      * @private
      */
     function _backSpacePressed(event) {
@@ -205,7 +205,7 @@ export const TableConstructor = function (extra) {
     /**
      * When you press Enter or Cntrl + Enter, an empty line is added.
      * Moreover, if a certain cell is selected, then a string is created under it.
-     * @param event - object of event
+     * @param {object} event - object of event
      * @private
      */
     function _enterPressed(event) {
@@ -241,7 +241,7 @@ export const TableConstructor = function (extra) {
     tableEditor.addEventListener("mousemove", (event) => {
         event.stopPropagation();
         const pos = Position.getPositionMouseRegardingElementByEvent(event);
-        _selectPositionForInsert(pos, 1);
+        _selectPositionForInsert(pos, true);
         _setHoverBlock(event.target);
     });
 
@@ -304,7 +304,7 @@ export const TableConstructor = function (extra) {
 
     /**
      * Returns a fully generated TableConstructor in the DOM.
-     * @returns {*}
+     * @returns {HTMLElement}
      */
     this.getTableDOM = function () {
         return tableEditor;

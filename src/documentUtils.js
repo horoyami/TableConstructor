@@ -5,7 +5,7 @@ export const DOM = (function () {
 
     /**
      * Checks if there is any important information in the variable
-     * @param elem - elememt
+     * @param {object|array} elem - elememt
      * @returns {boolean} true if element contains something
      * @private
      */
@@ -15,10 +15,11 @@ export const DOM = (function () {
 
     /**
      * Create DOM element with set parameters
-     * @param tagName - Html tag of the element to be created
-     * @param cssClasses - Css classes that must be applied to an element
-     * @param attrs - Attributes that must be applied to the element
-     * @param children - child elements of creating element
+     * @param {string} tagName - Html tag of the element to be created
+     * @param {array} cssClasses - Css classes that must be applied to an element
+     * @param {object} attrs - Attributes that must be applied to the element
+     * @param {array} children - child elements of creating element
+     * @returns {HTMLElement} the new element
      */
     function createDOMElement(tagName, cssClasses, attrs, children) {
         const elem = document.createElement(tagName);

@@ -2,7 +2,7 @@ import {BorderMenu} from "./borderMenu.js";
 
 /**
  * An item with a menu that appears when you hover over a table border horizontally
- * @param table - Container where table is
+ * @param {HTMLElement} table - Container where table is
  * @constructor
  */
 export const HorizontalBorderMenu = function (table) {
@@ -15,7 +15,7 @@ export const HorizontalBorderMenu = function (table) {
 
     /**
      * Make the entire element visible in the y coordinate in the vertical
-     * @param y - coordinate
+     * @param {number} y - coordinate
      */
     this.activateIn = function (y) {
         let halfHeight = Math.floor(Number.parseInt(getComputedStyle(self._elem).height) / 2);

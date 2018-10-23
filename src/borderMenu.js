@@ -2,8 +2,8 @@ import {DOM} from "./documentUtils";
 
 /**
  * An item with a menu that appears when you hover over a table border
- * @param table - Container where table is
- * @param classes - Css classes for the element and 1pxline inside
+ * @param {HTMLElement} table - Container where table is
+ * @param {object} classes - Css classes for the element and 1pxline inside
  * @constructor
  */
 export const BorderMenu = function (table, classes) {

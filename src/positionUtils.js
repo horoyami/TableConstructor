@@ -5,8 +5,8 @@ export const Position = (function () {
 
     /**
      * Get item position relative to document
-     * @param elem - item
-     * @returns coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
+     * @param {HTMLElement} elem - item
+     * @returns {object} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
      */
     function getPositionOfElement(elem) {
         const rect = elem.getBoundingClientRect();
@@ -20,8 +20,8 @@ export const Position = (function () {
 
     /**
      * Get item and mouse position relative to document
-     * @param event - Mouse element and coordinates are taken relative to some mouse event
-     * @returns coordinates of the upper left (x1,y1) and lower right(x2,y2) corners and mouse
+     * @param {object} event - Mouse element and coordinates are taken relative to some mouse event
+     * @returns {object} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners and mouse
      */
     function getPositionMouseRegardingElementByEvent(event) {
         const rect = getPositionOfElement(event.currentTarget);
