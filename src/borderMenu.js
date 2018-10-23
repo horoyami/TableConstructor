@@ -33,7 +33,7 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generateBorderMenu() {
-        self._elem = DOM.createDOMElement("div", [classes[0], "TCM-border-menu--hidden"], null, [self._addButton, self._border]);
+        self._elem = DOM.createDOMElement("div", [classes.borderMenu, "TCM-border-menu--hidden"], null, [self._addButton, self._border]);
         self._elem.addEventListener("mousemove", (event) => {
             event.stopPropagation();
         })
@@ -44,7 +44,7 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generate1pxLine() {
-        self._border = DOM.createDOMElement("div", ["TCM-border-menu", classes[1]]);
+        self._border = DOM.createDOMElement("div", ["TCM-border-menu", classes.line1px]);
     }
 
     /**

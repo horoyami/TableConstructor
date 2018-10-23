@@ -6,7 +6,10 @@ import {BorderMenu} from "./borderMenu.js";
  * @constructor
  */
 export const HorizontalBorderMenu = function (table) {
-    BorderMenu.call(this, table, ["TCM-border-menu--horizontal", "TCM-border-menu__1pxline--horizontal"]);
+    BorderMenu.call(this, table, {
+        borderMenu: "TCM-border-menu--horizontal",
+        line1px: "TCM-border-menu__1pxline--horizontal"
+    });
 
     const self = this;
 

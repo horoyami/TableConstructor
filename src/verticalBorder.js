@@ -6,7 +6,10 @@ import {BorderMenu} from "./borderMenu.js";
  * @constructor
  */
 export const VerticalBorder = function (table) {
-    BorderMenu.call(this, table, ["TCM-border-menu--vertical", "TCM-border-menu__1pxline--vertical"]);
+    BorderMenu.call(this, table, {
+        borderMenu: "TCM-border-menu--vertical",
+        line1px: "TCM-border-menu__1pxline--vertical"
+    });
 
     const self = this;
 
