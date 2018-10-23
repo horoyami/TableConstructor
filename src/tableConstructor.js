@@ -2,6 +2,7 @@ import {VerticalBorder} from "./verticalBorder";
 import {HorizontalBorderMenu} from "./horizontalBorderMenu";
 import {Position} from "./positionUtils";
 import {TableGenerator} from "./tableGenerator";
+import {DOM} from "./documentUtils";
 
 /**
  * Chief constructor. Creates a TableConstructor
@@ -25,9 +26,7 @@ export let TableConstructor = function (extra) {
      * @private
      */
     function _createTable() {
-        table = document.createElement("table");
-        table.classList.add("TCM-editable-table");
-        table.appendChild(document.createElement("tbody"));
+        table = DOM.createDOMElement("table", ["TCM-editable-table"], null, [DOM.createDOMElement("tbody")]);
         tableEditor.appendChild(table);
         table = table.firstElementChild;
         tableGenerator = new TableGenerator(table);
@@ -55,8 +54,7 @@ export let TableConstructor = function (extra) {
      * @private
      */
     function _createTableFrame() {
-        tableEditor = document.createElement("div");
-        tableEditor.classList.add("TCM-table-editor");
+        tableEditor = DOM.createDOMElement("div", ["TCM-table-editor"]);
         verticalBorder = new VerticalBorder(tableEditor);
         horizontalBorder = new HorizontalBorderMenu(tableEditor);
         _createTable();

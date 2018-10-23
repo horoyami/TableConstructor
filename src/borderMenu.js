@@ -1,3 +1,5 @@
+import {DOM} from "./documentUtils";
+
 /**
  * An item with a menu that appears when you hover over a table border
  * @param table - Container where table is
@@ -12,10 +14,10 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generateAddButton() {
-        self._addButton = document.createElement("img");
-        self._addButton.setAttribute("src", "./src/img/plus.svg");
-        self._addButton.setAttribute("alt", "Add");
-        self._addButton.classList.add("TCM-border-menu__add-button");
+        self._addButton = DOM.createDOMElement("img", ["TCM-border-menu__add-button"], {
+            src: "./src/img/plus.svg",
+            alt: "Add"
+        });
         self._addButton.addEventListener("click", (event) => {
             table.dispatchEvent(new CustomEvent("addButtonClick", {
                 "detail": {
@@ -31,10 +33,7 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generateBorderMenu() {
-        self._elem = document.createElement("div");
-        self._elem.classList.add(classes[0], "TCM-border-menu--hidden");
-        self._elem.appendChild(self._addButton);
-        self._elem.appendChild(self._border);
+        self._elem = DOM.createDOMElement("div", [classes[0], "TCM-border-menu--hidden"], null, [self._addButton, self._border]);
         self._elem.addEventListener("mousemove", (event) => {
             event.stopPropagation();
         })
@@ -45,8 +44,7 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generate1pxLine() {
-        self._border = document.createElement("div");
-        self._border.classList.add("TCM-border-menu", classes[1]);
+        self._border = DOM.createDOMElement("div", ["TCM-border-menu", classes[1]]);
     }
 
     /**

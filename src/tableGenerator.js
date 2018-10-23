@@ -1,4 +1,5 @@
 import {Position} from "./positionUtils";
+import {DOM} from "./documentUtils";
 
 /**
  * Generates and manages table contents.
@@ -19,9 +20,7 @@ export const TableGenerator = function (table = null) {
      * @private
      */
     function _generateContenteditablePartOfCell(cell) {
-        const div = document.createElement("div");
-        div.classList.add("TCM-editable-table__input-field");
-        div.setAttribute("contenteditable", "true");
+        const div = DOM.createDOMElement("div", ["TCM-editable-table__input-field"], {contenteditable: "true"});
         div.addEventListener("input", () => {
             table.dispatchEvent(new CustomEvent("inputInputField"));
         });
@@ -50,9 +49,7 @@ export const TableGenerator = function (table = null) {
      * @private
      */
     function _generateClearCell() {
-        const cell = document.createElement("td");
-        cell.appendChild(_generateContenteditablePartOfCell(cell));
-        cell.classList.add("TCM-editable-table__cell");
+        const cell = DOM.createDOMElement("td", ["TCM-editable-table__cell"], null, [_generateContenteditablePartOfCell(cell)]);
         cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
             const pos = Position.getPositionMouseRegardingElementByEvent(event);
@@ -86,7 +83,7 @@ export const TableGenerator = function (table = null) {
      * @private
      */
     function _generateClearString() {
-        const str = document.createElement("tr");
+        const str = DOM.createDOMElement("tr");
         for (let i = 0; i < numberColumns; i++) {
             str.appendChild(_generateClearCell());
         }
