@@ -210,14 +210,14 @@ export const TableConstructor = function (extra) {
      */
     function _enterPressed(event) {
         // If the cell is being edited, insert a new row only if the control is pressed
-        if (event.target.classList.contains("TCM-editable-table__input-field") && !IsCntrlPassed) {
+        if (event.target.classList.contains("TCM-editable-table__input-field") && !event.ctrlKey) {
             return;
         }
         if (hoverBlock !== null) {
             isEnd = true;
             const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
             const newstr = tableGenerator.addRow(borderPos);
-            if (IsCntrlPassed) newstr.firstElementChild.firstElementChild.focus();
+            if (event.ctrlKey) newstr.firstElementChild.firstElementChild.focus();
         } else {
             tableGenerator.addRow();
         }
@@ -290,8 +290,6 @@ export const TableConstructor = function (extra) {
             hoverBlock = null;
     });
 
-    let IsCntrlPassed = false;
-
     /**
      * Hotkey handler
      */
@@ -301,18 +299,6 @@ export const TableConstructor = function (extra) {
         }
         if (event.code === "Backspace") {
             _backSpacePressed(event);
-        }
-        if (event.code === "ControlLeft") {
-            IsCntrlPassed = true;
-        }
-    });
-
-    /**
-     * Clamp check Cntrl
-     */
-    document.addEventListener("keyup", () => {
-        if (event.code === "ControlLeft") {
-            IsCntrlPassed = false;
         }
     });
 
