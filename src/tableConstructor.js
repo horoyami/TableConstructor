@@ -9,7 +9,7 @@ import {DOM} from "./documentUtils";
  * @param extra - supported settings
  * @constructor
  */
-export let TableConstructor = function (extra) {
+export const TableConstructor = function (extra) {
     let tableEditor;
     let tableEditorPos;
     let verticalBorder;
