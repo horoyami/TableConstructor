@@ -116,7 +116,7 @@ export const TableConstructor = function (extra) {
             isEnd = false;
         }
         else if (mouseInBottomArea) {
-            _activateHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning -1);
+            _activateHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning - 1);
             isEnd = true;
         }
         else if (mouseInLeftArea) {
@@ -124,7 +124,7 @@ export const TableConstructor = function (extra) {
             isEnd = false;
         }
         else if (mouseInRightArea) {
-            _activateVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning -1);
+            _activateVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning - 1);
             isEnd = true;
         }
         else {
@@ -266,9 +266,12 @@ export const TableConstructor = function (extra) {
     /**
      * Data entry in cells hides all menus
      */
-    table.addEventListener("inputInputField", () => {
-        _hideBorders();
-    });
+    table.addEventListener("inputInputField", _hideBorders);
+
+    /**
+     * When mouse is out table hides all menus
+     */
+    tableEditor.addEventListener("mouseleave", _hideBorders);
 
     /**
      * Focus on the cell select it
@@ -281,7 +284,8 @@ export const TableConstructor = function (extra) {
      * Blur on the cell remove selection it
      */
     table.addEventListener("blurInputField", () => {
-        hoverBlock = null;
+        if (activatedBorder === null)
+            hoverBlock = null;
     });
 
     let IsCntrlPassed = false;
