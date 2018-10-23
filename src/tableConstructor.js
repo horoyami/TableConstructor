@@ -30,10 +30,10 @@ export const TableConstructor = function (extra) {
         tableEditor.appendChild(table);
         table = table.firstElementChild;
         tableGenerator = new TableGenerator(table);
-        tableGenerator.addStringTable();
-        tableGenerator.addColumnTable();
-        tableGenerator.addStringTable();
-        tableGenerator.addColumnTable();
+        tableGenerator.addRow();
+        tableGenerator.addColumn();
+        tableGenerator.addRow();
+        tableGenerator.addColumn();
     }
 
     /**
@@ -66,8 +66,8 @@ export const TableConstructor = function (extra) {
      * @param pos - position
      * @private
      */
-    function _activeHorBorder(pos) {
-        horizontalBorder.activeIn(pos);
+    function _activateHorBorder(pos) {
+        horizontalBorder.activateIn(pos);
         verticalBorder.hide();
         activatedBorder = horizontalBorder;
     }
@@ -77,8 +77,8 @@ export const TableConstructor = function (extra) {
      * @param pos - position
      * @private
      */
-    function _activeVerBorder(pos) {
-        verticalBorder.activeIn(pos);
+    function _activateVerBorder(pos) {
+        verticalBorder.activateIn(pos);
         horizontalBorder.hide();
         activatedBorder = verticalBorder;
     }
@@ -107,19 +107,19 @@ export const TableConstructor = function (extra) {
         const errorOfPaddingWhenPositioning = (isWrapper) ? PADDING_OF_TOP_CONTAINER : 0;
 
         if (elem.y - elem.top <= ACTIVATION_AREA && elem.y - elem.top >= 0) {
-            _activeHorBorder(elem.top - tableEditorPos.y1 + errorOfPaddingWhenPositioning);
+            _activateHorBorder(elem.top - tableEditorPos.y1 + errorOfPaddingWhenPositioning);
             isEnd = false;
         }
         else if (elem.bottom - elem.y <= ACTIVATION_AREA + isWrapper && elem.bottom - elem.y >= 0) {
-            _activeHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning -1);
+            _activateHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning -1);
             isEnd = true;
         }
         else if (elem.x - elem.left <= ACTIVATION_AREA && elem.x - elem.left >= 0) {
-            _activeVerBorder(elem.left - tableEditorPos.x1 + errorOfPaddingWhenPositioning);
+            _activateVerBorder(elem.left - tableEditorPos.x1 + errorOfPaddingWhenPositioning);
             isEnd = false;
         }
         else if (elem.right - elem.x <= ACTIVATION_AREA + isWrapper && elem.right - elem.y >= 0) {
-            _activeVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning -1);
+            _activateVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning -1);
             isEnd = true;
         }
         else {
@@ -148,9 +148,9 @@ export const TableConstructor = function (extra) {
      * @param pos - mouse position
      * @private
      */
-    function _dellayAddButton(pos) {
+    function _delayAddButtonForMultiClickingNearMouse(pos) {
         tableEditorPos = Position.getPositionOfElement(tableEditor);
-        activatedBorder.activeIn(pos());
+        activatedBorder.activateIn(pos());
         activatedBorder.hideLine();
         clearTimeout(timer);
         timer = setTimeout(activatedBorder.hide, 500);
@@ -172,7 +172,7 @@ export const TableConstructor = function (extra) {
      * @param event - object of event
      * @private
      */
-    function _pressedBackSpace(event) {
+    function _backSpacePressed(event) {
         if (event.target.classList.contains("TCM-editable-table__input-field"))
             return;
         if (table.children.length === 1)
@@ -201,7 +201,7 @@ export const TableConstructor = function (extra) {
      * @param event - object of event
      * @private
      */
-    function _pressedEnter(event) {
+    function _enterPressed(event) {
         if (event.target.classList.contains("TCM-editable-table__input-field") && !IsCntrlPassed) {
             return;
         }
@@ -209,10 +209,10 @@ export const TableConstructor = function (extra) {
         if (hoverBlock !== null) {
             isEnd = true;
             const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
-            const newstr = tableGenerator.addStringTable(borderPos);
+            const newstr = tableGenerator.addRow(borderPos);
             if (IsCntrlPassed) newstr.firstElementChild.firstElementChild.focus();
         } else {
-            tableGenerator.addStringTable();
+            tableGenerator.addRow();
         }
     }
 
@@ -241,18 +241,18 @@ export const TableConstructor = function (extra) {
     /**
      * When you click the add button, a row or column must be added.
      */
-    tableEditor.addEventListener("addButtonClick", (event) => {
+    tableEditor.addEventListener("clickAddButton", (event) => {
         event.stopPropagation();
         if (activatedBorder === horizontalBorder) {
             const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
-            tableGenerator.addStringTable(borderPos);
-            _dellayAddButton(() => {
+            tableGenerator.addRow(borderPos);
+            _delayAddButtonForMultiClickingNearMouse(() => {
                 return event.detail.y - tableEditorPos.y1
             });
         } else {
             const borderPos = _calculateBorderPosition(hoverBlock.parentElement, hoverBlock);
-            tableGenerator.addColumnTable(borderPos);
-            _dellayAddButton(() => {
+            tableGenerator.addColumn(borderPos);
+            _delayAddButtonForMultiClickingNearMouse(() => {
                 return event.detail.x - tableEditorPos.x1;
             });
         }
@@ -286,10 +286,10 @@ export const TableConstructor = function (extra) {
      */
     document.addEventListener("keydown", (event) => {
         if (event.code === "Enter") {
-            _pressedEnter(event);
+            _enterPressed(event);
         }
         if (event.code === "Backspace") {
-            _pressedBackSpace(event);
+            _backSpacePressed(event);
         }
         if (event.code === "ControlLeft") {
             IsCntrlPassed = true;

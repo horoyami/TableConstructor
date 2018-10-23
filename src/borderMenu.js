@@ -19,7 +19,7 @@ export const BorderMenu = function (table, classes) {
             alt: "Add"
         });
         self._addButton.addEventListener("click", (event) => {
-            table.dispatchEvent(new CustomEvent("addButtonClick", {
+            table.dispatchEvent(new CustomEvent("clickAddButton", {
                 "detail": {
                     "x": event.pageX,
                     "y": event.pageY

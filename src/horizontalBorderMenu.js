@@ -17,7 +17,7 @@ export const HorizontalBorderMenu = function (table) {
      * Make the entire element visible in the y coordinate in the vertical
      * @param y - coordinate
      */
-    this.activeIn = function (y) {
+    this.activateIn = function (y) {
         let halfHeight = Math.floor(Number.parseInt(getComputedStyle(self._elem).height) / 2);
         self._elem.style.top = (y - halfHeight) + "px";
         this.active();

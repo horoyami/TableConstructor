@@ -17,7 +17,7 @@ export const VerticalBorder = function (table) {
      * Make the entire element visible in the x coordinate in the horizontal
      * @param x - coordinate
      */
-    this.activeIn = function (x) {
+    this.activateIn = function (x) {
         let halfWidth = Math.floor(Number.parseInt(getComputedStyle(self._elem).width) / 2);
         self._elem.style.left = (x - halfWidth) + "px";
         this.active();

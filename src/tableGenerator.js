@@ -10,8 +10,8 @@ export const TableGenerator = function (table = null) {
     if (table === null)
         return null;
 
-    let numberColumns = 0;
-    let numberStrings = 0;
+    let numberOfColumns = 0;
+    let numberOfRows = 0;
 
     /**
      * Generates an editable area within a table cell
@@ -83,9 +83,9 @@ export const TableGenerator = function (table = null) {
      * @returns the row
      * @private
      */
-    function _generateClearString() {
+    function _generateClearRow() {
         const str = DOM.createDOMElement("tr");
-        for (let i = 0; i < numberColumns; i++) {
+        for (let i = 0; i < numberOfColumns; i++) {
             str.appendChild(_generateClearCell());
         }
         return str;
@@ -95,8 +95,8 @@ export const TableGenerator = function (table = null) {
      * Generates and add table column in table at the specified location
      * @param pos - the number where add column
      */
-    this.addColumnTable = function (pos = Infinity) {
-        numberColumns++;
+    this.addColumn = function (pos = Infinity) {
+        numberOfColumns++;
         for (let i = 0; i < table.children.length; i++) {
             _addChildToElem(table.children[i], pos, _generateClearCell);
         }
@@ -107,9 +107,9 @@ export const TableGenerator = function (table = null) {
      * @param pos - the number where add row
      * @returns node of a new row
      */
-    this.addStringTable = function (pos = Infinity) {
-        numberStrings++;
-        return _addChildToElem(table, pos, _generateClearString);
+    this.addRow = function (pos = Infinity) {
+        numberOfRows++;
+        return _addChildToElem(table, pos, _generateClearRow);
     };
 };
 
