@@ -18,7 +18,8 @@ export const HorizontalBorderMenu = function (table) {
      * @param y - coordinate
      */
     this.activeIn = function (y) {
-        self._elem.style.top = y + "px";
+        let halfHeight = Math.floor(Number.parseInt(getComputedStyle(self._elem).height) / 2);
+        self._elem.style.top = (y - halfHeight) + "px";
         this.active();
     }
 };

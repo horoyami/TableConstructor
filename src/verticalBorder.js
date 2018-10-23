@@ -18,7 +18,8 @@ export const VerticalBorder = function (table) {
      * @param x - coordinate
      */
     this.activeIn = function (x) {
-        self._elem.style.left = x + "px";
+        let halfWidth = Math.floor(Number.parseInt(getComputedStyle(self._elem).width) / 2);
+        self._elem.style.left = (x - halfWidth) + "px";
         this.active();
     }
 };
