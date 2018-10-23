@@ -49,7 +49,8 @@ export const TableGenerator = function (table = null) {
      * @private
      */
     function _generateClearCell() {
-        const cell = DOM.createDOMElement("td", ["TCM-editable-table__cell"], null, [_generateContenteditablePartOfCell(cell)]);
+        const cell = DOM.createDOMElement("td", ["TCM-editable-table__cell"]);
+        cell.appendChild(_generateContenteditablePartOfCell(cell));
         cell.addEventListener("mousemove", (event) => {
             event.stopPropagation();
             const pos = Position.getPositionMouseRegardingElementByEvent(event);
