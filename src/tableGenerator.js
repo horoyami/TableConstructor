@@ -1,12 +1,13 @@
-import {Position} from "./positionUtils";
-import {DOM} from "./documentUtils";
+require("./tableGenerator.css");
+const Position = require("./positionUtils");
+const DOM = require("./documentUtils");
 
 /**
  * Generates and manages table contents.
  * @param {HTMLElement} table - tbody element of table to be generated
  * @constructor
  */
-export const TableGenerator = function (table = null) {
+const TableGenerator = function (table = null) {
     if (table === null)
         return null;
 
@@ -113,3 +114,4 @@ export const TableGenerator = function (table = null) {
     };
 };
 
+module.exports = TableGenerator;

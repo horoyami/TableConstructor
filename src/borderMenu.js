@@ -1,12 +1,13 @@
-import {DOM} from "./documentUtils";
-
+require ("./borderMenu.css");
+const addBut = require("./img/plus.svg");
+const DOM = require("./documentUtils");
 /**
  * An item with a menu that appears when you hover over a table border
  * @param {HTMLElement} table - Container where table is
  * @param {object} classes - Css classes for the element and 1pxline inside
  * @constructor
  */
-export const BorderMenu = function (table, classes) {
+const BorderMenu = function (table, classes) {
     const self = this;
 
     /**
@@ -14,10 +15,9 @@ export const BorderMenu = function (table, classes) {
      * @private
      */
     function _generateAddButton() {
-        self._addButton = DOM.createDOMElement("img", ["TCM-border-menu__add-button"], {
-            src: "./src/img/plus.svg",
-            alt: "Add"
-        });
+        self._addButton = DOM.createDOMElement("div", ["TCM-border-menu__add-button"]);
+        self._addButton.innerHTML = addBut;
+        self._addButton.classList.add("TCM-border-menu__add-button");
         self._addButton.addEventListener("click", (event) => {
             table.dispatchEvent(new CustomEvent("clickAddButton", {
                 "detail": {
@@ -82,3 +82,5 @@ export const BorderMenu = function (table, classes) {
         self._border.classList.add("TCM-border-menu--hidden");
     };
 };
+
+module.exports = BorderMenu;

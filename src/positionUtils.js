@@ -1,7 +1,7 @@
 /**
  * The object provides helper methods for working with coordinates
  */
-export const Position = (function () {
+const Position = (function () {
 
     /**
      * Get item position relative to document
@@ -40,3 +40,5 @@ export const Position = (function () {
         getPositionMouseRegardingElementByEvent: getPositionMouseRegardingElementByEvent
     };
 })();
+
+module.exports = Position;

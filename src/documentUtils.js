@@ -1,7 +1,7 @@
 /**
  * The object provides helper methods for working with DOM
  */
-export const DOM = (function () {
+const DOM = (function () {
 
     /**
      * Checks if there is any important information in the variable
@@ -45,3 +45,5 @@ export const DOM = (function () {
         createDOMElement: createDOMElement
     };
 })();
+
+module.exports = DOM;

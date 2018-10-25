@@ -1,10 +1,5 @@
 /* TCM - project's prefix*/
 
-@import "tableGenerator.css";
-@import "borderMenu.css";
-@import "horizontalBorderMenu.css";
-@import "verticalBorder.css";
-
 .TCM-editable-table {
     width: 100%;
     height: 100%;

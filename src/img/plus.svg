@@ -1,4 +1,4 @@
-<svg width="21" height="21" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<svg class="TCM-border-menu__add-button" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
     <g>
         <path stroke="#000000" fill="#368be6" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m0.051667,10.487125c0,-5.746079 4.674011,-10.400402 10.444398,-10.400402c5.770385,0 10.444398,4.654323 10.444398,10.400402c0,5.746079 -4.674011,10.400402 -10.444398,10.400402c-5.770385,0 -10.444398,-4.654323 -10.444398,-10.400402z" id="svg_10" fill-opacity="0.87"/>
         <path stroke="#000000" fill="#ffffff" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m4.184253,8.586129l4.270616,0l0,-4.593798l4.020205,0l0,4.593798l4.270614,0l0,4.324438l-4.270614,0l0,4.593794l-4.020205,0l0,-4.593794l-4.270616,0l0,-4.324438z" id="svg_28"/>
