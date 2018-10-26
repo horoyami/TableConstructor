@@ -1,16 +1,16 @@
-require("./tableConstructor.css");
-const VerticalBorder = require("./verticalBorder");
-const HorizontalBorderMenu = require("./horizontalBorderMenu");
-const Position = require("./positionUtils");
-const TableGenerator = require("./tableGenerator");
-const DOM = require("./documentUtils");
+import {DOM} from "./documentUtils";
+import {TableGenerator} from "./tableGenerator";
+import {Position} from "./positionUtils";
+import {HorizontalBorderMenu} from "./horizontalBorderMenu";
+import {VerticalBorder} from "./verticalBorder";
+import "./tableConstructor.css"
 
 /**
  * Chief constructor. Creates a TableConstructor
  * @param {object} extra - supported settings
  * @constructor
  */
-const TableConstructor = function (extra) {
+export const TableConstructor = function (extra) {
     let tableEditor;
     let tableEditorPos;
     let verticalBorder;
@@ -311,5 +311,3 @@ const TableConstructor = function (extra) {
         return tableEditor;
     }
 };
-
-module.exports = TableConstructor;

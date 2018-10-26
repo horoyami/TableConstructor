@@ -1,12 +1,12 @@
-require("./verticalBorder.css");
-const BorderMenu = require("./borderMenu.js");
+import "./verticalBorder.css"
+import {BorderMenu} from "./borderMenu";
 
 /**
  * An item with a menu that appears when you hover over a table border vertically
  * @param {HTMLElement} table - Container where table is
  * @constructor
  */
-const VerticalBorder = function (table) {
+export const VerticalBorder = function (table) {
     BorderMenu.call(this, table, {
         borderMenu: "TCM-border-menu--vertical",
         line1px: "TCM-border-menu__1pxline--vertical"
@@ -25,4 +25,3 @@ const VerticalBorder = function (table) {
     }
 };
 
-module.exports = VerticalBorder;

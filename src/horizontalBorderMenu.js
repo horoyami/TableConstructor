@@ -1,12 +1,12 @@
-require("./horizontalBorderMenu.css");
-const BorderMenu = require("./borderMenu.js");
+import "./horizontalBorderMenu.css";
+import {BorderMenu} from "./borderMenu";
 
 /**
  * An item with a menu that appears when you hover over a table border horizontally
  * @param {HTMLElement} table - Container where table is
  * @constructor
  */
-const HorizontalBorderMenu = function (table) {
+export const HorizontalBorderMenu = function (table) {
     BorderMenu.call(this, table, {
         borderMenu: "TCM-border-menu--horizontal",
         line1px: "TCM-border-menu__1pxline--horizontal"
@@ -24,5 +24,3 @@ const HorizontalBorderMenu = function (table) {
         this.active();
     }
 };
-
-module.exports = HorizontalBorderMenu;

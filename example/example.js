@@ -1,4 +1,4 @@
-const TableConstructor = require("../tableConstructor");
+import {TableConstructor} from "../tableConstructor";
 
 let table = document.querySelector(".main_wrapper");
 let table_editor = new TableConstructor({width: "800px"});
