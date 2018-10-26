@@ -4,13 +4,39 @@ import {createDOMElement} from "./documentUtils";
 
 const CSS = {
     highlightingLine: "TCM-border-menu",
-    hidden: "TCM-border-menu--hidden"
+    hidden: "TCM-border-menu--hidden",
+    horizontalToolBar: "TCM-border-menu--horizontal",
+    horizontalHighlightingLine: "TCM-border-menu__1pxline--horizontal",
+    verticalToolBar: "TCM-border-menu--vertical",
+    verticalHighlightingLine: "TCM-border-menu__1pxline--vertical"
 };
 
 /**
  * An item with a menu that appears when you hover over a table border
  */
 export class BorderToolBar {
+
+    /**
+     * Generate Horizontal ToolBat
+     * @returns {BorderToolBar}
+     */
+    static createHorizontalToolBar() {
+        return new BorderToolBar({
+            highlightingLine: CSS.horizontalHighlightingLine,
+            toolBar: CSS.horizontalToolBar
+        });
+    }
+
+    /**
+     * Generate Vertical ToolBat
+     * @returns {BorderToolBar}
+     */
+    static createVerticalToolBar() {
+        return new BorderToolBar({
+            highlightingLine: CSS.verticalHighlightingLine,
+            toolBar: CSS.verticalToolBar
+        });
+    }
 
     /**
      * @param additionalStyles - additional styles for custom items
@@ -44,6 +70,14 @@ export class BorderToolBar {
     hideLine() {
         this._highlightingLine.classList.add(CSS.hidden);
     };
+
+    /**
+     * returns HTMLElement for insert in DOM
+     * @returns {HTMLElement}
+     */
+    get htmlElement() {
+        return this._toolBar;
+    }
 
     /**
      * Generates a menu button to add rows and columns.
