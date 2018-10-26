@@ -3,17 +3,17 @@ import svgPlusButton from "./img/plus.svg";
 import {createDOMElement} from "./documentUtils";
 
 const CSS = {
-    highlightingLine: "TCM-border-menu",
-    hidden: "TCM-border-menu--hidden",
-    horizontalToolBar: "TCM-border-menu--horizontal",
-    horizontalHighlightingLine: "TCM-border-menu__1pxline--horizontal",
-    verticalToolBar: "TCM-border-menu--vertical",
-    verticalHighlightingLine: "TCM-border-menu__1pxline--vertical",
-    plusButton: "TCM-border-menu__add-button"
+    highlightingLine: "tcm-border-menu",
+    hidden: "tcm-border-menu--hidden",
+    horizontalToolBar: "tcm-border-menu--horizontal",
+    horizontalHighlightingLine: "tcm-border-menu__1pxline--horizontal",
+    verticalToolBar: "tcm-border-menu--vertical",
+    verticalHighlightingLine: "tcm-border-menu__1pxline--vertical",
+    plusButton: "tcm-border-menu__add-button"
 };
 
 /**
- * An item with a menu that appears when you hover over a table border
+ * An item with a menu that appears when you hover over a _table border
  */
 export class BorderToolBar {
 
@@ -92,7 +92,7 @@ export class BorderToolBar {
     }
 
     /**
-     * Generates line which сover border of table
+     * Generates line which сover border of _table
      * @private
      */
     _generateHighlightingLineCoveringBorder(style) {

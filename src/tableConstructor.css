@@ -1,13 +1,11 @@
 /* TCM - project's prefix*/
 
-.TCM-editable-table {
+.tcm-editable-table {
     width: 100%;
     height: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
 }
 
-.TCM-table-editor {
+.tcm-table-editor {
     min-width: 50px;
     min-height: 50px;
     box-sizing: border-box;
