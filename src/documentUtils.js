@@ -16,11 +16,12 @@ function _checkIsNotMissing(elem) {
  * @param {array} children - child elements of creating element
  * @returns {HTMLElement} the new element
  */
-export function createDOMElement(tagName, cssClasses, attrs, children) {
+export function createDOMElement(tagName, cssClasses = null, attrs = null, children = null) {
     const elem = document.createElement(tagName);
     if (_checkIsNotMissing(cssClasses)) {
         for (let i = 0; i < cssClasses.length; i++) {
-            elem.classList.add(cssClasses[i]);
+            if (_checkIsNotMissing(cssClasses[i]))
+                elem.classList.add(cssClasses[i]);
         }
     }
     if (_checkIsNotMissing(attrs)) {
@@ -29,8 +30,9 @@ export function createDOMElement(tagName, cssClasses, attrs, children) {
         }
     }
     if (_checkIsNotMissing(children)) {
-        for(let i = 0; i < children.length; i++) {
-            elem.appendChild(children[i]);
+        for (let i = 0; i < children.length; i++) {
+            if (_checkIsNotMissing(children[i]))
+                elem.appendChild(children[i]);
         }
     }
     return elem;
