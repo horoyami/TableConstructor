@@ -3,7 +3,7 @@ import svgPlusButton from "./img/plus.svg";
 import {createDOMElement} from "./documentUtils";
 
 const CSS = {
-    highlightedLine: "TCM-border-menu",
+    highlightingLine: "TCM-border-menu",
     hidden: "TCM-border-menu--hidden"
 };
 
@@ -19,8 +19,8 @@ export class BorderToolBar {
     constructor(additionalStyles) {
         this.additionalStyles = additionalStyles;
         this._plusButton = this._generatePlusButton();
-        this._highlightedLine = this._generateHighlightedLineCoveringBorder();
-        this._toolBar = this._generateToolBar([this._plusButton, this._highlightedLine]);
+        this._highlightingLine = this._generateHighlightingLineCoveringBorder();
+        this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
     }
 
     /**
@@ -35,14 +35,14 @@ export class BorderToolBar {
      */
     show() {
         this._toolBar.classList.remove(CSS.hidden);
-        this._highlightedLine.classList.remove(CSS.hidden);
+        this._highlightingLine.classList.remove(CSS.hidden);
     };
 
     /**
-     * Hide only highlightedLine
+     * Hide only highlightingLine
      */
     hideLine() {
-        this._highlightedLine.classList.add(CSS.hidden);
+        this._highlightingLine.classList.add(CSS.hidden);
     };
 
     /**
@@ -59,8 +59,8 @@ export class BorderToolBar {
      * Generates line which сover border of table
      * @private
      */
-    _generateHighlightedLineCoveringBorder(style) {
-        const border = createDOMElement("div", [CSS.highlightedLine, this.additionalStyles.highlightedLine]);
+    _generateHighlightingLineCoveringBorder(style) {
+        const border = createDOMElement("div", [CSS.highlightingLine, this.additionalStyles.highlightingLine]);
         return border;
     }
 
