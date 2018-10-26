@@ -40,12 +40,23 @@ export class BorderToolBar {
     }
 
     /**
+     * Generates a menu button to add rows and columns.
+     * @return {HTMLElement}
+     */
+    static generatePlusButton() {
+        const button = createDOMElement("div");
+        button.innerHTML = svgPlusButton;
+        button.classList.add(CSS.plusButton);
+        return button;
+    }
+
+    /**
      * @param additionalStyles - additional styles for custom items
      * @constructor
      */
     constructor(additionalStyles) {
         this.additionalStyles = additionalStyles;
-        this._plusButton = this._generatePlusButton();
+        this._plusButton = BorderToolBar.generatePlusButton();
         this._highlightingLine = this._generateHighlightingLineCoveringBorder();
         this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
     }
@@ -78,17 +89,6 @@ export class BorderToolBar {
      */
     get htmlElement() {
         return this._toolBar;
-    }
-
-    /**
-     * Generates a menu button to add rows and columns.
-     * @private
-     */
-    _generatePlusButton() {
-        const button = createDOMElement("div");
-        button.innerHTML = svgPlusButton;
-        button.classList.add(CSS.plusButton);
-        return button;
     }
 
     /**
