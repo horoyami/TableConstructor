@@ -8,7 +8,8 @@ const CSS = {
     horizontalToolBar: "TCM-border-menu--horizontal",
     horizontalHighlightingLine: "TCM-border-menu__1pxline--horizontal",
     verticalToolBar: "TCM-border-menu--vertical",
-    verticalHighlightingLine: "TCM-border-menu__1pxline--vertical"
+    verticalHighlightingLine: "TCM-border-menu__1pxline--vertical",
+    plusButton: "TCM-border-menu__add-button"
 };
 
 /**
@@ -86,6 +87,7 @@ export class BorderToolBar {
     _generatePlusButton() {
         const button = createDOMElement("div");
         button.innerHTML = svgPlusButton;
+        button.classList.add(CSS.plusButton);
         return button;
     }
 
