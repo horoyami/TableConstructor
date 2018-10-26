@@ -3,6 +3,7 @@
 .tcm-editable-table__cell {
     padding: 10px;
     border: 1px solid #e2e2e2;
+    position: relative;
 }
 
 .tcm-editable-table__input-field {
@@ -13,9 +14,4 @@
 
 .tcm-editable-table__cell--focus {
     background: cornsilk;
-}
-
-.tcm-editable-table {
-    border-collapse: collapse;
-    table-layout: fixed;
 }

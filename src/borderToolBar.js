@@ -55,7 +55,7 @@ export class BorderToolBar {
      * @constructor
      */
     constructor(additionalStyles) {
-        this.additionalStyles = additionalStyles;
+        this._additionalStyles = additionalStyles;
         this._plusButton = BorderToolBar.generatePlusButton();
         this._highlightingLine = this._generateHighlightingLineCoveringBorder();
         this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
@@ -96,7 +96,7 @@ export class BorderToolBar {
      * @private
      */
     _generateHighlightingLineCoveringBorder(style) {
-        const border = createDOMElement("div", [CSS.highlightingLine, this.additionalStyles.highlightingLine]);
+        const border = createDOMElement("div", [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
         return border;
     }
 
@@ -106,7 +106,7 @@ export class BorderToolBar {
      * @private
      */
     _generateToolBar(children) {
-        const toolBar = createDOMElement("div", [this.additionalStyles.toolBar, CSS.hidden], null, children);
+        const toolBar = createDOMElement("div", [this._additionalStyles.toolBar, CSS.hidden], null, children);
         return toolBar;
     }
 }

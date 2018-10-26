@@ -4,7 +4,6 @@ import "./table.css";
 const CSS = {
     input_field: "tcm-editable-table__input-field",
     cell: "tcm-editable-table__cell",
-    table: "tcm-editable-table",
     selected: "tcm-editable-table__cell--focus"
 };
 
@@ -16,7 +15,7 @@ export class Table {
     constructor() {
         this._numberOfColumns = 0;
         this._numberOfRows = 0;
-        this._table = createDOMElement("tbody", [CSS.table]);
+        this._table = createDOMElement("tbody");
     }
 
     /**
