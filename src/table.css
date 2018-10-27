@@ -1,17 +1,27 @@
-/* TCM - project's prefix*/
+/* tcm- project's prefix*/
 
 .tcm-editable-table__cell {
-    padding: 10px;
     border: 1px solid #e2e2e2;
-    position: relative;
+    padding: 0px;
 }
 
 .tcm-editable-table__input-field {
     outline: none;
-    width: 100%;
+    flex-grow: 100;
     height: 100%;
 }
 
 .tcm-editable-table__cell--focus {
     background: cornsilk;
+}
+
+.tcm-editable-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tcm-editable-table__wrapper {
+    height: 100%;
 }

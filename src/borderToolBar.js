@@ -15,40 +15,7 @@ const CSS = {
 /**
  * An item with a menu that appears when you hover over a _table border
  */
-export class BorderToolBar {
-
-    /**
-     * Generate Horizontal ToolBat
-     * @returns {BorderToolBar}
-     */
-    static createHorizontalToolBar() {
-        return new BorderToolBar({
-            highlightingLine: CSS.horizontalHighlightingLine,
-            toolBar: CSS.horizontalToolBar
-        });
-    }
-
-    /**
-     * Generate Vertical ToolBat
-     * @returns {BorderToolBar}
-     */
-    static createVerticalToolBar() {
-        return new BorderToolBar({
-            highlightingLine: CSS.verticalHighlightingLine,
-            toolBar: CSS.verticalToolBar
-        });
-    }
-
-    /**
-     * Generates a menu button to add rows and columns.
-     * @return {HTMLElement}
-     */
-    static generatePlusButton() {
-        const button = createDOMElement("div");
-        button.innerHTML = svgPlusButton;
-        button.classList.add(CSS.plusButton);
-        return button;
-    }
+class BorderToolBar {
 
     /**
      * @param additionalStyles - additional styles for custom items
@@ -56,7 +23,7 @@ export class BorderToolBar {
      */
     constructor(additionalStyles) {
         this._additionalStyles = additionalStyles;
-        this._plusButton = BorderToolBar.generatePlusButton();
+        this._plusButton = this._generatePlusButton();
         this._highlightingLine = this._generateHighlightingLineCoveringBorder();
         this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
     }
@@ -92,6 +59,21 @@ export class BorderToolBar {
     }
 
     /**
+     * Generates a menu button to add rows and columns.
+     * @return {HTMLElement}
+     */
+    _generatePlusButton() {
+        const button = createDOMElement("div");
+        button.innerHTML = svgPlusButton;
+        button.classList.add(CSS.plusButton);
+        button.firstChild.addEventListener("click", (event) => {
+            event.stopPropagation();
+            button.click();
+        });
+        return button;
+    }
+
+    /**
      * Generates line which сover border of _table
      * @private
      */
@@ -108,5 +90,37 @@ export class BorderToolBar {
     _generateToolBar(children) {
         const toolBar = createDOMElement("div", [this._additionalStyles.toolBar, CSS.hidden], null, children);
         return toolBar;
+    }
+}
+
+export class HorizontalBorderToolBar extends BorderToolBar {
+
+    constructor() {
+        super({
+            highlightingLine: CSS.horizontalHighlightingLine,
+            toolBar: CSS.horizontalToolBar
+        });
+    }
+
+    showIn(y) {
+        const halfHeight = Math.floor(Number.parseInt(getComputedStyle(this._toolBar).height) / 2);
+        this._toolBar.style.top = (y - halfHeight) + "px";
+        this.show();
+    }
+}
+
+export class VerticalBorderToolBar extends BorderToolBar {
+
+    constructor() {
+        super({
+            highlightingLine: CSS.verticalHighlightingLine,
+            toolBar: CSS.verticalToolBar
+        });
+    }
+
+    showIn(x) {
+        let halfWidth = Math.floor(Number.parseInt(getComputedStyle(this._toolBar).width) / 2);
+        this._toolBar.style.left = (x - halfWidth) + "px";
+        this.show();
     }
 }

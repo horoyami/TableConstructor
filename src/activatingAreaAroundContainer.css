@@ -1,0 +1,21 @@
+.tcm-around-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.tcm-around-container__horizontal-area {
+    width: 100%;
+    height: 10px;
+}
+
+.tcm-around-container__vertical-area {
+    width: 10px;
+}
+
+.tcm-around-container__row-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-grow: 100;
+}

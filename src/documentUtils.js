@@ -31,8 +31,8 @@ export function createDOMElement(tagName, cssClasses = null, attrs = null, child
     }
     if (_checkIsNotMissing(children)) {
         for (let i = 0; i < children.length; i++) {
-            if (_checkIsNotMissing(children[i]))
-                elem.appendChild(children[i]);
+
+            elem.appendChild(children[i]);
         }
     }
     return elem;

@@ -1,10 +1,13 @@
 import {createDOMElement} from "./documentUtils";
+import {ActivatingAreaAroundContainer} from "./activatingAreaAroundContainer";
 import "./table.css";
 
 const CSS = {
-    input_field: "tcm-editable-table__input-field",
+    inputField: "tcm-editable-table__input-field",
     cell: "tcm-editable-table__cell",
-    selected: "tcm-editable-table__cell--focus"
+    selected: "tcm-editable-table__cell--focus",
+    table: "tcm-editable-table",
+    wrapper: "tcm-editable-table__wrapper"
 };
 
 /**
@@ -15,50 +18,35 @@ export class Table {
     constructor() {
         this._numberOfColumns = 0;
         this._numberOfRows = 0;
-        this._table = createDOMElement("tbody");
+        this._table = this._createTableWrapper();
     }
 
-    /**
-     * Generates and add column in _table at the specified location
-     * @param {number} index - the number where add column
-     */
     addColumn(index = Infinity) {
         this._numberOfColumns++;
         // Add cell in each row
         for (let i = 0; i < this._table.children.length; i++) {
-            const cell = this._generateClearCell();
+            const cell = this._createClearCell();
             this._addChildToElem(this._table.children[i], index, cell);
         }
     };
 
-    /**
-     * Adds row in _table at the specified location
-     * @param {number} pos - the number where add row
-     * @returns {HTMLElement} node of a new row
-     */
     addRow(pos = Infinity) {
         this._numberOfRows++;
-        const row = this._generateClearRow();
+        const row = this._createClearRow();
         this._addChildToElem(this._table, pos, row);
-        return row;
     };
 
-    /**
-     * returns HTMLElement for insert in DOM
-     * @returns {HTMLElement}
-     */
     get htmlElement() {
-        return this._table;
+        return this._table.parentElement;
     }
 
-    /**
-     * Generates an editable area within a _table cell
-     * @param {HTMLElement} cell - the cell
-     * @returns {HTMLElement} the editable area
-     * @private
-     */
-    _generateContenteditablePartOfCell(cell) {
-        const div = createDOMElement("div", [CSS.input_field], {contenteditable: "true"});
+    _createTableWrapper() {
+        let table = createDOMElement("table", [CSS.table], null, [createDOMElement("tbody")]);
+        return table.firstElementChild;
+    }
+
+    _createContenteditableArea(cell) {
+        const div = createDOMElement("div", [CSS.inputField], {contenteditable: "true"});
         div.addEventListener("focus", () => {
             cell.classList.add(CSS.selected);
         });
@@ -68,43 +56,34 @@ export class Table {
         return div;
     }
 
-    /**
-     * Generates a clean _table cell
-     * @returns {HTMLElement} The cell
-     * @private
-     */
-    _generateClearCell() {
+    _createClearCell() {
         const cell = createDOMElement("td", [CSS.cell]);
-        const div = this._generateContenteditablePartOfCell(cell);
-        cell.appendChild(div);
+        const content = this._createContenteditableArea(cell);
+        const area = this._createActivatingConteiner(content);
+        cell.appendChild(area);
         cell.addEventListener("click", () => {
-            div.focus();
+            // Get to the edited part of the cell
+            content.focus();
         });
         return cell;
     }
 
-    /**
-     * Inserts сhild into the child elements of an element in place of the index
-     * @param {HTMLElement} elem - the element
-     * @param {number} index - the specified location
-     * @param {HTMLElement} child - the child
-     * @private
-     */
+    _createActivatingConteiner(content) {
+        const area = (new ActivatingAreaAroundContainer(content)).htmlElement;
+        area.classList.add(CSS.wrapper);
+        return area;
+    }
+
     _addChildToElem(elem, index, child) {
         // if index is bigger than length of array then add in end
-        let indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
+        const indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
         elem.insertBefore(child, indexToInsert);
     }
 
-    /**
-     * Generates a _table row
-     * @returns {HTMLElement} the row
-     * @private
-     */
-    _generateClearRow() {
+    _createClearRow() {
         const str = createDOMElement("tr");
         for (let i = 0; i < this._numberOfColumns; i++) {
-            str.appendChild(this._generateClearCell());
+            str.appendChild(this._createClearCell());
         }
         return str;
     }

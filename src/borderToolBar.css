@@ -21,7 +21,7 @@
     flex-direction: row;
     position: absolute;
     left: 0px;
-    top: 0px;
+    top: 1px;
 }
 
 .tcm-border-menu__1pxline--horizontal {
@@ -38,7 +38,7 @@
     flex-direction: column;
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: -1px;
 }
 
 .tcm-border-menu__1pxline--vertical {
