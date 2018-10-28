@@ -1,5 +1,5 @@
 import {createDOMElement} from './documentUtils';
-import './activatingAreaAroundContainer.css';
+import './containerWithDetectionAreas.css';
 
 const CSS = {
   mainContainer: 'tcm-around-container',
@@ -9,13 +9,13 @@ const CSS = {
 };
 
 /**
- * Container with area around, where mouse detected
+ * Container with area around content, where mouse detected
  */
-export class ActivatingAreaAroundContainer {
+export class ContainerWithDetectionAreas {
   /**
    * Create the container
    * @param {HTMLElement} content - container contents
-   * @param {boolean} isOutside - If true, then check the output from the container
+   * @param {boolean} isOutside - Determines which area border to use, internal to the container or external
    * @constructor
    */
   constructor(content, isOutside = true) {

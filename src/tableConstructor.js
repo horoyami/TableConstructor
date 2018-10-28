@@ -1,6 +1,6 @@
 import './tableConstructor.css';
 import {getCoords} from './documentUtils';
-import {ActivatingAreaAroundContainer} from './activatingAreaAroundContainer';
+import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
 import {Table} from './table';
 
@@ -18,7 +18,7 @@ export class TableConstructor {
    */
   constructor() {
     this._table = this._createBlankTable();
-    this._container = new ActivatingAreaAroundContainer(this._table.htmlElement, false);
+    this._container = new ContainerWithDetectionAreas(this._table.htmlElement, false);
     this._container.htmlElement.classList.add(CSS.editor);
     this._verticalToolBar = new VerticalBorderToolBar();
     this._horizontalToolBar = new HorizontalBorderToolBar();

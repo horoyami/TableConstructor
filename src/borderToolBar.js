@@ -62,10 +62,9 @@ class BorderToolBar {
    * @return {HTMLElement}
    */
   _generatePlusButton() {
-    const button = createDOMElement('div');
+    const button = createDOMElement('div', [CSS.plusButton]);
 
     button.innerHTML = svgPlusButton;
-    button.classList.add(CSS.plusButton);
     button.firstChild.addEventListener('click', (event) => {
       event.stopPropagation();
       const e = new CustomEvent('click', {'detail': {'x': event.pageX, 'y': event.pageY}, 'bubbles': true});
@@ -79,7 +78,7 @@ class BorderToolBar {
    * Generates line which сover border of _table
    * @private
    */
-  _generateHighlightingLineCoveringBorder(style) {
+  _generateHighlightingLine() {
     return createDOMElement('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
   }
 

@@ -1,5 +1,5 @@
 import {createDOMElement} from './documentUtils';
-import {ActivatingAreaAroundContainer} from './activatingAreaAroundContainer';
+import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
 import './table.css';
 
 const CSS = {
@@ -39,11 +39,12 @@ export class Table {
   /**
    * Add row in table on index place
    * @param {number} index
+   * @return {HTMLElement} row
    */
-  addRow(pos = Infinity) {
+  addRow(index = Infinity) {
     this._numberOfRows++;
     const row = this._createClearRow();
-    this._addChildToElem(this._table, pos, row);
+    this._addChildToElem(this._table, index, row);
     return row;
   };
 
@@ -56,7 +57,7 @@ export class Table {
   }
 
   /**
-   * returns selected/edited sell
+   * returns selected/editable cell
    * @return {HTMLElement}
    */
   get selectedSell() {
@@ -117,7 +118,7 @@ export class Table {
    * @private
    */
   _createActivatingConteiner(content) {
-    const area = (new ActivatingAreaAroundContainer(content)).htmlElement;
+    const area = (new ContainerWithDetectionAreas(content)).htmlElement;
     area.classList.add(CSS.wrapper);
     return area;
   }

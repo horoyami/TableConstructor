@@ -1,10 +1,10 @@
 /**
- * Checks unless the item is missing
- * @param {object|array} elem - elememt
- * @returns {boolean} true if element contains something
+ * Checks the item is not missed or messed
+ * @param {object|array|HTMLElement|string} elem - element
+ * @returns {boolean} true if element is correct
  * @private
  */
-function _checkIsNotMissing(elem) {
+function _isNotMissed(elem) {
   return (!(elem === undefined || elem === null));
 }
 
@@ -19,21 +19,21 @@ function _checkIsNotMissing(elem) {
 export function createDOMElement(tagName, cssClasses = null, attrs = null, children = null) {
   const elem = document.createElement(tagName);
 
-  if (_checkIsNotMissing(cssClasses)) {
+  if (_isNotMissed(cssClasses)) {
     for (let i = 0; i < cssClasses.length; i++) {
-      if (_checkIsNotMissing(cssClasses[i])) {
+      if (_isNotMissed(cssClasses[i])) {
         elem.classList.add(cssClasses[i]);
       }
     }
   }
-  if (_checkIsNotMissing(attrs)) {
+  if (_isNotMissed(attrs)) {
     for (let key in attrs) {
       elem.setAttribute(key, attrs[key]);
     }
   }
-  if (_checkIsNotMissing(children)) {
+  if (_isNotMissed(children)) {
     for (let i = 0; i < children.length; i++) {
-      if (_checkIsNotMissing(children[i])) {
+      if (_isNotMissed(children[i])) {
         elem.appendChild(children[i]);
       }
     }
