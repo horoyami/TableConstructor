@@ -206,8 +206,8 @@ export class TableConstructor {
    * @private
    */
   _enterPressed(event) {
-    if (this._table.selectedSell !== null && event.ctrlKey) {
-      const index = this._calculateToolBarPosition(this._tbody, this._table.selectedSell.parentElement, false);
+    if (this._table.selectedCell !== null && event.ctrlKey) {
+      const index = this._calculateToolBarPosition(this._tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
       newstr.firstElementChild.click();
     }

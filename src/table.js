@@ -60,7 +60,7 @@ export class Table {
    * returns selected/editable cell
    * @return {HTMLElement}
    */
-  get selectedSell() {
+  get selectedCell() {
     return this._selectedCell;
   }
 
