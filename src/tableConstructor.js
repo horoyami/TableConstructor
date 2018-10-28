@@ -5,7 +5,8 @@ import {HorizontalBorderToolBar, VerticalBorderToolBar} from "./borderToolBar";
 import {Table} from "./table";
 
 const CSS = {
-    editor: "tcm-table-editor"
+    editor: "tcm-table-editor",
+    plusButton: "tcm-border-menu__add-button"
 };
 
 export class TableConstructor {
@@ -69,7 +70,41 @@ export class TableConstructor {
                 this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
             }
         });
+
+        this._container.htmlElement.addEventListener("click", (event) => {
+            if (event.target.classList.contains(CSS.plusButton)) {
+                if (this._activatedToolBar === this._horizontalToolBar) {
+                    this._addRow();
+                } else {
+                    this._addColumn();
+                }
+            }
+        });
     }
 
+    _calculateToolBarPosition(parent, child) {
+        if (this._coveredBlock === this._container.htmlElement) {
+            return (this._side === "top" || this._side === "left") ? Infinity : 0;
+        }
+        let index = 0;
+        // Runs through the array in search of an element
+        while (index < parent.children.length && parent.children[index] !== child)
+            index++;
+        if (this._side === "bottom" || this._side == "right") {
+            index++;
+        }
+        return index;
+    }
+
+    _addRow() {
+        const tbody = this._table.htmlElement.firstChild;
+        const index = this._calculateToolBarPosition(tbody, this._coveredBlock.parentElement);
+        this._table.addRow(index);
+    }
+
+    _addColumn() {
+        const index = this._calculateToolBarPosition(this._coveredBlock.parentElement, this._coveredBlock);
+        this._table.addColumn(index);
+    }
 
 }
