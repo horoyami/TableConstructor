@@ -44,10 +44,15 @@ export class TableConstructor {
     }
 
     _showToolBar(toolBar, coord) {
-        if (this._activatedToolBar !== null)
-            this._activatedToolBar.hide();
+        this._hideToolBar();
         this._activatedToolBar = toolBar;
         toolBar.showIn(coord);
+    }
+
+    _hideToolBar() {
+        if (this._activatedToolBar !== null) {
+            this._activatedToolBar.hide();
+        }
     }
 
     _hangEvents() {
@@ -85,6 +90,11 @@ export class TableConstructor {
             }
         });
 
+        this._container.htmlElement.addEventListener("input", () => {
+            console.log("input");
+            this._hideToolBar();
+        });
+
         this._container.htmlElement.addEventListener("keydown", (event) => {
             if (event.code === "Enter") {
                 this._enterPressed(event);
@@ -97,7 +107,7 @@ export class TableConstructor {
         this._activatedToolBar.hideLine();
         clearTimeout(this._timer);
         this._timer = setTimeout(() => {
-            this._activatedToolBar.hide();
+            this._hideToolBar();
         }, 500);
     }
 
