@@ -68,7 +68,8 @@ class BorderToolBar {
         button.classList.add(CSS.plusButton);
         button.firstChild.addEventListener("click", (event) => {
             event.stopPropagation();
-            button.click();
+            const e = new CustomEvent('click', {'detail': {"x": event.pageX, "y": event.pageY}, 'bubbles': true});
+            button.dispatchEvent(e);
         });
         return button;
     }

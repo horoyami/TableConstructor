@@ -75,11 +75,24 @@ export class TableConstructor {
             if (event.target.classList.contains(CSS.plusButton)) {
                 if (this._activatedToolBar === this._horizontalToolBar) {
                     this._addRow();
+                    const containerCoords = getCoords(this._container.htmlElement);
+                    this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
                 } else {
                     this._addColumn();
+                    const containerCoords = getCoords(this._container.htmlElement);
+                    this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
                 }
             }
         });
+    }
+
+    _delayAddButtonForMultiClickingNearMouse(coord) {
+        this._showToolBar(this._activatedToolBar, coord);
+        this._activatedToolBar.hideLine();
+        clearTimeout(this._timer);
+        this._timer = setTimeout(() => {
+            this._activatedToolBar.hide();
+        }, 500);
     }
 
     _calculateToolBarPosition(parent, child) {
