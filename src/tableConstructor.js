@@ -6,7 +6,7 @@ import {Table} from './table';
 
 const CSS = {
   editor: 'tcm-table-editor',
-  plusButton: 'tcm-border-menu__add-button'
+  plusButton: 'tcm-border-menu__plus-button'
 };
 
 /**

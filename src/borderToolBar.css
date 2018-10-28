@@ -1,6 +1,6 @@
 /* tcm - project's prefix*/
 
-.tcm-border-menu__add-button {
+.tcm-border-menu__plus-button {
     height: 19px;
     width: 19px;
 }
@@ -24,7 +24,7 @@
     top: 1px;
 }
 
-.tcm-border-menu__1pxline--horizontal {
+.tcm-border-menu__highlighting-line--horizontal {
     min-height: 1px;
     width: 100%;
     margin-right: 10px;
@@ -41,7 +41,7 @@
     left: -1px;
 }
 
-.tcm-border-menu__1pxline--vertical {
+.tcm-border-menu__highlighting-line--vertical {
     min-width: 1px;
     height: 100%;
     margin-bottom: 10px;

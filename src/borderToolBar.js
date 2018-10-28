@@ -6,10 +6,10 @@ const CSS = {
   highlightingLine: 'tcm-border-menu',
   hidden: 'tcm-border-menu--hidden',
   horizontalToolBar: 'tcm-border-menu--horizontal',
-  horizontalHighlightingLine: 'tcm-border-menu__1pxline--horizontal',
+  horizontalHighlightingLine: 'tcm-border-menu__highlighting-line--horizontal',
   verticalToolBar: 'tcm-border-menu--vertical',
-  verticalHighlightingLine: 'tcm-border-menu__1pxline--vertical',
-  plusButton: 'tcm-border-menu__add-button'
+  verticalHighlightingLine: 'tcm-border-menu__highlighting-line--vertical',
+  plusButton: 'tcm-border-menu__plus-button'
 };
 
 /**
