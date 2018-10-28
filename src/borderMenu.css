@@ -1,0 +1,14 @@
+/* TCM - project's prefix*/
+
+.TCM-border-menu__add-button {
+    height: 19px;
+    width: 19px;
+}
+
+.TCM-border-menu {
+    background: #368be6;
+}
+
+.TCM-border-menu--hidden {
+    visibility: hidden;
+}
