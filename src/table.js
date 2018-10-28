@@ -34,10 +34,15 @@ export class Table {
         this._numberOfRows++;
         const row = this._createClearRow();
         this._addChildToElem(this._table, pos, row);
+        return row;
     };
 
     get htmlElement() {
         return this._table.parentElement;
+    }
+
+    get selectedSell() {
+        return this._selectedCell;
     }
 
     _createTableWrapper() {
@@ -49,9 +54,11 @@ export class Table {
         const div = createDOMElement("div", [CSS.inputField], {contenteditable: "true"});
         div.addEventListener("focus", () => {
             cell.classList.add(CSS.selected);
+            this._selectedCell = cell;
         });
         div.addEventListener("blur", () => {
             cell.classList.remove(CSS.selected);
+            this._selectedCell = null;
         });
         return div;
     }
