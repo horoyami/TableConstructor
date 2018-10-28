@@ -11,6 +11,7 @@
 
 .tcm-around-container__vertical-area {
     width: 10px;
+    min-width: 10px;
 }
 
 .tcm-around-container__row-container {
