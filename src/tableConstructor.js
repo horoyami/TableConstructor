@@ -17,15 +17,26 @@ export class TableConstructor {
    * Creates
    */
   constructor() {
+    // creating table
     this._table = this._createBlankTable();
+
+    //creating container around table
     this._container = new ContainerWithDetectionAreas(this._table.htmlElement, false);
     this._container.htmlElement.classList.add(CSS.editor);
+
+    // creating ToolBars
     this._verticalToolBar = new VerticalBorderToolBar();
     this._horizontalToolBar = new HorizontalBorderToolBar();
     this._container.htmlElement.appendChild(this._verticalToolBar.htmlElement);
     this._container.htmlElement.appendChild(this._horizontalToolBar.htmlElement);
+
+    // Activated elements
     this._coveredBlock = null;
     this._activatedToolBar = null;
+
+    // Timer for delay plus button
+    this._timer = null;
+
     this._hangEvents();
   }
 
@@ -91,37 +102,11 @@ export class TableConstructor {
    */
   _hangEvents() {
     this._container.htmlElement.addEventListener('mouseInActivatingArea', (event) => {
-      this._side = event.detail.side;
-      const areaCoords = getCoords(event.target);
-      const containerCoords = getCoords(this._container.htmlElement);
-      this._setHoverBlock(event.target);
-
-      if (this._side === 'top') {
-        this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1);
-      }
-      if (this._side === 'bottom') {
-        this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
-      }
-      if (this._side === 'left') {
-        this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 1);
-      }
-      if (this._side === 'right') {
-        this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
-      }
+      this._mouseInActivatingAreaListener(event);
     });
 
     this._container.htmlElement.addEventListener('click', (event) => {
-      if (event.target.classList.contains(CSS.plusButton)) {
-        if (this._activatedToolBar === this._horizontalToolBar) {
-          this._addRow();
-          const containerCoords = getCoords(this._container.htmlElement);
-          this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
-        } else {
-          this._addColumn();
-          const containerCoords = getCoords(this._container.htmlElement);
-          this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
-        }
-      }
+      this._clickListener(event);
     });
 
     this._container.htmlElement.addEventListener('input', () => {
@@ -129,13 +114,64 @@ export class TableConstructor {
     });
 
     this._container.htmlElement.addEventListener('keydown', (event) => {
-      if (event.code === 'Enter') {
-        this._enterPressed(event);
-      }
+      this._keyDownListener(event);
     });
   }
 
+  /**
+   * detects a mouseenter on a special area
+   * @param event
+   * @private
+   */
+  _mouseInActivatingAreaListener(event) {
+    this._side = event.detail.side;
+    const areaCoords = getCoords(event.target);
+    const containerCoords = getCoords(this._container.htmlElement);
+    this._setHoverBlock(event.target);
 
+    if (this._side === 'top') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1);
+    }
+    if (this._side === 'bottom') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
+    }
+    if (this._side === 'left') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 1);
+    }
+    if (this._side === 'right') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
+    }
+  }
+
+  /**
+   * handling clicks on items
+   * @param {object} event
+   * @private
+   */
+  _clickListener(event) {
+    if (event.target.classList.contains(CSS.plusButton)) {
+      if (this._activatedToolBar === this._horizontalToolBar) {
+        this._addRow();
+        const containerCoords = getCoords(this._container.htmlElement);
+        this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
+      } else {
+        this._addColumn();
+        const containerCoords = getCoords(this._container.htmlElement);
+        this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
+      }
+    }
+  }
+
+  /**
+   * detects button presses
+   * @param {object} event
+   * @private
+   */
+  _keyDownListener(event) {
+    if (event.code === 'Enter') {
+      this._enterPressed(event);
+    }
+  }
 
   /**
    * Leaves the PlusButton active under mouse for 500 milicconds so that you can poke a few more times.
@@ -144,8 +180,13 @@ export class TableConstructor {
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
     this._showToolBar(this._activatedToolBar, coord);
+    // hides panel except PlusButton. PlussButton remains visible so that you can do more pressing.
     this._activatedToolBar.hideLine();
+    //While the button is being pressed, the timer will be reset
+    // so that the button is visible as much as the user needs to press the desired number of times.
     clearTimeout(this._timer);
+    //The timer gives time to press the button again, before it disappears.
+    // When the timer expires, the button disappears.
     this._timer = setTimeout(() => {
       this._hideToolBar();
     }, 500);
