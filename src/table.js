@@ -1,12 +1,12 @@
-import {createDOMElement} from './documentUtils';
+import {create} from './documentUtils';
 import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
 import './table.css';
 
 const CSS = {
+  table: 'tcm-editable-table',
   inputField: 'tcm-editable-table__input-field',
   cell: 'tcm-editable-table__cell',
   selected: 'tcm-editable-table__cell--focus',
-  table: 'tcm-editable-table',
   wrapper: 'tcm-editable-table__wrapper'
 };
 
@@ -70,7 +70,7 @@ export class Table {
    * @private
    */
   _createTableWrapper() {
-    let table = createDOMElement('table', [CSS.table], null, [createDOMElement('tbody')]);
+    let table = create('table', [CSS.table], null, [create('tbody')]);
     return table.firstElementChild;
   }
 
@@ -81,7 +81,7 @@ export class Table {
    * @private
    */
   _createContenteditableArea(cell) {
-    const div = createDOMElement('div', [CSS.inputField], {contenteditable: 'true'});
+    const div = create('div', [CSS.inputField], {contenteditable: 'true'});
     div.addEventListener('focus', () => {
       cell.classList.add(CSS.selected);
       this._selectedCell = cell;
@@ -99,7 +99,7 @@ export class Table {
    * @private
    */
   _createClearCell() {
-    const cell = createDOMElement('td', [CSS.cell]);
+    const cell = create('td', [CSS.cell]);
     const content = this._createContenteditableArea(cell);
     const area = this._createActivatingConteiner(content);
 
@@ -142,7 +142,7 @@ export class Table {
    * @private
    */
   _createClearRow() {
-    const str = createDOMElement('tr');
+    const str = create('tr');
     for (let i = 0; i < this._numberOfColumns; i++) {
       str.appendChild(this._createClearCell());
     }

@@ -53,7 +53,7 @@ export class TableConstructor {
 
   /**
    * Remembers after which element to insert a row or column.
-   * @param content - the element
+   * @param {HTMLElement} content - the element
    * @private
    */
   _setHoverBlock(content) {
@@ -66,7 +66,7 @@ export class TableConstructor {
   /**
    * Show ToolBar
    * @param {BorderToolBar} toolBar - which toolbar to show
-   * @param coord - where show
+   * @param {numver} coord - where show. x or y depending on the grade of the toolbar
    * @private
    */
   _showToolBar(toolBar, coord) {
@@ -135,9 +135,11 @@ export class TableConstructor {
     });
   }
 
+
+
   /**
    * Leaves the PlusButton active under mouse for 500 milicconds so that you can poke a few more times.
-   * @param coord - coords of mouse
+   * @param {number} coord - coords of mouse. x or y depending on the grade of the toolbar
    * @private
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
@@ -202,7 +204,7 @@ export class TableConstructor {
 
   /**
    * if "cntrl + Eneter" is pressed then create new line under current and focus it
-   * @param event
+   * @param {object} event
    * @private
    */
   _enterPressed(event) {

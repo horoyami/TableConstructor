@@ -1,4 +1,4 @@
-import {createDOMElement} from './documentUtils';
+import {create} from './documentUtils';
 import './containerWithDetectionAreas.css';
 
 const CSS = {
@@ -38,7 +38,7 @@ export class ContainerWithDetectionAreas {
    * @private
    */
   _createMainContainer() {
-    return createDOMElement('div', [ CSS.mainContainer ], null, [
+    return create('div', [ CSS.mainContainer ], null, [
       this._createActivatingArea((this._isOutside ? 'top' : 'bottom'), CSS.horizontalArea),
       this._createInlineAreaContent(),
       this._createActivatingArea((this._isOutside ? 'bottom' : 'top'), CSS.horizontalArea)
@@ -47,13 +47,13 @@ export class ContainerWithDetectionAreas {
 
   /**
    * Creates area that detects mouse enter
-   * @param side - where area is
-   * @param style - additional styles
+   * @param {string} side - where area is (top, bottom, left, right)
+   * @param {object} style - additional styles
    * @return {HTMLElement} - the area html element
    * @private
    */
   _createActivatingArea(side, style) {
-    const area = createDOMElement('div', [ style ]);
+    const area = create('div', [ style ]);
 
     area.addEventListener('mouseenter', () => {
       area.dispatchEvent(new CustomEvent('mouseInActivatingArea', {
@@ -72,7 +72,7 @@ export class ContainerWithDetectionAreas {
    * @private
    */
   _createInlineAreaContent() {
-    return createDOMElement('div', [ CSS.rowContainer ], null, [
+    return create('div', [ CSS.rowContainer ], null, [
       this._createActivatingArea((this._isOutside ? 'left' : 'right'), CSS.verticalArea),
       this._content,
       this._createActivatingArea((this._isOutside ? 'right' : 'left'), CSS.verticalArea)

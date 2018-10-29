@@ -1,6 +1,6 @@
 import './borderToolBar.css';
 import svgPlusButton from './img/plus.svg';
-import {createDOMElement} from './documentUtils';
+import {create} from './documentUtils';
 
 const CSS = {
   highlightingLine: 'tcm-border-menu',
@@ -17,13 +17,13 @@ const CSS = {
  */
 class BorderToolBar {
   /**
-   * @param additionalStyles - additional styles for custom items
+   * @param {object} additionalStyles - additional styles for custom items
    * @constructor
    */
   constructor(additionalStyles) {
     this._additionalStyles = additionalStyles;
     this._plusButton = this._generatePlusButton();
-    this._highlightingLine = this._generateHighlightingLineCoveringBorder();
+    this._highlightingLine = this._generateHighlightingLine();
     this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
   }
 
@@ -62,7 +62,7 @@ class BorderToolBar {
    * @return {HTMLElement}
    */
   _generatePlusButton() {
-    const button = createDOMElement('div', [CSS.plusButton]);
+    const button = create('div', [CSS.plusButton]);
 
     button.innerHTML = svgPlusButton;
     button.firstChild.addEventListener('click', (event) => {
@@ -79,16 +79,16 @@ class BorderToolBar {
    * @private
    */
   _generateHighlightingLine() {
-    return createDOMElement('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
+    return create('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
   }
 
   /**
    * Generates the main component of the class
-   * @param {array} children - child elements of toolbar
+   * @param {Element[]} children - child elements of toolbar
    * @private
    */
   _generateToolBar(children) {
-    return createDOMElement('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
+    return create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
   }
 }
 

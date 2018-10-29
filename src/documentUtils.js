@@ -1,6 +1,6 @@
 /**
  * Checks the item is not missed or messed
- * @param {object|array|HTMLElement|string} elem - element
+ * @param {object|string[]|Element[]|HTMLElement|string} elem - element
  * @returns {boolean} true if element is correct
  * @private
  */
@@ -11,12 +11,12 @@ function _isNotMissed(elem) {
 /**
  * Create DOM element with set parameters
  * @param {string} tagName - Html tag of the element to be created
- * @param {array} cssClasses - Css classes that must be applied to an element
+ * @param {string[]} cssClasses - Css classes that must be applied to an element
  * @param {object} attrs - Attributes that must be applied to the element
- * @param {array} children - child elements of creating element
+ * @param {Element[]} children - child elements of creating element
  * @returns {HTMLElement} the new element
  */
-export function createDOMElement(tagName, cssClasses = null, attrs = null, children = null) {
+export function create(tagName, cssClasses = null, attrs = null, children = null) {
   const elem = document.createElement(tagName);
 
   if (_isNotMissed(cssClasses)) {
