@@ -1,5 +1,4 @@
 const path = require("path");
-const postcssNesting = require("postcss-nesting");
 
 module.exports = {
   entry: "./src/tableConstructor.js",
