@@ -33,6 +33,7 @@ export class TableConstructor {
     // Activated elements
     this._coveredBlock = null;
     this._activatedToolBar = null;
+    this._side = null;
 
     // Timer for delay plus button
     this._timer = null;
@@ -206,8 +207,10 @@ export class TableConstructor {
     }
     let index = 0;
     // Runs through the array in search of an element
-    while (index < parent.children.length && parent.children[index] !== child) {
-      index++;
+    for (index; index < parent.children.length; index++) {
+      if (parent.children[index] === child) {
+        break;
+      }
     }
     // If the node must be placed after the element
     if (withAnError == true && (this._side === 'bottom' || this._side == 'right')) {
