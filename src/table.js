@@ -1,6 +1,6 @@
 import {create} from './documentUtils';
 import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
-import './table.css';
+import './table.scss';
 
 const CSS = {
   table: 'tcm-editable-table',

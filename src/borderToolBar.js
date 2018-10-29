@@ -1,4 +1,4 @@
-import './borderToolBar.css';
+import './borderToolBar.scss';
 import svgPlusButton from './img/plus.svg';
 import {create} from './documentUtils';
 

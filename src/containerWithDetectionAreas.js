@@ -1,5 +1,5 @@
 import {create} from './documentUtils';
-import './containerWithDetectionAreas.css';
+import './containerWithDetectionAreas.scss';
 
 const CSS = {
   mainContainer: 'tcm-around-container',

@@ -1,4 +1,4 @@
-import './tableConstructor.css';
+import './tableConstructor.scss';
 import {getCoords} from './documentUtils';
 import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
