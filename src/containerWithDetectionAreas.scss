@@ -1,24 +1,24 @@
 /* tcm - prefix of project*/
 
 .tcm-around-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
-.tcm-around-container__horizontal-area {
+  &__horizontal-area {
     width: 100%;
     height: 10px;
-}
+  }
 
-.tcm-around-container__vertical-area {
+  &__vertical-area {
     width: 10px;
     min-width: 10px;
-}
+  }
 
-.tcm-around-container__row-container {
+  &__row-container {
     display: flex;
     flex-direction: row;
     width: 100%;
     flex-grow: 100;
+  }
 }
