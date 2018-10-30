@@ -17,25 +17,25 @@ export class TableConstructor {
    * Creates
    */
   constructor() {
-    // creating table
+    /** creating table */
     this._table = this._createBlankTable();
 
-    //creating container around table
+    /** creating container around table */
     this._container = new ContainerWithDetectionAreas(this._table.htmlElement, false);
     this._container.htmlElement.classList.add(CSS.editor);
 
-    // creating ToolBars
+    /** creating ToolBars */
     this._verticalToolBar = new VerticalBorderToolBar();
     this._horizontalToolBar = new HorizontalBorderToolBar();
     this._container.htmlElement.appendChild(this._verticalToolBar.htmlElement);
     this._container.htmlElement.appendChild(this._horizontalToolBar.htmlElement);
 
-    // Activated elements
+    /** Activated elements */
     this._coveredBlock = null;
     this._activatedToolBar = null;
     this._side = null;
 
-    // Timer for delay plus button
+    /** Timer for delay plus button */
     this._plusButDelay = null;
 
     this._hangEvents();
@@ -203,13 +203,13 @@ export class TableConstructor {
       return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
     }
     let index = 0;
-    // Runs through the array in search of an element
+    /** Runs through the array in search of an element */
     for (index; index < parent.children.length; index++) {
       if (parent.children[index] === child) {
         break;
       }
     }
-    // If the node must be placed after the element
+    /** If the node must be placed after the element */
     if (withAnError == true && (this._side === 'bottom' || this._side == 'right')) {
       index++;
     }

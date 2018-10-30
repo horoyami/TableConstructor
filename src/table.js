@@ -29,7 +29,7 @@ export class Table {
    */
   addColumn(index = Infinity) {
     this._numberOfColumns++;
-    // Add cell in each row
+    /** Add cell in each row */
     for (let i = 0; i < this._table.children.length; i++) {
       const cell = this._createClearCell();
       this._addChildToElem(this._table.children[i], index, cell);
@@ -105,7 +105,7 @@ export class Table {
 
     cell.appendChild(area);
     cell.addEventListener('click', () => {
-      // Get to the edited part of the cell
+      /** Get to the edited part of the cell */
       content.focus();
     });
     return cell;
@@ -131,7 +131,7 @@ export class Table {
    * @private
    */
   _addChildToElem(elem, index, child) {
-    // if index is bigger than length of array then add in end
+    /** if index is bigger than length of array then add in end */
     const indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
     elem.insertBefore(child, indexToInsert);
   }
