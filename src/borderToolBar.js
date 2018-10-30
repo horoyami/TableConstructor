@@ -9,7 +9,9 @@ const CSS = {
   horizontalHighlightingLine: 'tcm-border-menu__highlighting-line--horizontal',
   verticalToolBar: 'tcm-border-menu--vertical',
   verticalHighlightingLine: 'tcm-border-menu__highlighting-line--vertical',
-  plusButton: 'tcm-border-menu__plus-button'
+  plusButton: 'tcm-border-menu__plus-button',
+  horizontalPlusButton: 'tcm-border-menu__plus-button--horizontal',
+  verticalPlusButton: 'tcm-border-menu__plus-button--vertical',
 };
 
 /**
@@ -62,7 +64,7 @@ class BorderToolBar {
    * @return {HTMLElement}
    */
   _generatePlusButton() {
-    const button = create('div', [CSS.plusButton]);
+    const button = create('div', [CSS.plusButton, this._additionalStyles.plusButton]);
 
     button.innerHTML = svgPlusButton;
     button.firstChild.addEventListener('click', (event) => {
@@ -102,7 +104,8 @@ export class HorizontalBorderToolBar extends BorderToolBar {
   constructor() {
     super({
       highlightingLine: CSS.horizontalHighlightingLine,
-      toolBar: CSS.horizontalToolBar
+      toolBar: CSS.horizontalToolBar,
+      plusButton: CSS.horizontalPlusButton
     });
   }
 
@@ -128,7 +131,8 @@ export class VerticalBorderToolBar extends BorderToolBar {
   constructor() {
     super({
       highlightingLine: CSS.verticalHighlightingLine,
-      toolBar: CSS.verticalToolBar
+      toolBar: CSS.verticalToolBar,
+      plusButton: CSS.verticalPlusButton
     });
   }
 

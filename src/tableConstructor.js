@@ -27,8 +27,8 @@ export class TableConstructor {
     /** creating ToolBars */
     this._verticalToolBar = new VerticalBorderToolBar();
     this._horizontalToolBar = new HorizontalBorderToolBar();
-    this._container.htmlElement.appendChild(this._verticalToolBar.htmlElement);
-    this._container.htmlElement.appendChild(this._horizontalToolBar.htmlElement);
+    this._table.htmlElement.appendChild(this._horizontalToolBar.htmlElement);
+    this._table.htmlElement.appendChild(this._verticalToolBar.htmlElement);
 
     /** Activated elements */
     this._coveredBlock = null;
@@ -127,7 +127,7 @@ export class TableConstructor {
   _mouseInActivatingAreaListener(event) {
     this._side = event.detail.side;
     const areaCoords = getCoords(event.target);
-    const containerCoords = getCoords(this._container.htmlElement);
+    const containerCoords = getCoords(this._table.htmlElement);
     this._setHoverBlock(event.target);
 
     if (this._side === 'top') {
@@ -153,11 +153,11 @@ export class TableConstructor {
     if (event.target.classList.contains(CSS.plusButton)) {
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
-        const containerCoords = getCoords(this._container.htmlElement);
+        const containerCoords = getCoords(this._tbody);
         this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
       } else {
         this._addColumn();
-        const containerCoords = getCoords(this._container.htmlElement);
+        const containerCoords = getCoords(this._tbody);
         this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
       }
     }
@@ -182,6 +182,7 @@ export class TableConstructor {
    * @private
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
+    console.log("lol");
     this._showToolBar(this._activatedToolBar, coord);
     this._activatedToolBar.hideLine();
     clearTimeout(this._plusButDelay);
