@@ -7,14 +7,10 @@
   table-layout: fixed;
   position: relative;
 
-  &__wrapper {
-    height: 100%;
-  }
-
   &__cell {
     border: 1px solid #e2e2e2;
-    padding: 0;
-
+    padding: 10px;
+    position: relative;
   }
 
   &__input-field {

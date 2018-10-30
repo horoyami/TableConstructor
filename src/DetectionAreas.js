@@ -13,10 +13,10 @@ const CSS = {
 };
 
 export function addDetectionAreas(elem, isOutside) {
-  const topArea = createActivatingArea((this._isOutside ? 'top' : 'bottom'), [CSS.horizontalArea, CSS.top]);
-  const leftArea = createActivatingArea((this._isOutside ? 'left' : 'right'), [CSS.verticalArea, CSS.left]);
-  const rightArea = createActivatingArea((this._isOutside ? 'right' : 'left'), [CSS.verticalArea, CSS.right]);
-  const bottomArea = createActivatingArea((this._isOutside ? 'bottom' : 'top'), [CSS.horizontalArea, CSS.bottom]);
+  const topArea = createActivatingArea((isOutside ? 'top' : 'bottom'), [CSS.horizontalArea, CSS.top]);
+  const leftArea = createActivatingArea((isOutside ? 'left' : 'right'), [CSS.verticalArea, CSS.left]);
+  const rightArea = createActivatingArea((isOutside ? 'right' : 'left'), [CSS.verticalArea, CSS.right]);
+  const bottomArea = createActivatingArea((isOutside ? 'bottom' : 'top'), [CSS.horizontalArea, CSS.bottom]);
   elem.appendChild(topArea);
   elem.appendChild(leftArea);
   elem.appendChild(rightArea);
