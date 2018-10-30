@@ -1,5 +1,5 @@
 import {create} from './documentUtils';
-import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
+import {ContainerWithDetectionAreas} from './DetectionAreas';
 import './table.scss';
 
 const CSS = {
