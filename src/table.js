@@ -1,5 +1,5 @@
 import {create} from './documentUtils';
-import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
+import {addDetectionAreas} from './DetectionAreas';
 import './table.scss';
 
 const CSS = {
@@ -98,9 +98,9 @@ export class Table {
   _createClearCell() {
     const cell = create('td', [CSS.cell]);
     const content = this._createContenteditableArea(cell);
-    const area = this._createActivatingConteiner(content);
+    cell.appendChild(content);
+    addDetectionAreas(cell, true);
 
-    cell.appendChild(area);
     cell.addEventListener('click', () => {
       /** Get to the edited part of the cell */
       content.focus();
@@ -116,7 +116,6 @@ export class Table {
    */
   _createActivatingConteiner(content) {
     const area = (new ContainerWithDetectionAreas(content)).htmlElement;
-    area.classList.add(CSS.wrapper);
     return area;
   }
 

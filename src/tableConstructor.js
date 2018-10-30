@@ -1,6 +1,6 @@
 import './tableConstructor.scss';
-import {getCoords} from './documentUtils';
-import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
+import {getCoords, create} from './documentUtils';
+import {addDetectionAreas} from './DetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
 import {Table} from './table';
 
@@ -21,8 +21,8 @@ export class TableConstructor {
     this._table = this._createBlankTable();
 
     /** creating container around table */
-    this._container = new ContainerWithDetectionAreas(this._table.htmlElement, false);
-    this._container.htmlElement.classList.add(CSS.editor);
+    this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
+    addDetectionAreas(this._container, false);
 
     /** creating ToolBars */
     this._verticalToolBar = new VerticalBorderToolBar();
@@ -46,7 +46,7 @@ export class TableConstructor {
    * @return {HTMLElement}
    */
   get htmlElement() {
-    return this._container.htmlElement;
+    return this._container;
   }
 
   /**
@@ -70,7 +70,7 @@ export class TableConstructor {
    */
   _setHoverBlock(content) {
     this._coveredBlock = content;
-    while (!(this._coveredBlock === null || this._coveredBlock.tagName === 'TD' || this._coveredBlock === this._container.htmlElement)) {
+    while (!(this._coveredBlock === null || this._coveredBlock.tagName === 'TD' || this._coveredBlock === this._container)) {
       this._coveredBlock = this._coveredBlock.parentElement;
     }
   }
@@ -102,19 +102,19 @@ export class TableConstructor {
    * @private
    */
   _hangEvents() {
-    this._container.htmlElement.addEventListener('mouseInActivatingArea', (event) => {
+    this._container.addEventListener('mouseInActivatingArea', (event) => {
       this._mouseInActivatingAreaListener(event);
     });
 
-    this._container.htmlElement.addEventListener('click', (event) => {
+    this._container.addEventListener('click', (event) => {
       this._clickListener(event);
     });
 
-    this._container.htmlElement.addEventListener('input', () => {
+    this._container.addEventListener('input', () => {
       this._hideToolBar();
     });
 
-    this._container.htmlElement.addEventListener('keydown', (event) => {
+    this._container.addEventListener('keydown', (event) => {
       this._keyDownListener(event);
     });
   }
@@ -130,8 +130,10 @@ export class TableConstructor {
     const containerCoords = getCoords(this._table.htmlElement);
     this._setHoverBlock(event.target);
 
+    //console.log(event.target.parentElement);
+
     if (this._side === 'top') {
-      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1);
+      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 1);
     }
     if (this._side === 'bottom') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
@@ -200,7 +202,7 @@ export class TableConstructor {
    * @private
    */
   _calculateToolBarPosition(parent, child, withAnError = true) {
-    if (this._coveredBlock === this._container.htmlElement) {
+    if (this._coveredBlock === this._container) {
       return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
     }
     let index = 0;
