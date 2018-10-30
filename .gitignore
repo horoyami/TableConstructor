@@ -1,7 +1,5 @@
 .idea
 yarn.lock
 node_modules
-bundle.js
 tableConstructor.js
 ./example/yarn.lock
-./example/bundle.js
