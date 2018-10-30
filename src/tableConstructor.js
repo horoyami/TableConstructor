@@ -36,7 +36,7 @@ export class TableConstructor {
     this._side = null;
 
     // Timer for delay plus button
-    this._timer = null;
+    this._plusButDelay = null;
 
     this._hangEvents();
   }
@@ -175,20 +175,17 @@ export class TableConstructor {
   }
 
   /**
-   * Leaves the PlusButton active under mouse for 500 milicconds so that you can poke a few more times.
+   * Leaves the PlusButton active under mouse
+   * The timer gives time to press the button again, before it disappears.
+   * While the button is being pressed, the timer will be reset
    * @param {number} coord - coords of mouse. x or y depending on the grade of the toolbar
    * @private
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
     this._showToolBar(this._activatedToolBar, coord);
-    // hides panel except PlusButton. PlussButton remains visible so that you can do more pressing.
     this._activatedToolBar.hideLine();
-    //While the button is being pressed, the timer will be reset
-    // so that the button is visible as much as the user needs to press the desired number of times.
-    clearTimeout(this._timer);
-    //The timer gives time to press the button again, before it disappears.
-    // When the timer expires, the button disappears.
-    this._timer = setTimeout(() => {
+    clearTimeout(this._plusButDelay);
+    this._plusButDelay = setTimeout(() => {
       this._hideToolBar();
     }, 500);
   }
