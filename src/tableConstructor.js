@@ -1,312 +1,258 @@
-import {VerticalBorder} from "./verticalBorder";
-import {HorizontalBorderMenu} from "./horizontalBorderMenu";
-import {Position} from "./positionUtils";
-import {TableGenerator} from "./tableGenerator";
-import {DOM} from "./documentUtils";
+import './tableConstructor.scss';
+import {getCoords} from './documentUtils';
+import {ContainerWithDetectionAreas} from './containerWithDetectionAreas';
+import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
+import {Table} from './table';
+
+const CSS = {
+  editor: 'tcm-table-editor',
+  plusButton: 'tcm-border-menu__plus-button'
+};
 
 /**
- * Chief constructor. Creates a TableConstructor
- * @param {object} extra - supported settings
- * @constructor
+ * Entry point. Controls table and give API to user
  */
-export const TableConstructor = function (extra) {
-    let tableEditor;
-    let tableEditorPos;
-    let verticalBorder;
-    let horizontalBorder;
-    let table;
-    let tableGenerator;
-    let activatedBorder = null;
-    let isEnd = null;
-    let hoverBlock = null;
-    let timer;
+export class TableConstructor {
+  /**
+   * Creates
+   */
+  constructor() {
+    /** creating table */
+    this._table = this._createBlankTable();
 
-    /**
-     * Generates a table
-     * @private
-     */
-    function _createTable() {
-        table = DOM.createDOMElement("table", ["TCM-editable-table"], null, [DOM.createDOMElement("tbody")]);
-        tableEditor.appendChild(table);
-        table = table.firstElementChild;
-        tableGenerator = new TableGenerator(table);
-        tableGenerator.addRow();
-        tableGenerator.addColumn();
-        tableGenerator.addRow();
-        tableGenerator.addColumn();
+    /** creating container around table */
+    this._container = new ContainerWithDetectionAreas(this._table.htmlElement, false);
+    this._container.htmlElement.classList.add(CSS.editor);
+
+    /** creating ToolBars */
+    this._verticalToolBar = new VerticalBorderToolBar();
+    this._horizontalToolBar = new HorizontalBorderToolBar();
+    this._container.htmlElement.appendChild(this._verticalToolBar.htmlElement);
+    this._container.htmlElement.appendChild(this._horizontalToolBar.htmlElement);
+
+    /** Activated elements */
+    this._coveredBlock = null;
+    this._activatedToolBar = null;
+    this._side = null;
+
+    /** Timer for delay plus button */
+    this._plusButDelay = null;
+
+    this._hangEvents();
+  }
+
+  /**
+   * returns html element of TableConstructor;
+   * @return {HTMLElement}
+   */
+  get htmlElement() {
+    return this._container.htmlElement;
+  }
+
+  /**
+   * Creates clear table
+   * @return {Table}
+   * @private
+   */
+  _createBlankTable() {
+    const table = new Table();
+    table.addColumn();
+    table.addColumn();
+    table.addRow();
+    table.addRow();
+    return table;
+  }
+
+  /**
+   * Remembers after which element to insert a row or column.
+   * @param {HTMLElement} content - the element
+   * @private
+   */
+  _setHoverBlock(content) {
+    this._coveredBlock = content;
+    while (!(this._coveredBlock === null || this._coveredBlock.tagName === 'TD' || this._coveredBlock === this._container.htmlElement)) {
+      this._coveredBlock = this._coveredBlock.parentElement;
     }
+  }
 
-    /**
-     * Considers the settings object and applies them
-     * @private
-     */
-    function _handleExtra() {
-        if (extra === undefined)
-            return;
-        if (extra.width !== undefined)
-            tableEditor.style.width = extra.width;
-        if (extra.height !== undefined)
-            tableEditor.style.height = extra.height;
+  /**
+   * Show ToolBar
+   * @param {BorderToolBar} toolBar - which toolbar to show
+   * @param {numver} coord - where show. x or y depending on the grade of the toolbar
+   * @private
+   */
+  _showToolBar(toolBar, coord) {
+    this._hideToolBar();
+    this._activatedToolBar = toolBar;
+    toolBar.showIn(coord);
+  }
+
+  /**
+   * Hide all of toolbars
+   * @private
+   */
+  _hideToolBar() {
+    if (this._activatedToolBar !== null) {
+      this._activatedToolBar.hide();
     }
+  }
 
-    /**
-     * Creates a container where TableConstructor will be located
-     * @private
-     */
-    function _createTableFrame() {
-        tableEditor = DOM.createDOMElement("div", ["TCM-table-editor"]);
-        verticalBorder = new VerticalBorder(tableEditor);
-        horizontalBorder = new HorizontalBorderMenu(tableEditor);
-        _createTable();
-        _handleExtra();
-    }
-
-    /**
-     * Makes the horizontal menu visible above a certain border
-     * @param {number} pos - position
-     * @private
-     */
-    function _activateHorBorder(pos) {
-        horizontalBorder.activateIn(pos);
-        verticalBorder.hide();
-        activatedBorder = horizontalBorder;
-    }
-
-    /**
-     * Makes the vertical menu visible above a certain border.
-     * @param {number} pos - position
-     * @private
-     */
-    function _activateVerBorder(pos) {
-        verticalBorder.activateIn(pos);
-        horizontalBorder.hide();
-        activatedBorder = verticalBorder;
-    }
-
-    /**
-     * Hide all menus
-     * @private
-     */
-    function _hideBorders() {
-        verticalBorder.hide();
-        horizontalBorder.hide();
-        activatedBorder = null;
-    }
-
-    const PADDING_OF_TOP_CONTAINER = 10;
-    const ACTIVATION_AREA = 10;
-
-    /**
-     * Detects whether the mouse is suitable for the border and activates the action.
-     * @param {HTMLElement} elem - Coordinates of the checked element
-     * @param {boolean} isWrapper - 1 if the mouse go outside and 0 else
-     * @private
-     */
-    function _selectPositionForInsert(elem, isWrapper = false) {
-        tableEditorPos = Position.getPositionOfElement(tableEditor);
-        const errorOfPaddingWhenPositioning = (isWrapper) ? PADDING_OF_TOP_CONTAINER : 0;
-
-        const mouseInTopArea = (elem.y - elem.top <= ACTIVATION_AREA && elem.y - elem.top >= 0);
-        const mouseInBottomArea = (elem.bottom - elem.y <= ACTIVATION_AREA + isWrapper && elem.bottom - elem.y >= 0);
-        const mouseInLeftArea = (elem.x - elem.left <= ACTIVATION_AREA && elem.x - elem.left >= 0);
-        const mouseInRightArea = (elem.right - elem.x <= ACTIVATION_AREA + isWrapper && elem.right - elem.y >= 0);
-
-        if (mouseInTopArea) {
-            _activateHorBorder(elem.top - tableEditorPos.y1 + errorOfPaddingWhenPositioning);
-            isEnd = false;
-        }
-        else if (mouseInBottomArea) {
-            _activateHorBorder(elem.bottom - tableEditorPos.y1 - errorOfPaddingWhenPositioning - 1);
-            isEnd = true;
-        }
-        else if (mouseInLeftArea) {
-            _activateVerBorder(elem.left - tableEditorPos.x1 + errorOfPaddingWhenPositioning);
-            isEnd = false;
-        }
-        else if (mouseInRightArea) {
-            _activateVerBorder(elem.right - tableEditorPos.x1 - errorOfPaddingWhenPositioning - 1);
-            isEnd = true;
-        }
-        else {
-            _hideBorders();
-        }
-    }
-
-    /**
-     * Finds the position at which the new element can be inserted so that it is immediately after the child
-     * @param {HTMLElement} parent - The search happens among the children of this element
-     * @param {HTMLElement} child - Looking for a place after this item
-     * @returns {number} position - position where new item can be inserted
-     * @private
-     */
-    function _calculateBorderPosition(parent, child) {
-        if (hoverBlock === tableEditor) {
-            return (isEnd) ? Infinity : 0;
-        }
-        let pos = 0;
-        while (pos < parent.children.length && parent.children[pos++] !== child) ;
-        return pos + ((isEnd) ? 1 : 0) - 1;
-    }
-
-    /**
-     * Causes the add button to linger for 500 milliseconds under the mouse after click
-     * @param {function} pos - function which returns mouse position
-     * @private
-     */
-    function _delayAddButtonForMultiClickingNearMouse(pos) {
-        tableEditorPos = Position.getPositionOfElement(tableEditor);
-        activatedBorder.activateIn(pos());
-        activatedBorder.hideLine();
-        clearTimeout(timer);
-        timer = setTimeout(activatedBorder.hide, 500);
-    }
-
-    /**
-     * Fixes which of the table cells is currently active
-     * @param {HTMLElement} content - cell
-     * @private
-     */
-    function _setHoverBlock(content) {
-        hoverBlock = content;
-        while (!(hoverBlock === null || hoverBlock.tagName === "TD" || hoverBlock === tableEditor))
-            hoverBlock = hoverBlock.parentElement;
-    }
-
-    /**
-     * Clicking on the backspace deletes the empty string.
-     * @param {object} event - object of event
-     * @private
-     */
-    function _backSpacePressed(event) {
-        // If the table cell is being edited, do not delete
-        if (event.target.classList.contains("TCM-editable-table__input-field"))
-            return;
-        // If there is only one line, do not delete
-        if (table.children.length === 1)
-            return;
-        for (let i = 0; i < table.children.length; i++) {
-            let ok = true;
-            const row = table.children[i];
-
-            for (let j = 0; j < row.children.length; j++) {
-                const div = row.children[j].firstElementChild;
-                if (div.innerText.trim() !== "")
-                    ok = false;
-            }
-
-            if (ok) {
-                table.removeChild(row);
-                _hideBorders();
-                return;
-            }
-        }
-    }
-
-    /**
-     * When you press Enter or Cntrl + Enter, an empty line is added.
-     * Moreover, if a certain cell is selected, then a string is created under it.
-     * @param {object} event - object of event
-     * @private
-     */
-    function _enterPressed(event) {
-        // If the cell is being edited, insert a new row only if the control is pressed
-        if (event.target.classList.contains("TCM-editable-table__input-field") && !event.ctrlKey) {
-            return;
-        }
-        if (hoverBlock !== null) {
-            isEnd = true;
-            const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
-            const newstr = tableGenerator.addRow(borderPos);
-            if (event.ctrlKey) newstr.firstElementChild.firstElementChild.focus();
-        } else {
-            tableGenerator.addRow();
-        }
-    }
-
-    _createTableFrame();
-
-    /**
-     * When moving the mouse in the cell, it should be selected and checked for proximity to the borders.
-     */
-    table.addEventListener("mouseMoveCell", (event) => {
-        event.stopPropagation();
-        const pos = event.detail.pos;
-        _selectPositionForInsert(pos);
-        _setHoverBlock(event.detail.elem);
+  /**
+   * hang necessary events
+   * @private
+   */
+  _hangEvents() {
+    this._container.htmlElement.addEventListener('mouseInActivatingArea', (event) => {
+      this._mouseInActivatingAreaListener(event);
     });
 
-    /**
-     * When the mouse moves behind the table, the proximity to the border should be checked.
-     */
-    tableEditor.addEventListener("mousemove", (event) => {
-        event.stopPropagation();
-        const pos = Position.getPositionMouseRegardingElementByEvent(event);
-        _selectPositionForInsert(pos, true);
-        _setHoverBlock(event.target);
+    this._container.htmlElement.addEventListener('click', (event) => {
+      this._clickListener(event);
     });
 
-    /**
-     * When you click the add button, a row or column must be added.
-     */
-    tableEditor.addEventListener("clickAddButton", (event) => {
-        event.stopPropagation();
-        if (activatedBorder === horizontalBorder) {
-            const borderPos = _calculateBorderPosition(table, hoverBlock.parentElement);
-            tableGenerator.addRow(borderPos);
-            _delayAddButtonForMultiClickingNearMouse(() => {
-                return event.detail.y - tableEditorPos.y1
-            });
-        } else {
-            const borderPos = _calculateBorderPosition(hoverBlock.parentElement, hoverBlock);
-            tableGenerator.addColumn(borderPos);
-            _delayAddButtonForMultiClickingNearMouse(() => {
-                return event.detail.x - tableEditorPos.x1;
-            });
-        }
+    this._container.htmlElement.addEventListener('input', () => {
+      this._hideToolBar();
     });
 
-    /**
-     * Data entry in cells hides all menus
-     */
-    table.addEventListener("inputInputField", _hideBorders);
-
-    /**
-     * When mouse is out table hides all menus
-     */
-    tableEditor.addEventListener("mouseleave", _hideBorders);
-
-    /**
-     * Focus on the cell select it
-     */
-    table.addEventListener("focusInputField", (event) => {
-        hoverBlock = event.detail.elem;
+    this._container.htmlElement.addEventListener('keydown', (event) => {
+      this._keyDownListener(event);
     });
+  }
 
-    /**
-     * Blur on the cell remove selection it
-     */
-    table.addEventListener("blurInputField", () => {
-        if (activatedBorder === null)
-            hoverBlock = null;
-    });
+  /**
+   * detects a mouseenter on a special area
+   * @param event
+   * @private
+   */
+  _mouseInActivatingAreaListener(event) {
+    this._side = event.detail.side;
+    const areaCoords = getCoords(event.target);
+    const containerCoords = getCoords(this._container.htmlElement);
+    this._setHoverBlock(event.target);
 
-    /**
-     * Hotkey handler
-     */
-    tableEditor.addEventListener("keydown", (event) => {
-        if (event.code === "Enter") {
-            _enterPressed(event);
-        }
-        if (event.code === "Backspace") {
-            _backSpacePressed(event);
-        }
-    });
-
-    /**
-     * Returns a fully generated TableConstructor in the DOM.
-     * @returns {HTMLElement}
-     */
-    this.getTableDOM = function () {
-        return tableEditor;
+    if (this._side === 'top') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1);
     }
-};
+    if (this._side === 'bottom') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
+    }
+    if (this._side === 'left') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 1);
+    }
+    if (this._side === 'right') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
+    }
+  }
+
+  /**
+   * handling clicks on items
+   * @param {object} event
+   * @private
+   */
+  _clickListener(event) {
+    if (event.target.classList.contains(CSS.plusButton)) {
+      if (this._activatedToolBar === this._horizontalToolBar) {
+        this._addRow();
+        const containerCoords = getCoords(this._container.htmlElement);
+        this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
+      } else {
+        this._addColumn();
+        const containerCoords = getCoords(this._container.htmlElement);
+        this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
+      }
+    }
+  }
+
+  /**
+   * detects button presses
+   * @param {object} event
+   * @private
+   */
+  _keyDownListener(event) {
+    if (event.code === 'Enter') {
+      this._enterPressed(event);
+    }
+  }
+
+  /**
+   * Leaves the PlusButton active under mouse
+   * The timer gives time to press the button again, before it disappears.
+   * While the button is being pressed, the timer will be reset
+   * @param {number} coord - coords of mouse. x or y depending on the grade of the toolbar
+   * @private
+   */
+  _delayAddButtonForMultiClickingNearMouse(coord) {
+    this._showToolBar(this._activatedToolBar, coord);
+    this._activatedToolBar.hideLine();
+    clearTimeout(this._plusButDelay);
+    this._plusButDelay = setTimeout(() => {
+      this._hideToolBar();
+    }, 500);
+  }
+
+  /**
+   * Calculates the place where you can insert a new row or column so that it is immediately after the child element.
+   * @param {HTMLElement} parent - where to insert
+   * @param {HTMLELement} child - insert immediately after that
+   * @param {boolean} withAnError - Whether to consider border type
+   * @return {number} - index, where insert
+   * @private
+   */
+  _calculateToolBarPosition(parent, child, withAnError = true) {
+    if (this._coveredBlock === this._container.htmlElement) {
+      return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
+    }
+    let index = 0;
+    /** Runs through the array in search of an element */
+    for (index; index < parent.children.length; index++) {
+      if (parent.children[index] === child) {
+        break;
+      }
+    }
+    /** If the node must be placed after the element */
+    if (withAnError == true && (this._side === 'bottom' || this._side == 'right')) {
+      index++;
+    }
+    return index;
+  }
+
+  /**
+   * returns tbody element of table
+   * @return {HTMLElement}
+   * @private
+   */
+  get _tbody() {
+    return this._table.htmlElement.firstChild;
+  }
+
+  /**
+   * Adds row in table
+   * @private
+   */
+  _addRow() {
+    const index = this._calculateToolBarPosition(this._tbody, this._coveredBlock.parentElement);
+    this._table.addRow(index);
+  }
+
+  /**
+   * Adds column in table
+   * @private
+   */
+  _addColumn() {
+    const index = this._calculateToolBarPosition(this._coveredBlock.parentElement, this._coveredBlock);
+    this._table.addColumn(index);
+  }
+
+  /**
+   * if "cntrl + Eneter" is pressed then create new line under current and focus it
+   * @param {object} event
+   * @private
+   */
+  _enterPressed(event) {
+    if (this._table.selectedCell !== null && event.ctrlKey) {
+      const index = this._calculateToolBarPosition(this._tbody, this._table.selectedCell.parentElement, false);
+      const newstr = this._table.addRow(index + 1);
+      newstr.firstElementChild.click();
+    }
+  }
+}

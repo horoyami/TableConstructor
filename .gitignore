@@ -1,5 +1,7 @@
 .idea
 yarn.lock
 node_modules
-src/bundle.js
 bundle.js
+tableConstructor.js
+./example/yarn.lock
+./example/bundle.js
