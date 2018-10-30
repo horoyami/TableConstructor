@@ -32,6 +32,14 @@
   &__plus-button {
     height: 19px;
     width: 19px;
+
+    &--horizontal {
+      margin-left: -10px;
+    }
+
+    &--vertical {
+      margin-top: -10px;
+    }
   }
 
   &__highlighting-line {
@@ -39,13 +47,13 @@
     &--horizontal {
       min-height: 1px;
       width: 100%;
-      margin-right: 10px;
+      //margin-right: 10px;
     }
 
     &--vertical {
       min-width: 1px;
       height: 100%;
-      margin-bottom: 10px;
+      //margin-bottom: 10px;
     }
   }
 
