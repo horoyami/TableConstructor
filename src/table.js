@@ -6,7 +6,6 @@ const CSS = {
   table: 'tcm-editable-table',
   inputField: 'tcm-editable-table__input-field',
   cell: 'tcm-editable-table__cell',
-  selected: 'tcm-editable-table__cell--focus',
   wrapper: 'tcm-editable-table__wrapper'
 };
 
@@ -83,11 +82,9 @@ export class Table {
   _createContenteditableArea(cell) {
     const div = create('div', [CSS.inputField], {contenteditable: 'true'});
     div.addEventListener('focus', () => {
-      cell.classList.add(CSS.selected);
       this._selectedCell = cell;
     });
     div.addEventListener('blur', () => {
-      cell.classList.remove(CSS.selected);
       this._selectedCell = null;
     });
     return div;
