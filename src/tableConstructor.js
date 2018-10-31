@@ -155,11 +155,11 @@ export class TableConstructor {
     if (event.target.classList.contains(CSS.plusButton)) {
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
-        const containerCoords = getCoords(this._tbody);
+        const containerCoords = getCoords(this.tbody);
         this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
       } else {
         this._addColumn();
-        const containerCoords = getCoords(this._tbody);
+        const containerCoords = getCoords(this.tbody);
         this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
       }
     }
@@ -221,9 +221,8 @@ export class TableConstructor {
   /**
    * returns tbody element of table
    * @return {HTMLElement}
-   * @private
    */
-  get _tbody() {
+  get tbody() {
     return this._table.htmlElement.firstChild;
   }
 
@@ -232,7 +231,7 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const index = this._calculateToolBarPosition(this._tbody, this._coveredBlock.parentElement);
+    const index = this._calculateToolBarPosition(this.tbody, this._coveredBlock.parentElement);
     this._table.addRow(index);
   }
 
@@ -252,7 +251,7 @@ export class TableConstructor {
    */
   _enterPressed(event) {
     if (this._table.selectedCell !== null && event.ctrlKey) {
-      const index = this._calculateToolBarPosition(this._tbody, this._table.selectedCell.parentElement, false);
+      const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
       newstr.firstElementChild.click();
     }
