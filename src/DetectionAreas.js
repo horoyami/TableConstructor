@@ -12,15 +12,27 @@ const CSS = {
   right: 'tcm-around-container__vertical-area--right',
 };
 
+/**
+ * Adds areas near borders of element, which throw event with kind of border when mouse is near the border
+ * @param {HTMLElement} elem - the element
+ * @param {boolean} isOutside - Determines which side of border to use, internal to the element or external
+ */
 export function addDetectionAreas(elem, isOutside) {
-  const topArea = createActivatingArea((isOutside ? 'top' : 'bottom'), [CSS.horizontalArea, CSS.top]);
-  const leftArea = createActivatingArea((isOutside ? 'left' : 'right'), [CSS.verticalArea, CSS.left]);
-  const rightArea = createActivatingArea((isOutside ? 'right' : 'left'), [CSS.verticalArea, CSS.right]);
-  const bottomArea = createActivatingArea((isOutside ? 'bottom' : 'top'), [CSS.horizontalArea, CSS.bottom]);
-  elem.appendChild(topArea);
-  elem.appendChild(leftArea);
-  elem.appendChild(rightArea);
-  elem.appendChild(bottomArea);
+  addArea(elem, (isOutside ? 'top' : 'bottom'), [CSS.horizontalArea, CSS.top]);
+  addArea(elem, (isOutside ? 'left' : 'right'), [CSS.verticalArea, CSS.left]);
+  addArea(elem, (isOutside ? 'right' : 'left'), [CSS.verticalArea, CSS.right]);
+  addArea(elem, (isOutside ? 'bottom' : 'top'), [CSS.horizontalArea, CSS.bottom]);
+}
+
+/**
+ * Helper function for creating one zone
+ * @param {HTMLElement} elem - the element
+ * @param {string} side - hind of border (left, top, bottom, right)
+ * @param {string[]} styles - additional styles
+ */
+function addArea(elem, side, styles) {
+  const area = createArea(side, styles);
+  elem.appendChild(area);
 }
 
 /**
@@ -30,7 +42,7 @@ export function addDetectionAreas(elem, isOutside) {
  * @return {HTMLElement} - the area html element
  * @private
  */
-function createActivatingArea(side, style) {
+function createArea(side, style) {
   const area = create('div', style);
 
   area.addEventListener('mouseenter', () => {
