@@ -3,7 +3,7 @@ import {TableConstructor} from "./tableConstructor";
 /**
  *  Tool for table's creating
  */
-class CodexTable {
+export class CodexTable {
 
   /**
    * Should this tools be displayed at the Editor's Toolbox
@@ -67,3 +67,4 @@ class CodexTable {
   }
 
 }
+
