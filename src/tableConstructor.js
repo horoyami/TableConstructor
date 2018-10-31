@@ -6,7 +6,8 @@ import {Table} from './table';
 
 const CSS = {
   editor: 'tcm-table-editor',
-  plusButton: 'tcm-border-menu__plus-button'
+  toolBarHor: 'tcm-border-menu--horizontal',
+  toolBarVer: 'tcm-border-menu--vertical'
 };
 
 /**
@@ -152,15 +153,24 @@ export class TableConstructor {
    * @private
    */
   _clickListener(event) {
-    if (event.target.classList.contains(CSS.plusButton)) {
+    console.log("clicl");
+    if (event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer)) {
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
-        const containerCoords = getCoords(this.tbody);
-        this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
+        if ((typeof event.detail) !== "number" && event.detail !== null) {
+          const containerCoords = getCoords(this.tbody);
+          this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
+        } else {
+          this._hideToolBar();
+        }
       } else {
         this._addColumn();
-        const containerCoords = getCoords(this.tbody);
-        this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
+        if ((typeof event.detail) !== "number" && event.detail !== null) {
+          const containerCoords = getCoords(this.tbody);
+          this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
+        } else {
+          this._hideToolBar();
+        }
       }
     }
   }

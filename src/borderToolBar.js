@@ -70,8 +70,7 @@ class BorderToolBar {
     button.firstChild.addEventListener('click', (event) => {
       event.stopPropagation();
       const e = new CustomEvent('click', {'detail': {'x': event.pageX, 'y': event.pageY}, 'bubbles': true});
-
-      button.dispatchEvent(e);
+      this._toolBar.dispatchEvent(e);
     });
     return button;
   }
@@ -81,7 +80,13 @@ class BorderToolBar {
    * @private
    */
   _generateHighlightingLine() {
-    return create('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
+    const line = create('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
+    line.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const e = new CustomEvent('click', {'bubbles': true});
+      this._toolBar.dispatchEvent(e);
+    });
+    return line;
   }
 
   /**
@@ -90,7 +95,8 @@ class BorderToolBar {
    * @private
    */
   _generateToolBar(children) {
-    return create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
+    const toolBar = create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
+    return toolBar;
   }
 }
 
