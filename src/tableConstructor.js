@@ -184,7 +184,6 @@ export class TableConstructor {
    * @private
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
-    console.log("lol");
     this._showToolBar(this._activatedToolBar, coord);
     this._activatedToolBar.hideLine();
     clearTimeout(this._plusButDelay);
