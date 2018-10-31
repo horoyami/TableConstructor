@@ -153,25 +153,35 @@ export class TableConstructor {
    * @private
    */
   _clickListener(event) {
-    console.log("clicl");
     if (event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer)) {
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
-        if ((typeof event.detail) !== "number" && event.detail !== null) {
-          const containerCoords = getCoords(this.tbody);
-          this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
-        } else {
-          this._hideToolBar();
-        }
+        this._handleDetail(event, 'y');
       } else {
         this._addColumn();
-        if ((typeof event.detail) !== "number" && event.detail !== null) {
-          const containerCoords = getCoords(this.tbody);
-          this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
-        } else {
-          this._hideToolBar();
-        }
+        this._handleDetail(event, 'x');
       }
+    }
+  }
+
+  /**
+   * Processes additional information transmitted with the event and applies the necessary actions
+   * @param {object} event
+   * @param {string} typeCoord - type of coord 'x' ot 'y'
+   * @private
+   */
+  _handleDetail(event, typeCoord) {
+    if ((typeof event.detail) !== "number" && event.detail !== null) {
+      const containerCoords = getCoords(this.tbody);
+      let coord;
+      if (typeCoord === 'x') {
+        coord = event.detail.x - containerCoords.x1;
+      } else {
+        coord = event.detail.y - containerCoords.y1;
+      }
+      this._delayAddButtonForMultiClickingNearMouse(coord);
+    } else {
+      this._hideToolBar();
     }
   }
 
