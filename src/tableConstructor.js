@@ -16,10 +16,12 @@ const CSS = {
 export class TableConstructor {
   /**
    * Creates
+   * @param {TableData} data - previously saved data for insert in table
    */
-  constructor() {
+  constructor(data) {
     /** creating table */
     this._table = this._createBlankTable();
+    this._fillTable(data);
 
     /** creating container around table */
     this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
@@ -57,11 +59,26 @@ export class TableConstructor {
    */
   _createBlankTable() {
     const table = new Table();
-    table.addColumn();
-    table.addColumn();
-    table.addRow();
-    table.addRow();
     return table;
+  }
+
+  /**
+   *
+   * @param data
+   * @private
+   */
+  _fillTable(data) {
+    for (let i = 0; i < data.width; i++) {
+      this._table.addColumn();
+    }
+    for (let i = 0; i < data.height; i++) {
+      const row = this._table.addRow();
+      for (let j = 0; j < row.children.length; j++) {
+        // Editable part of cell
+        const content = row.children[j].firstElementChild;
+        content.innerHTML = data.table[i][j];
+      }
+    }
   }
 
   /**

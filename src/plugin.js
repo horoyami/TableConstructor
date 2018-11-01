@@ -24,9 +24,8 @@ export class CodexTable {
    */
   constructor({data, config, api}) {
     this.api = api;
-    this.data = data;
 
-    this._element = new TableConstructor();
+    this._element = new TableConstructor(data);
   }
 
   /**
