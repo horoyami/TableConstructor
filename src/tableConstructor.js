@@ -149,16 +149,16 @@ export class TableConstructor {
     this._setHoverBlock(event.target);
 
     if (this._side === 'top') {
-      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 1);
+      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 2);
     }
     if (this._side === 'bottom') {
-      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
+      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1 - 1);
     }
     if (this._side === 'left') {
-      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 1);
+      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 2);
     }
     if (this._side === 'right') {
-      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
+      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1 - 1);
     }
   }
 
