@@ -3,7 +3,7 @@ import {TableConstructor} from "./tableConstructor";
 /**
  *  Tool for table's creating
  */
-export class CodexTable {
+export class Table {
 
   /**
    * Should this tools be displayed at the Editor's Toolbox
@@ -11,7 +11,7 @@ export class CodexTable {
    * @public
    */
   static get displayInToolbox() {
-    return false;
+    return true;
   }
 
   /**
@@ -44,7 +44,7 @@ export class CodexTable {
    */
   save(toolsContent) {
     const table = this._element.tbody;
-    let data = [];
+    const data = [];
     const height = table.children.length;
     let width;
 
