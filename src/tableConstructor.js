@@ -63,8 +63,8 @@ export class TableConstructor {
   }
 
   /**
-   *
-   * @param data
+   *  Fill table data passed to the constructor
+   * @param {TableData} data - data for insert in table
    * @private
    */
   _fillTable(data) {
