@@ -52,7 +52,7 @@ export class Table {
    * @return {HTMLElement}
    */
   get htmlElement() {
-    return this._table.parentElement;
+    return this._table.parentElement.parentElement;
   }
 
   /**
@@ -69,8 +69,8 @@ export class Table {
    * @private
    */
   _createTableWrapper() {
-    let table = create('table', [CSS.table], null, [create('tbody')]);
-    return table.firstElementChild;
+    let table = create('div', [CSS.wrapper], null, [create('table', [CSS.table], null, [create('tbody')])]);
+    return table.firstElementChild.firstElementChild;
   }
 
   /**
