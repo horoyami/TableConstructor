@@ -270,7 +270,7 @@ export class TableConstructor {
    * @private
    */
   _enterPressed(event) {
-    if (this._table.selectedCell !== null && event.ctrlKey) {
+    if (this._table.selectedCell !== null && !event.shiftKey) {
       const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
       newstr.firstElementChild.click();

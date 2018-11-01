@@ -81,6 +81,11 @@ export class Table {
    */
   _createContenteditableArea(cell) {
     const div = create('div', [CSS.inputField], {contenteditable: 'true'});
+    div.addEventListener('keydown', (event) => {
+      if (event.code === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+      }
+    });
     div.addEventListener('focus', () => {
       this._selectedCell = cell;
     });
