@@ -148,8 +148,6 @@ export class TableConstructor {
     const containerCoords = getCoords(this._table.htmlElement);
     this._setHoverBlock(event.target);
 
-    //console.log(event.target.parentElement);
-
     if (this._side === 'top') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 1);
     }
@@ -260,7 +258,7 @@ export class TableConstructor {
    * @return {HTMLElement}
    */
   get tbody() {
-    return this._table.htmlElement.firstChild;
+    return this._table.htmlElement.firstChild.firstChild;
   }
 
   /**
