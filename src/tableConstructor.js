@@ -7,7 +7,8 @@ import {Table} from './table';
 const CSS = {
   editor: 'tcm-table-editor',
   toolBarHor: 'tcm-border-menu--horizontal',
-  toolBarVer: 'tcm-border-menu--vertical'
+  toolBarVer: 'tcm-border-menu--vertical',
+  inputField: 'tcm-editable-table__input-field'
 };
 
 /**
@@ -18,10 +19,11 @@ export class TableConstructor {
    * Creates
    * @param {TableData} data - previously saved data for insert in table
    */
-  constructor(data) {
+  constructor(data, config) {
     /** creating table */
     this._table = this._createBlankTable();
-    this._fillTable(data);
+    const size = this._resizeTable(data, config);
+    this._fillTable(data, size);
 
     /** creating container around table */
     this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
@@ -67,17 +69,40 @@ export class TableConstructor {
    * @param {TableData} data - data for insert in table
    * @private
    */
-  _fillTable(data) {
-    for (let i = 0; i < data.width; i++) {
+  _fillTable(data, size) {
+    const isValidArray = data.content instanceof Array;
+
+    if (data.content !== undefined) {
+      for (let i = 0; i < size.rows && i < data.content.length; i++) {
+        for (let j = 0; j < size.cols && j < data.content[i].length; j++) {
+          const input = this._table.htmlElement.querySelectorAll("tr")[i].querySelectorAll("td")[j].querySelector("." + CSS.inputField);
+          input.innerHTML = data.content[i][j];
+        }
+      }
+    }
+  }
+
+  _resizeTable(data, config) {
+    console.log(config);
+    const isValidArray = data.content instanceof Array;
+    const isNotEmptyArray = isValidArray ? data.content.length : false;
+    const contentRows = (isValidArray) ? data.content.length : undefined;
+    const contentCols = (isNotEmptyArray) ? data.content[0].length : undefined;
+    const configRows = (typeof (+config.rows) === 'number' && config.rows > 0) ? config.rows : undefined;
+    const configCols = (typeof (+config.cols) === 'number' && config.cols > 0) ? config.cols : undefined;
+    const rows = (configRows || contentRows || 1);
+    const cols = (configCols || contentCols || 1);
+
+    for (let i = 0; i < rows; i++) {
+      this._table.addRow();
+    }
+    for (let i = 0; i < cols; i++) {
       this._table.addColumn();
     }
-    for (let i = 0; i < data.height; i++) {
-      const row = this._table.addRow();
-      for (let j = 0; j < row.children.length; j++) {
-        // Editable part of cell
-        const content = row.children[j].firstElementChild;
-        content.innerHTML = data.table[i][j];
-      }
+
+    return {
+      rows: rows,
+      cols: cols
     }
   }
 

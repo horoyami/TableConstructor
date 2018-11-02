@@ -1,5 +1,5 @@
-const  TableConstructor = require("./tableConstructor").TableConstructor;
-const  svgIcon = require("./img/plus.svg").toString();
+const TableConstructor = require("./tableConstructor").TableConstructor;
+const svgIcon = require("./img/plus.svg").toString();
 
 /**
  *  Tool for table's creating
@@ -43,7 +43,7 @@ class Table {
   constructor({data, config, api}) {
     this.api = api;
 
-    this._element = new TableConstructor(data);
+    this._element = new TableConstructor(data, config);
   }
 
   /**
@@ -77,9 +77,7 @@ class Table {
     }
 
     return {
-      columns: width,
-      rows: height,
-      table: data
+      content: data
     };
   }
 
