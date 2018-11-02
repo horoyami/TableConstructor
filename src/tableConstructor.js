@@ -67,14 +67,14 @@ export class TableConstructor {
   /**
    *  Fill table data passed to the constructor
    * @param {TableData} data - data for insert in table
+   * @param {object} size - contains number of rows and cols
    * @private
    */
   _fillTable(data, size) {
-    const isValidArray = data.content instanceof Array;
-
     if (data.content !== undefined) {
       for (let i = 0; i < size.rows && i < data.content.length; i++) {
         for (let j = 0; j < size.cols && j < data.content[i].length; j++) {
+          // get current cell and her editable part
           const input = this._table.htmlElement.querySelectorAll("tr")[i].querySelectorAll("td")[j].querySelector("." + CSS.inputField);
           input.innerHTML = data.content[i][j];
         }
@@ -82,12 +82,19 @@ export class TableConstructor {
     }
   }
 
+  /**
+   * resize to match config or transmitted data
+   * @param {TableData} data - data for insert in table
+   * @param {object} config - configuration of table
+   * @return {object} - cols and rows
+   * @private
+   */
   _resizeTable(data, config) {
-    console.log(config);
     const isValidArray = data.content instanceof Array;
     const isNotEmptyArray = isValidArray ? data.content.length : false;
     const contentRows = (isValidArray) ? data.content.length : undefined;
     const contentCols = (isNotEmptyArray) ? data.content[0].length : undefined;
+    // value of config have to be positive number
     const configRows = (typeof (+config.rows) === 'number' && config.rows > 0) ? config.rows : undefined;
     const configCols = (typeof (+config.cols) === 'number' && config.cols > 0) ? config.cols : undefined;
     const rows = (configRows || contentRows || 1);
