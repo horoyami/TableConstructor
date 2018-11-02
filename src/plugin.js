@@ -1,4 +1,5 @@
 import {TableConstructor} from "./tableConstructor";
+import svgIcon from './img/plus.svg';
 
 /**
  *  Tool for table's creating
@@ -12,6 +13,23 @@ export class Table {
    */
   static get displayInToolbox() {
     return true;
+  }
+
+  /**
+   * Allow to press Enter inside the CodeTool textarea
+   * @returns {boolean}
+   * @public
+   */
+  static get enableLineBreaks() {
+    return true;
+  }
+
+  /**
+   * Get Tool icon's SVG
+   * @return {string}
+   */
+  static get toolboxIcon() {
+    return svgIcon;
   }
 
   /**
