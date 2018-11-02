@@ -5,7 +5,6 @@ const CSS = {
   mainContainer: 'tcm-around-container',
   horizontalArea: 'tcm-around-container__horizontal-area',
   verticalArea: 'tcm-around-container__vertical-area',
-  rowContainer: 'tcm-around-container__row-container',
   top: 'tcm-around-container__horizontal-area--top',
   bottom: 'tcm-around-container__horizontal-area--bottom',
   left: 'tcm-around-container__vertical-area--left',

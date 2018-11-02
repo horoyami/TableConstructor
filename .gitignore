@@ -2,4 +2,3 @@
 yarn.lock
 node_modules
 tableConstructor.js
-./example/yarn.lock

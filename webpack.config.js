@@ -1,11 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/tableConstructor.js",
+  entry: "./src/plugin.js",
   output: {
-    filename: "tableConstructor.js",
-    path: __dirname,
-    library: "TableConstructor",
+    filename: "bundle.js",
+    path: __dirname + "/dist/",
+    library: "Table",
     libraryTarget: 'umd'
   },
   module: {

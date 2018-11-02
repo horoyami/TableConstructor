@@ -21,7 +21,6 @@
   },
   "scripts": {
     "build": "webpack --mode=development",
-    "test": "yarn run build; cd example; yarn run build",
     "lint": "./node_modules/.bin/eslint"
   },
   "dependencies": {}

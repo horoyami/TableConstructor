@@ -1,10 +1,10 @@
-import {TableConstructor} from "./tableConstructor";
-import svgIcon from './img/plus.svg';
+const  TableConstructor = require("./tableConstructor").TableConstructor;
+const  svgIcon = require("./img/plus.svg").toString();
 
 /**
  *  Tool for table's creating
  */
-export class Table {
+class Table {
 
   /**
    * Should this tools be displayed at the Editor's Toolbox
@@ -85,3 +85,4 @@ export class Table {
 
 }
 
+module.exports = Table;
