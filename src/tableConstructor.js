@@ -27,7 +27,7 @@ export class TableConstructor {
     this._fillTable(data, size);
 
     /** creating container around table */
-    this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
+    this._container = create('div', [ CSS.editor ], null, [ this._table.htmlElement ]);
     addDetectionAreas(this._container, false);
 
     /** creating ToolBars */
@@ -214,8 +214,10 @@ export class TableConstructor {
         this._addColumn();
         typeCoord = 'x';
       }
-      /** If event caused triggered by clicking on the Plus Button */
-      if ((typeof event.detail) !== 'number' && event.detail !== null) {
+      /** If event has transmitted data (coords of mouse) */
+      const detailHasData = (typeof event.detail) !== 'number' && event.detail !== null;
+
+      if (detailHasData) {
         const containerCoords = getCoords(this.tbody);
         let coord;
 
@@ -290,7 +292,7 @@ export class TableConstructor {
    * @return {HTMLElement}
    */
   get tbody() {
-    return this._table.htmlElement.querySelector("tbody");
+    return this._table.htmlElement.querySelector('tbody');
   }
 
   /**
@@ -323,7 +325,7 @@ export class TableConstructor {
       const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
 
-      newstr.querySelector("td").click();
+      newstr.querySelector('td').click();
     }
   }
 }
