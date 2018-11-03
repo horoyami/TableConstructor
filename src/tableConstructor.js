@@ -174,7 +174,7 @@ export class TableConstructor {
 
   /**
    * detects a mouseenter on a special area
-   * @param event
+   * @param {MouseEvent} event
    * @private
    */
   _mouseInActivatingAreaListener(event) {
@@ -200,7 +200,7 @@ export class TableConstructor {
 
   /**
    * handling clicks on items
-   * @param {object} event
+   * @param {MouseEvent} event
    * @private
    */
   _clickListener(event) {
@@ -233,7 +233,7 @@ export class TableConstructor {
 
   /**
    * detects button presses
-   * @param {object} event
+   * @param {KeyboardEvent} event
    * @private
    */
   _keyDownListener(event) {
@@ -315,7 +315,7 @@ export class TableConstructor {
 
   /**
    * if "cntrl + Eneter" is pressed then create new line under current and focus it
-   * @param {object} event
+   * @param {KeyboardEvent} event
    * @private
    */
   _enterPressed(event) {
