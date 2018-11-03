@@ -3,9 +3,9 @@ const svgIcon = require("./img/plus.svg").toString();
 
 /**
  *  Tool for table's creating
+ *  @typedef {Object} TableData - object with two-dimensional array which contains table content
  */
 class Table {
-
   /**
    * Should this tools be displayed at the Editor's Toolbox
    * @returns {boolean}
@@ -34,11 +34,9 @@ class Table {
 
   /**
    * Render plugin`s main Element and fill it with saved data
-   *
-   * @param {{data: TableData, config: object, api: object}}
-   *   data — previously saved data
-   *   config - user config for Tool
-   *   api - CodeX Editor API
+   * @param {TableData} data — previously saved data
+   * @param {object} config - user config for Tool
+   * @param {object} api - CodeX Editor API
    */
   constructor({data, config, api}) {
     this.api = api;

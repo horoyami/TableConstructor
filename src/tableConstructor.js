@@ -23,6 +23,7 @@ export class TableConstructor {
     /** creating table */
     this._table = this._createBlankTable();
     const size = this._resizeTable(data, config);
+
     this._fillTable(data, size);
 
     /** creating container around table */
@@ -61,6 +62,7 @@ export class TableConstructor {
    */
   _createBlankTable() {
     const table = new Table();
+
     return table;
   }
 
@@ -75,7 +77,8 @@ export class TableConstructor {
       for (let i = 0; i < size.rows && i < data.content.length; i++) {
         for (let j = 0; j < size.cols && j < data.content[i].length; j++) {
           // get current cell and her editable part
-          const input = this._table.htmlElement.querySelectorAll("tr")[i].querySelectorAll("td")[j].querySelector("." + CSS.inputField);
+          const input = this._table.htmlElement.querySelectorAll('tr')[i].querySelectorAll('td')[j].querySelector('.' + CSS.inputField);
+
           input.innerHTML = data.content[i][j];
         }
       }
@@ -110,7 +113,7 @@ export class TableConstructor {
     return {
       rows: rows,
       cols: cols
-    }
+    };
   }
 
   /**
@@ -178,6 +181,7 @@ export class TableConstructor {
     this._side = event.detail.side;
     const areaCoords = getCoords(event.target);
     const containerCoords = getCoords(this._table.htmlElement);
+
     this._setHoverBlock(event.target);
 
     if (this._side === 'top') {
@@ -201,34 +205,29 @@ export class TableConstructor {
    */
   _clickListener(event) {
     if (event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer)) {
+      let typeCoord;
+
       if (this._activatedToolBar === this._horizontalToolBar) {
         this._addRow();
-        this._handleDetail(event, 'y');
+        typeCoord = 'y';
       } else {
         this._addColumn();
-        this._handleDetail(event, 'x');
+        typeCoord = 'x';
       }
-    }
-  }
+      /** If event caused triggered by clicking on the Plus Button */
+      if ((typeof event.detail) !== 'number' && event.detail !== null) {
+        const containerCoords = getCoords(this.tbody);
+        let coord;
 
-  /**
-   * Processes additional information transmitted with the event and applies the necessary actions
-   * @param {object} event
-   * @param {string} typeCoord - type of coord 'x' ot 'y'
-   * @private
-   */
-  _handleDetail(event, typeCoord) {
-    if ((typeof event.detail) !== "number" && event.detail !== null) {
-      const containerCoords = getCoords(this.tbody);
-      let coord;
-      if (typeCoord === 'x') {
-        coord = event.detail.x - containerCoords.x1;
+        if (typeCoord === 'x') {
+          coord = event.detail.x - containerCoords.x1;
+        } else {
+          coord = event.detail.y - containerCoords.y1;
+        }
+        this._delayAddButtonForMultiClickingNearMouse(coord);
       } else {
-        coord = event.detail.y - containerCoords.y1;
+        this._hideToolBar();
       }
-      this._delayAddButtonForMultiClickingNearMouse(coord);
-    } else {
-      this._hideToolBar();
     }
   }
 
@@ -272,6 +271,7 @@ export class TableConstructor {
       return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
     }
     let index = 0;
+
     /** Runs through the array in search of an element */
     for (index; index < parent.children.length; index++) {
       if (parent.children[index] === child) {
@@ -279,7 +279,7 @@ export class TableConstructor {
       }
     }
     /** If the node must be placed after the element */
-    if (withAnError == true && (this._side === 'bottom' || this._side == 'right')) {
+    if (withAnError === true && (this._side === 'bottom' || this._side === 'right')) {
       index++;
     }
     return index;
@@ -299,6 +299,7 @@ export class TableConstructor {
    */
   _addRow() {
     const index = this._calculateToolBarPosition(this.tbody, this._coveredBlock.parentElement);
+
     this._table.addRow(index);
   }
 
@@ -308,6 +309,7 @@ export class TableConstructor {
    */
   _addColumn() {
     const index = this._calculateToolBarPosition(this._coveredBlock.parentElement, this._coveredBlock);
+
     this._table.addColumn(index);
   }
 
@@ -320,6 +322,7 @@ export class TableConstructor {
     if (this._table.selectedCell !== null && !event.shiftKey) {
       const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
+
       newstr.firstElementChild.click();
     }
   }
