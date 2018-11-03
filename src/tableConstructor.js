@@ -237,7 +237,7 @@ export class TableConstructor {
    * @private
    */
   _keyDownListener(event) {
-    if (event.code === 'Enter') {
+    if (event.keyCode === 13) {
       this._enterPressed(event);
     }
   }
