@@ -29,9 +29,12 @@ export class Table {
   addColumn(index = Infinity) {
     this._numberOfColumns++;
     /** Add cell in each row */
-    for (let i = 0; i < this._table.children.length; i++) {
+    const rows = this._table.querySelectorAll('tr');
+
+    for (let i = 0; i < rows.length; i++) {
       const cell = this._createClearCell();
-      this._addChildToElem(this._table.children[i], index, cell);
+
+      this._addChildToElem(rows[i], index, cell);
     }
   };
 
@@ -43,7 +46,8 @@ export class Table {
   addRow(index = Infinity) {
     this._numberOfRows++;
     const row = this._createClearRow();
-    this._addChildToElem(this._table, index, row);
+
+    this._addChildToElem(this._table.querySelector('tbody'), index, row);
     return row;
   };
 
@@ -52,7 +56,7 @@ export class Table {
    * @return {HTMLElement}
    */
   get htmlElement() {
-    return this._table.parentElement.parentElement;
+    return this._table;
   }
 
   /**
@@ -70,7 +74,8 @@ export class Table {
    */
   _createTableWrapper() {
     let table = create('div', [CSS.wrapper], null, [create('table', [CSS.table], null, [create('tbody')])]);
-    return table.firstElementChild.firstElementChild;
+
+    return table;
   }
 
   /**
@@ -81,6 +86,7 @@ export class Table {
    */
   _createContenteditableArea(cell) {
     const div = create('div', [CSS.inputField], {contenteditable: 'true'});
+
     div.addEventListener('keydown', (event) => {
       if (event.code === 'Enter' && !event.shiftKey) {
         event.preventDefault();
@@ -103,6 +109,7 @@ export class Table {
   _createClearCell() {
     const cell = create('td', [CSS.cell]);
     const content = this._createContenteditableArea(cell);
+
     cell.appendChild(content);
     addDetectionAreas(cell, true);
 
@@ -111,17 +118,6 @@ export class Table {
       content.focus();
     });
     return cell;
-  }
-
-  /**
-   * Create container int cell, where mouse will be detected
-   * @param {HTMLElement} content - the container content
-   * @return {HTMLElement} - the container
-   * @private
-   */
-  _createActivatingConteiner(content) {
-    const area = (new ContainerWithDetectionAreas(content)).htmlElement;
-    return area;
   }
 
   /**
@@ -134,6 +130,7 @@ export class Table {
   _addChildToElem(elem, index, child) {
     /** if index is bigger than length of array then add in end */
     const indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
+
     elem.insertBefore(child, indexToInsert);
   }
 
@@ -144,6 +141,7 @@ export class Table {
    */
   _createClearRow() {
     const str = create('tr');
+
     for (let i = 0; i < this._numberOfColumns; i++) {
       str.appendChild(this._createClearCell());
     }

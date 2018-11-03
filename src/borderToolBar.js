@@ -11,7 +11,7 @@ const CSS = {
   verticalHighlightingLine: 'tcm-border-menu__highlighting-line--vertical',
   plusButton: 'tcm-border-menu__plus-button',
   horizontalPlusButton: 'tcm-border-menu__plus-button--horizontal',
-  verticalPlusButton: 'tcm-border-menu__plus-button--vertical',
+  verticalPlusButton: 'tcm-border-menu__plus-button--vertical'
 };
 
 /**
@@ -67,9 +67,10 @@ class BorderToolBar {
     const button = create('div', [CSS.plusButton, this._additionalStyles.plusButton]);
 
     button.innerHTML = svgPlusButton;
-    button.firstChild.addEventListener('click', (event) => {
+    button.querySelector('svg').addEventListener('click', (event) => {
       event.stopPropagation();
       const e = new CustomEvent('click', {'detail': {'x': event.pageX, 'y': event.pageY}, 'bubbles': true});
+
       this._toolBar.dispatchEvent(e);
     });
     return button;
@@ -81,9 +82,11 @@ class BorderToolBar {
    */
   _generateHighlightingLine() {
     const line = create('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
+
     line.addEventListener('click', (event) => {
       event.stopPropagation();
       const e = new CustomEvent('click', {'bubbles': true});
+
       this._toolBar.dispatchEvent(e);
     });
     return line;
@@ -95,8 +98,7 @@ class BorderToolBar {
    * @private
    */
   _generateToolBar(children) {
-    const toolBar = create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
-    return toolBar;
+    return create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
   }
 }
 

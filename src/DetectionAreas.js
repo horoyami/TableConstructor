@@ -8,7 +8,7 @@ const CSS = {
   top: 'tcm-around-container__horizontal-area--top',
   bottom: 'tcm-around-container__horizontal-area--bottom',
   left: 'tcm-around-container__vertical-area--left',
-  right: 'tcm-around-container__vertical-area--right',
+  right: 'tcm-around-container__vertical-area--right'
 };
 
 /**
@@ -31,6 +31,7 @@ export function addDetectionAreas(elem, isOutside) {
  */
 function addArea(elem, side, styles) {
   const area = createArea(side, styles);
+
   elem.appendChild(area);
 }
 
@@ -54,4 +55,3 @@ function createArea(side, style) {
   });
   return area;
 }
-

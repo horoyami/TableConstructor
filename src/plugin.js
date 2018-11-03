@@ -1,5 +1,9 @@
-const TableConstructor = require("./tableConstructor").TableConstructor;
-const svgIcon = require("./img/plus.svg").toString();
+const TableConstructor = require('./tableConstructor').TableConstructor;
+const svgIcon = require('./img/plus.svg').toString();
+
+const CSS = {
+  input: 'tcm-editable-table__input-field'
+};
 
 /**
  *  Tool for table's creating
@@ -59,26 +63,29 @@ class Table {
    * @public
    */
   save(toolsContent) {
-    const table = this._element.tbody;
+    const table = toolsContent.querySelector('tbody');
     const data = [];
-    const height = table.children.length;
-    let width;
+    const rows = table.querySelectorAll('tr');
+    const height = rows.length;
 
     for (let i = 0; i < height; i++) {
-      const row = table.children[i];
-      data.push([]);
-      width = row.children.length;
+      const row = rows[i];
+      const tmp = [];
+      const cols = row.querySelectorAll('td');
+      const width = cols.length;
+
       for (let j = 0; j < width; j++) {
-        const cell = row.children[j];
-        data[i].push(cell.firstChild.innerHTML);
+        const cell = cols[j];
+
+        tmp.push(cell.querySelector('.' + CSS.input).innerHTML);
       }
+      data.push(tmp);
     }
 
     return {
       content: data
     };
   }
-
 }
 
 module.exports = Table;

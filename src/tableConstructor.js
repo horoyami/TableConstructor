@@ -290,7 +290,7 @@ export class TableConstructor {
    * @return {HTMLElement}
    */
   get tbody() {
-    return this._table.htmlElement.firstChild.firstChild;
+    return this._table.htmlElement.querySelector("tbody");
   }
 
   /**
@@ -323,7 +323,7 @@ export class TableConstructor {
       const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
       const newstr = this._table.addRow(index + 1);
 
-      newstr.firstElementChild.click();
+      newstr.querySelector("td").click();
     }
   }
 }
