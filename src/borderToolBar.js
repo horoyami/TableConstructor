@@ -19,11 +19,9 @@ const CSS = {
  */
 class BorderToolBar {
   /**
-   * @param {object} additionalStyles - additional styles for custom items
    * @constructor
    */
-  constructor(additionalStyles) {
-    this._additionalStyles = additionalStyles;
+  constructor() {
     this._plusButton = this._generatePlusButton();
     this._highlightingLine = this._generateHighlightingLine();
     this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
@@ -64,7 +62,7 @@ class BorderToolBar {
    * @return {HTMLElement}
    */
   _generatePlusButton() {
-    const button = create('div', [CSS.plusButton, this._additionalStyles.plusButton]);
+    const button = create('div', [CSS.plusButton]);
 
     button.innerHTML = svgPlusButton;
     button.querySelector('svg').addEventListener('click', (event) => {
@@ -81,7 +79,7 @@ class BorderToolBar {
    * @private
    */
   _generateHighlightingLine() {
-    const line = create('div', [CSS.highlightingLine, this._additionalStyles.highlightingLine]);
+    const line = create('div', [CSS.highlightingLine]);
 
     line.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -98,7 +96,7 @@ class BorderToolBar {
    * @private
    */
   _generateToolBar(children) {
-    return create('div', [this._additionalStyles.toolBar, CSS.hidden], null, children);
+    return create('div', [CSS.hidden], null, children);
   }
 }
 
@@ -110,11 +108,11 @@ export class HorizontalBorderToolBar extends BorderToolBar {
    * Creates
    */
   constructor() {
-    super({
-      highlightingLine: CSS.horizontalHighlightingLine,
-      toolBar: CSS.horizontalToolBar,
-      plusButton: CSS.horizontalPlusButton
-    });
+    super();
+
+    this._toolBar.classList.add(CSS.horizontalToolBar);
+    this._plusButton.classList.add(CSS.horizontalPlusButton);
+    this._highlightingLine.classList.add(CSS.horizontalHighlightingLine);
   }
 
   /**
@@ -137,11 +135,11 @@ export class VerticalBorderToolBar extends BorderToolBar {
    * Creates
    */
   constructor() {
-    super({
-      highlightingLine: CSS.verticalHighlightingLine,
-      toolBar: CSS.verticalToolBar,
-      plusButton: CSS.verticalPlusButton
-    });
+    super();
+
+    this._toolBar.classList.add(CSS.verticalToolBar);
+    this._plusButton.classList.add(CSS.verticalPlusButton);
+    this._highlightingLine.classList.add(CSS.verticalHighlightingLine);
   }
 
   /**
