@@ -27,7 +27,7 @@ export class TableConstructor {
     this._fillTable(data, size);
 
     /** creating container around table */
-    this._container = create('div', [ CSS.editor ], null, [ this._table.htmlElement ]);
+    this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
     addDetectionAreas(this._container, false);
 
     /** creating ToolBars */
@@ -169,6 +169,10 @@ export class TableConstructor {
 
     this._container.addEventListener('keydown', (event) => {
       this._keyDownListener(event);
+    });
+
+    this._container.addEventListener('mouseleave', () => {
+      this._hideToolBar();
     });
   }
 
