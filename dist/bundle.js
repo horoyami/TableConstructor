@@ -96,47 +96,47 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/DetectionAreas.scss":
-/*!**************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js!./src/DetectionAreas.scss ***!
-  \**************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/DetectionAreas.scss":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./src/DetectionAreas.scss ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-around-container{display:flex;flex-direction:column;width:100%}.tcm-around-container__horizontal-area{width:100%;height:10px;position:absolute}.tcm-around-container__horizontal-area--top{top:0;left:0}.tcm-around-container__horizontal-area--bottom{bottom:0;left:0}.tcm-around-container__vertical-area{width:10px;height:100%;position:absolute}.tcm-around-container__vertical-area--left{top:0;left:0}.tcm-around-container__vertical-area--right{right:0;top:0}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/DetectionAreas.scss?./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js");
+eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-around-container{display:flex;flex-direction:column;width:100%;}.tcm-around-container__horizontal-area{width:100%;height:10px;position:absolute;}.tcm-around-container__horizontal-area--top{top:0;left:0}.tcm-around-container__horizontal-area--bottom{bottom:0;left:0}.tcm-around-container__vertical-area{width:10px;height:100%;position:absolute;}.tcm-around-container__vertical-area--left{top:0;left:0}.tcm-around-container__vertical-area--right{right:0;top:0}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/DetectionAreas.scss?./node_modules/css-loader!./node_modules/postcss-loader/src");
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/borderToolBar.scss":
-/*!*************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js!./src/borderToolBar.scss ***!
-  \*************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/borderToolBar.scss":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./src/borderToolBar.scss ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-border-menu{background:#368be6}.tcm-border-menu--hidden{visibility:hidden}.tcm-border-menu--horizontal{width:100%;height:19px;flex-direction:row;left:0;top:1px}.tcm-border-menu--horizontal,.tcm-border-menu--vertical{display:flex;align-items:center;position:absolute;z-index:100}.tcm-border-menu--vertical{height:100%;width:21px;flex-direction:column;top:0;left:-1px}.tcm-border-menu__plus-button{height:20px;width:20px}.tcm-border-menu__plus-button--horizontal{margin-left:-10px}.tcm-border-menu__plus-button--vertical{margin-top:-10px}.tcm-border-menu__highlighting-line--horizontal{min-height:1px;width:100%}.tcm-border-menu__highlighting-line--vertical{min-width:1px;height:100%}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/borderToolBar.scss?./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js");
+eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-border-menu{background:#368be6;}.tcm-border-menu--hidden{visibility:hidden}.tcm-border-menu--horizontal{width:100%;height:19px;flex-direction:row;left:0;top:1px}.tcm-border-menu--horizontal,.tcm-border-menu--vertical{display:flex;align-items:center;position:absolute;z-index:100}.tcm-border-menu--vertical{height:100%;width:21px;flex-direction:column;top:0;left:-1px}.tcm-border-menu__plus-button{height:20px;width:20px;}.tcm-border-menu__plus-button--horizontal{margin-left:-10px}.tcm-border-menu__plus-button--vertical{margin-top:-10px}.tcm-border-menu__highlighting-line--horizontal{min-height:1px;width:100%;//margin-right:10px}.tcm-border-menu__highlighting-line--vertical{min-width:1px;height:100%;//margin-bottom:10px}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/borderToolBar.scss?./node_modules/css-loader!./node_modules/postcss-loader/src");
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/table.scss":
-/*!*****************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js!./src/table.scss ***!
-  \*****************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/table.scss":
+/*!************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./src/table.scss ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-editable-table{width:100%;height:100%;border-collapse:collapse;table-layout:fixed}.tcm-editable-table__wrapper{border:1px solid #dbdbe2;border-radius:3px;position:relative;height:100%;width:100%}.tcm-editable-table__cell{border:1px solid #dbdbe2;padding:10px;position:relative}.tcm-editable-table__input-field{outline:none;flex-grow:100;min-height:1em;overflow:hidden}.tcm-editable-table tbody tr:first-child td{border-top:none}.tcm-editable-table tbody tr:last-child td{border-bottom:none}.tcm-editable-table tbody tr td:last-child{border-right:none}.tcm-editable-table tbody tr td:first-child{border-left:none}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/table.scss?./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js");
+eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-editable-table{width:100%;height:100%;border-collapse:collapse;table-layout:fixed;}.tcm-editable-table__wrapper{border:1px solid #dbdbe2;border-radius:3px;position:relative;height:100%;width:100%}.tcm-editable-table__cell{border:1px solid #dbdbe2;padding:10px;position:relative}.tcm-editable-table__input-field{outline:none;flex-grow:100;min-height:1em;overflow:hidden}.tcm-editable-table tbody tr:first-child td{border-top:none}.tcm-editable-table tbody tr:last-child td{border-bottom:none}.tcm-editable-table tbody tr td:last-child{border-right:none}.tcm-editable-table tbody tr td:first-child{border-left:none}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/table.scss?./node_modules/css-loader!./node_modules/postcss-loader/src");
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/tableConstructor.scss":
-/*!****************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js!./src/tableConstructor.scss ***!
-  \****************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/tableConstructor.scss":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src!./src/tableConstructor.scss ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-table-editor{padding:10px 12px 10px 10px;position:relative}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/tableConstructor.scss?./node_modules/css-loader!./node_modules/postcss-loader/src!./node_modules/sass-loader/lib/loader.js");
+eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".tcm-table-editor{padding:10px 12px 10px 10px;position:relative}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack://Table/./src/tableConstructor.scss?./node_modules/css-loader!./node_modules/postcss-loader/src");
 
 /***/ }),
 
@@ -192,7 +192,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!../node_modules/sass-loader/lib/loader.js!./DetectionAreas.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/DetectionAreas.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/DetectionAreas.scss?");
+eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!./DetectionAreas.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/DetectionAreas.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/DetectionAreas.scss?");
 
 /***/ }),
 
@@ -215,7 +215,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!../node_modules/sass-loader/lib/loader.js!./borderToolBar.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/borderToolBar.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/borderToolBar.scss?");
+eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!./borderToolBar.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/borderToolBar.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/borderToolBar.scss?");
 
 /***/ }),
 
@@ -272,7 +272,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!../node_modules/sass-loader/lib/loader.js!./table.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/table.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/table.scss?");
+eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!./table.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/table.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/table.scss?");
 
 /***/ }),
 
@@ -295,7 +295,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!../node_modules/sass-loader/lib/loader.js!./tableConstructor.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./node_modules/sass-loader/lib/loader.js!./src/tableConstructor.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/tableConstructor.scss?");
+eval("\nvar content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/postcss-loader/src!./tableConstructor.scss */ \"./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js!./src/tableConstructor.scss\");\n\nif(typeof content === 'string') content = [[module.i, content, '']];\n\nvar transform;\nvar insertInto;\n\n\n\nvar options = {\"hmr\":true}\n\noptions.transform = transform\noptions.insertInto = undefined;\n\nvar update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ \"./node_modules/style-loader/lib/addStyles.js\")(content, options);\n\nif(content.locals) module.exports = content.locals;\n\nif(false) {}\n\n//# sourceURL=webpack://Table/./src/tableConstructor.scss?");
 
 /***/ })
 
