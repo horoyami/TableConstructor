@@ -2,7 +2,7 @@ const TableConstructor = require('./tableConstructor').TableConstructor;
 const svgIcon = require('./img/plus.svg').toString();
 
 const CSS = {
-  input: 'tcm-editable-table__input-field'
+  input: 'tc-table__inp'
 };
 
 /**

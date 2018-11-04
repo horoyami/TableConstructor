@@ -5,10 +5,10 @@ import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
 import {Table} from './table';
 
 const CSS = {
-  editor: 'tcm-table-editor',
-  toolBarHor: 'tcm-border-menu--horizontal',
-  toolBarVer: 'tcm-border-menu--vertical',
-  inputField: 'tcm-editable-table__input-field'
+  editor: 'tc-editor',
+  toolBarHor: 'tc-toolbar--hor',
+  toolBarVer: 'tc-toolbar--ver',
+  inputField: 'tc-table__inp'
 };
 
 /**

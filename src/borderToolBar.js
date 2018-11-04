@@ -3,15 +3,15 @@ import svgPlusButton from './img/plus.svg';
 import {create} from './documentUtils';
 
 const CSS = {
-  highlightingLine: 'tcm-border-menu',
-  hidden: 'tcm-border-menu--hidden',
-  horizontalToolBar: 'tcm-border-menu--horizontal',
-  horizontalHighlightingLine: 'tcm-border-menu__highlighting-line--horizontal',
-  verticalToolBar: 'tcm-border-menu--vertical',
-  verticalHighlightingLine: 'tcm-border-menu__highlighting-line--vertical',
-  plusButton: 'tcm-border-menu__plus-button',
-  horizontalPlusButton: 'tcm-border-menu__plus-button--horizontal',
-  verticalPlusButton: 'tcm-border-menu__plus-button--vertical'
+  highlightingLine: 'tc-toolbar',
+  hidden: 'tc-toolbar--hidden',
+  horizontalToolBar: 'tc-toolbar--hor',
+  horizontalHighlightingLine: 'tc-toolbar__shine-line--hor',
+  verticalToolBar: 'tc-toolbar--ver',
+  verticalHighlightingLine: 'tc-toolbar__shine-line--ver',
+  plusButton: 'tc-toolbar__plus',
+  horizontalPlusButton: 'tc-toolbar__plus--hor',
+  verticalPlusButton: 'tc-toolbar__plus--ver'
 };
 
 /**

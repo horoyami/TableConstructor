@@ -2,13 +2,13 @@ import {create} from './documentUtils';
 import './DetectionAreas.scss';
 
 const CSS = {
-  mainContainer: 'tcm-around-container',
-  horizontalArea: 'tcm-around-container__horizontal-area',
-  verticalArea: 'tcm-around-container__vertical-area',
-  top: 'tcm-around-container__horizontal-area--top',
-  bottom: 'tcm-around-container__horizontal-area--bottom',
-  left: 'tcm-around-container__vertical-area--left',
-  right: 'tcm-around-container__vertical-area--right'
+  mainContainer: 'tc-det-areas',
+  horizontalArea: 'tc-det-areas__hor-area',
+  verticalArea: 'tc-det-areas__ver-area',
+  top: 'tc-det-areas__hor-area--top',
+  bottom: 'tc-det-areas__hor-area--bottom',
+  left: 'tc-det-areas__ver-area--left',
+  right: 'tc-det-areas__ver-area--right'
 };
 
 /**

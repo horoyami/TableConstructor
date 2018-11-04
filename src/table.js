@@ -3,10 +3,10 @@ import {addDetectionAreas} from './DetectionAreas';
 import './table.scss';
 
 const CSS = {
-  table: 'tcm-editable-table',
-  inputField: 'tcm-editable-table__input-field',
-  cell: 'tcm-editable-table__cell',
-  wrapper: 'tcm-editable-table__wrapper'
+  table: 'tc-table',
+  inputField: 'tc-table__inp',
+  cell: 'tc-table__cell',
+  wrapper: 'tc-table__wrap'
 };
 
 /**
