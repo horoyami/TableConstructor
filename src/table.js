@@ -19,35 +19,36 @@ export class Table {
   constructor() {
     this._numberOfColumns = 0;
     this._numberOfRows = 0;
-    this._table = this._createTableWrapper();
+    this._element = this._createTableWrapper();
+    this._table = this._element.querySelector('table');
   }
 
   /**
    * Add column in table on index place
-   * @param {number} index
+   * @param {number} index, if insert in end
    */
-  addColumn(index = Infinity) {
+  addColumn(index = -1) {
     this._numberOfColumns++;
     /** Add cell in each row */
-    const rows = this._table.querySelectorAll('tr');
+    const rows = this._table.rows;
 
     for (let i = 0; i < rows.length; i++) {
-      const cell = this._createClearCell();
+      const cell = rows[i].insertCell(index);
 
-      this._addChildToElem(rows[i], index, cell);
+      this._fillCell(cell);
     }
   };
 
   /**
    * Add row in table on index place
-   * @param {number} index
+   * @param {number} index, -1 if insert in end
    * @return {HTMLElement} row
    */
-  addRow(index = Infinity) {
+  addRow(index = -1) {
     this._numberOfRows++;
-    const row = this._createClearRow();
+    const row = this._table.insertRow(index);
 
-    this._addChildToElem(this._table.querySelector('tbody'), index, row);
+    this._fillRow(row);
     return row;
   };
 
@@ -56,7 +57,7 @@ export class Table {
    * @return {HTMLElement}
    */
   get htmlElement() {
-    return this._table;
+    return this._element;
   }
 
   /**
@@ -73,9 +74,7 @@ export class Table {
    * @private
    */
   _createTableWrapper() {
-    let table = create('div', [CSS.wrapper], null, [create('table', [CSS.table], null, [create('tbody')])]);
-
-    return table;
+    return create('div', [CSS.wrapper], null, [create('table', [CSS.table])]);
   }
 
   /**
@@ -88,7 +87,7 @@ export class Table {
     const div = create('div', [CSS.inputField], {contenteditable: 'true'});
 
     div.addEventListener('keydown', (event) => {
-      if (event.code === 'Enter' && !event.shiftKey) {
+      if (event.keyCode === 13 && !event.shiftKey) {
         event.preventDefault();
       }
     });
@@ -102,49 +101,32 @@ export class Table {
   }
 
   /**
-   * Creates clear cell
-   * @return {HTMLElement} - the cell
+   * Fills the empty cell of the editable area
+   * @param {HTMLElement} cell - empty cell
    * @private
    */
-  _createClearCell() {
-    const cell = create('td', [CSS.cell]);
+  _fillCell(cell) {
+    cell.classList.add(CSS.cell);
     const content = this._createContenteditableArea(cell);
 
     cell.appendChild(content);
     addDetectionAreas(cell, true);
 
     cell.addEventListener('click', () => {
-      /** Get to the edited part of the cell */
       content.focus();
     });
-    return cell;
   }
 
   /**
-   * Add child element to elem's children on index place
-   * @param {HTMLElement} elem - container for child
-   * @param {number} index - place where child will be
-   * @param child - element for insert
+   * Fills the empty row with cells  in the size of numberOfColumns
+   * @param row = the empty row
    * @private
    */
-  _addChildToElem(elem, index, child) {
-    /** if index is bigger than length of array then add in end */
-    const indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
-
-    elem.insertBefore(child, indexToInsert);
-  }
-
-  /**
-   * creates clear row
-   * @return {HTMLElement} the row
-   * @private
-   */
-  _createClearRow() {
-    const str = create('tr');
-
+  _fillRow(row) {
     for (let i = 0; i < this._numberOfColumns; i++) {
-      str.appendChild(this._createClearCell());
+      const cell = row.insertCell();
+
+      this._fillCell(cell);
     }
-    return str;
   }
 }
