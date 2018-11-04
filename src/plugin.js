@@ -63,15 +63,15 @@ class Table {
    * @public
    */
   save(toolsContent) {
-    const table = toolsContent.querySelector('tbody');
+    const table = toolsContent.body;
     const data = [];
-    const rows = table.querySelectorAll('tr');
+    const rows = table.rows;
     const height = rows.length;
 
     for (let i = 0; i < height; i++) {
       const row = rows[i];
       const tmp = [];
-      const cols = row.querySelectorAll('td');
+      const cols = row.cells;
       const width = cols.length;
 
       for (let j = 0; j < width; j++) {
