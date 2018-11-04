@@ -61,6 +61,14 @@ export class Table {
   }
 
   /**
+   * get real table tag
+   * @return {HTMLElement}
+   */
+  get body() {
+    return this._table;
+  }
+
+  /**
    * returns selected/editable cell
    * @return {HTMLElement}
    */

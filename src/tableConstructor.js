@@ -1,5 +1,5 @@
 import './tableConstructor.scss';
-import {getCoords, create} from './documentUtils';
+import {create, getCoords} from './documentUtils';
 import {addDetectionAreas} from './DetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
 import {Table} from './table';
@@ -18,10 +18,11 @@ export class TableConstructor {
   /**
    * Creates
    * @param {TableData} data - previously saved data for insert in table
+   * @param {object} config - configuration of table
    */
   constructor(data, config) {
     /** creating table */
-    this._table = this._createBlankTable();
+    this._table = new Table();
     const size = this._resizeTable(data, config);
 
     this._fillTable(data, size);
@@ -56,17 +57,6 @@ export class TableConstructor {
   }
 
   /**
-   * Creates clear table
-   * @return {Table}
-   * @private
-   */
-  _createBlankTable() {
-    const table = new Table();
-
-    return table;
-  }
-
-  /**
    *  Fill table data passed to the constructor
    * @param {TableData} data - data for insert in table
    * @param {object} size - contains number of rows and cols
@@ -77,7 +67,7 @@ export class TableConstructor {
       for (let i = 0; i < size.rows && i < data.content.length; i++) {
         for (let j = 0; j < size.cols && j < data.content[i].length; j++) {
           // get current cell and her editable part
-          const input = this._table.htmlElement.querySelectorAll('tr')[i].querySelectorAll('td')[j].querySelector('.' + CSS.inputField);
+          const input = this._table.body.rows[i].cells[j].querySelector('.' + CSS.inputField);
 
           input.innerHTML = data.content[i][j];
         }
@@ -117,21 +107,25 @@ export class TableConstructor {
   }
 
   /**
-   * Remembers after which element to insert a row or column.
-   * @param {HTMLElement} content - the element
+   * Find element's parent with specific tag
+   * @param {HTMLElement} element - the element
+   * @param {string} tag - searching tag
+   * @return {HTMLElement} - parent with the tag or this._container if parent dosen't exist
    * @private
    */
-  _setHoverBlock(content) {
-    this._coveredBlock = content;
-    while (!(this._coveredBlock === null || this._coveredBlock.tagName === 'TD' || this._coveredBlock === this._container)) {
-      this._coveredBlock = this._coveredBlock.parentElement;
+  _findParentByTag(element, tag) {
+    let parent = element;
+
+    while (!(parent === null || parent.tagName === tag || parent === this._container)) {
+      parent = parent.parentElement;
     }
+    return parent;
   }
 
   /**
    * Show ToolBar
    * @param {BorderToolBar} toolBar - which toolbar to show
-   * @param {numver} coord - where show. x or y depending on the grade of the toolbar
+   * @param {number} coord - where show. x or y depending on the grade of the toolbar
    * @private
    */
   _showToolBar(toolBar, coord) {
@@ -186,7 +180,8 @@ export class TableConstructor {
     const areaCoords = getCoords(event.target);
     const containerCoords = getCoords(this._table.htmlElement);
 
-    this._setHoverBlock(event.target);
+    this._coveredBlock = event.target;
+    this._coveredBlock = this._findParentByTag(this._coveredBlock, 'TD');
 
     if (this._side === 'top') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 2);
@@ -221,6 +216,7 @@ export class TableConstructor {
       /** If event has transmitted data (coords of mouse) */
       const detailHasData = (typeof event.detail) !== 'number' && event.detail !== null;
 
+      /** delay PlusButton under mouse*/
       if (detailHasData) {
         const containerCoords = getCoords(this.tbody);
         let coord;
@@ -265,26 +261,28 @@ export class TableConstructor {
   }
 
   /**
-   * Calculates the place where you can insert a new row or column so that it is immediately after the child element.
-   * @param {HTMLElement} parent - where to insert
-   * @param {HTMLELement} child - insert immediately after that
+   * Calculates the place where you can insert a new row or column so that it is immediately after the element.
+   * @param {HTMLELement} element - insert immediately after that
    * @param {boolean} withAnError - Whether to consider border type
    * @return {number} - index, where insert
    * @private
    */
-  _calculateToolBarPosition(parent, child, withAnError = true) {
+  _calculateToolBarPosition(element, withAnError = true) {
     if (this._coveredBlock === this._container) {
-      return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
+      return (this._side === 'top' || this._side === 'left') ? -1 : 0;
     }
     let index = 0;
 
-    /** Runs through the array in search of an element */
-    for (index; index < parent.children.length; index++) {
-      if (parent.children[index] === child) {
-        break;
-      }
+    // If child is cell
+    if (element.cellIndex !== undefined) {
+      index = element.cellIndex;
     }
-    /** If the node must be placed after the element */
+    // If child is row
+    if (element.sectionRowIndex !== undefined) {
+      index = element.sectionRowIndex;
+    }
+
+    /** If the node must be placed after the element but click was before*/
     if (withAnError === true && (this._side === 'bottom' || this._side === 'right')) {
       index++;
     }
@@ -292,19 +290,11 @@ export class TableConstructor {
   }
 
   /**
-   * returns tbody element of table
-   * @return {HTMLElement}
-   */
-  get tbody() {
-    return this._table.htmlElement.querySelector('tbody');
-  }
-
-  /**
    * Adds row in table
    * @private
    */
   _addRow() {
-    const index = this._calculateToolBarPosition(this.tbody, this._coveredBlock.parentElement);
+    const index = this._calculateToolBarPosition(this._findParentByTag(this._coveredBlock, "TR"));
 
     this._table.addRow(index);
   }
@@ -314,7 +304,7 @@ export class TableConstructor {
    * @private
    */
   _addColumn() {
-    const index = this._calculateToolBarPosition(this._coveredBlock.parentElement, this._coveredBlock);
+    const index = this._calculateToolBarPosition(this._coveredBlock);
 
     this._table.addColumn(index);
   }
@@ -326,10 +316,10 @@ export class TableConstructor {
    */
   _enterPressed(event) {
     if (this._table.selectedCell !== null && !event.shiftKey) {
-      const index = this._calculateToolBarPosition(this.tbody, this._table.selectedCell.parentElement, false);
+      const index = this._calculateToolBarPosition(this._findParentByTag(this._table.selectedCell, "TR"), false);
       const newstr = this._table.addRow(index + 1);
 
-      newstr.querySelector('td').click();
+      newstr.cells[0].click();
     }
   }
 }
