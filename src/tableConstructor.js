@@ -109,22 +109,6 @@ export class TableConstructor {
   }
 
   /**
-   * Find element's parent with specific tag or this._container if parent dosen't exist
-   * @param {HTMLElement} element - the element
-   * @param {string} tag - searching tag
-   * @return {HTMLElement} - the parent or this._container
-   * @private
-   */
-  _findParentByTag(element, tag) {
-    let parent = element.closest(tag);
-
-    if (parent == null) {
-      parent = this._container;
-    }
-    return parent;
-  }
-
-  /**
    * Show ToolBar
    * @param {BorderToolBar} toolBar - which toolbar to show
    * @param {number} coord - where show. x or y depending on the grade of the toolbar
@@ -182,8 +166,10 @@ export class TableConstructor {
     const areaCoords = getCoords(event.target);
     const containerCoords = getCoords(this._table.htmlElement);
 
-    this._coveredBlock = event.target;
-    this._coveredBlock = this._findParentByTag(this._coveredBlock, 'TD');
+    this._coveredBlock = event.target.closest('TD');
+    if (this._coveredBlock === null) {
+      this._coveredBlock = this._container;
+    }
 
     if (this._side === 'top') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 2);
@@ -297,7 +283,7 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const indicativeRow = this._findParentByTag(this._coveredBlock, 'TR');
+    const indicativeRow = this._coveredBlock.closest('TR');
     const index = this._calculatePositionForInserting(indicativeRow);
 
     this._table.addRow(index);
@@ -320,7 +306,7 @@ export class TableConstructor {
    */
   _enterPressed(event) {
     if (this._table.selectedCell !== null && !event.shiftKey) {
-      const indicativeRow = this._findParentByTag(this._table.selectedCell, 'TR');
+      const indicativeRow = this._table.selectedCell.closest('TR');
       const index = this._calculatePositionForInserting(indicativeRow, false);
       const newstr = this._table.addRow(index + 1);
 
