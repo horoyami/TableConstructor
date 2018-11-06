@@ -156,7 +156,7 @@ export class TableConstructor {
     });
 
     this._container.addEventListener('click', (event) => {
-      this._clickListener(event);
+      this._clickToolbar(event);
     });
 
     this._container.addEventListener('input', () => {
@@ -200,11 +200,11 @@ export class TableConstructor {
   }
 
   /**
-   * handling clicks on items
+   * handling clicks on toolbars
    * @param {MouseEvent} event
    * @private
    */
-  _clickListener(event) {
+  _clickToolbar(event) {
     if (event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer)) {
       let typeCoord;
 
@@ -216,7 +216,7 @@ export class TableConstructor {
         typeCoord = 'x';
       }
       /** If event has transmitted data (coords of mouse) */
-      const detailHasData = (typeof event.detail) !== 'number' && event.detail !== null;
+      const detailHasData = typeof event.detail !== 'number' && event.detail !== null;
 
       /** delay PlusButton under mouse*/
       if (detailHasData) {
@@ -237,7 +237,7 @@ export class TableConstructor {
   }
 
   /**
-   * detects button presses
+   * detects button presses when editing a table's content
    * @param {KeyboardEvent} event
    * @private
    */
@@ -264,13 +264,13 @@ export class TableConstructor {
   }
 
   /**
-   * Calculates the place where you can insert a new row or column so that it is immediately after the element.
-   * @param {HTMLELement} element - insert immediately after that
+   * Calculates the place where you can insert a new row or column so that it is beside the element, depending on this._side
+   * @param {HTMLElement} element - insert immediately after that
    * @param {boolean} withAnError - Whether to consider border type
    * @return {number} - index, where insert
    * @private
    */
-  _calculateToolBarPosition(element, withAnError = true) {
+  _calculatePositionForInserting(element, withAnError = true) {
     if (this._coveredBlock === this._container) {
       return (this._side === 'top' || this._side === 'left') ? -1 : 0;
     }
@@ -297,7 +297,8 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const index = this._calculateToolBarPosition(this._findParentByTag(this._coveredBlock, 'TR'));
+    const indicativeRow = this._findParentByTag(this._coveredBlock, 'TR');
+    const index = this._calculatePositionForInserting(indicativeRow);
 
     this._table.addRow(index);
   }
@@ -307,7 +308,7 @@ export class TableConstructor {
    * @private
    */
   _addColumn() {
-    const index = this._calculateToolBarPosition(this._coveredBlock);
+    const index = this._calculatePositionForInserting(this._coveredBlock);
 
     this._table.addColumn(index);
   }
@@ -319,7 +320,8 @@ export class TableConstructor {
    */
   _enterPressed(event) {
     if (this._table.selectedCell !== null && !event.shiftKey) {
-      const index = this._calculateToolBarPosition(this._findParentByTag(this._table.selectedCell, 'TR'), false);
+      const indicativeRow = this._findParentByTag(this._table.selectedCell, 'TR');
+      const index = this._calculatePositionForInserting(indicativeRow, false);
       const newstr = this._table.addRow(index + 1);
 
       newstr.cells[0].click();
