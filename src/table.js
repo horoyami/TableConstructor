@@ -25,7 +25,7 @@ export class Table {
 
   /**
    * Add column in table on index place
-   * @param {number} index, if insert in end
+   * @param {number} index - number in the array of columns, where new column to insert,-1 if insert at the end
    */
   addColumn(index = -1) {
     this._numberOfColumns++;
@@ -41,7 +41,7 @@ export class Table {
 
   /**
    * Add row in table on index place
-   * @param {number} index, -1 if insert in end
+   * @param {number} index - number in the array of columns, where new column to insert,-1 if insert at the end
    * @return {HTMLElement} row
    */
   addRow(index = -1) {
