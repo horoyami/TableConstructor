@@ -238,7 +238,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"<svg viewBox=\\\"0 0 20 20\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlink\\\"><defs><path d=\\\"M6.44 4.64h3.7a.9.9 0 1 1 0 1.8h-3.7v3.7a.9.9 0 1 1-1.8 0v-3.7H.9a.9.9 0 0 1 0-1.8h3.74V.9a.9.9 0 0 1 1.8 0v3.74z\\\" id=\\\"a\\\"></path></defs><g fill=\\\"none\\\" fill-rule=\\\"evenodd\\\"><circle fill=\\\"#388AE5\\\" fill-rule=\\\"nonzero\\\" cx=\\\"10\\\" cy=\\\"10\\\" r=\\\"10\\\"></circle><g transform=\\\"translate(4.48 4.48)\\\"><mask id=\\\"b\\\" fill=\\\"#fff\\\"><use xlink:href=\\\"#a\\\"></use></mask><use fill=\\\"#fff\\\" xlink:href=\\\"#a\\\"></use><g mask=\\\"url(#b)\\\" fill=\\\"#FFF\\\"><path d=\\\"M-2.48-2.44h16v16h-16z\\\"></path></g></g></g></svg>\"\n\n//# sourceURL=webpack://Table/./src/img/plus.svg?");
+eval("module.exports = \"<svg viewBox=\\\"0 0 20 20\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlink\\\"><defs><path id=\\\"a\\\" d=\\\"M6.44 4.64h3.7a.9.9 0 1 1 0 1.8h-3.7v3.7a.9.9 0 1 1-1.8 0v-3.7H.9a.9.9 0 0 1 0-1.8h3.74V.9a.9.9 0 0 1 1.8 0v3.74z\\\"></path></defs><g fill=\\\"none\\\" fill-rule=\\\"evenodd\\\"><circle cx=\\\"10\\\" cy=\\\"10\\\" r=\\\"10\\\" fill=\\\"#388AE5\\\"></circle><g transform=\\\"translate(4.48 4.48)\\\"><mask id=\\\"b\\\" fill=\\\"#fff\\\"><use xlink:href=\\\"#a\\\"></use></mask><use fill=\\\"#fff\\\" xlink:href=\\\"#a\\\"></use><g fill=\\\"#FFF\\\" mask=\\\"url(#b)\\\"><path d=\\\"m-2.48-2.44h16v16h-16z\\\"></path></g></g></g></svg>\"\n\n//# sourceURL=webpack://Table/./src/img/plus.svg?");
 
 /***/ }),
 
