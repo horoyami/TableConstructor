@@ -45,7 +45,7 @@ class Table {
   constructor({data, config, api}) {
     this.api = api;
 
-    this._element = new TableConstructor(data, config);
+    this._tableConstructor = new TableConstructor(data, config);
   }
 
   /**
@@ -54,7 +54,7 @@ class Table {
    * @public
    */
   render() {
-    return this._element.htmlElement;
+    return this._tableConstructor.htmlElement;
   }
 
   /**
