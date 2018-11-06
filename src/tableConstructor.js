@@ -218,7 +218,8 @@ export class TableConstructor {
 
       /** delay PlusButton under mouse*/
       if (detailHasData) {
-        const containerCoords = getCoords(this.tbody);
+        console.log("true");
+        const containerCoords = getCoords(this._table.htmlElement);
         let coord;
 
         if (typeCoord === 'x') {
