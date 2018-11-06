@@ -77,7 +77,7 @@ export class TableConstructor {
 
   /**
    * resize to match config or transmitted data
-   * @param {TableData} data - data for insert in table
+   * @param {TableData} data - data for inserting to the table
    * @param {object} config - configuration of table
    * @param {number|string} config.rows - number of rows in configuration
    * @param {number|string} config.cols - number of cols in configuration
@@ -87,8 +87,8 @@ export class TableConstructor {
   _resizeTable(data, config) {
     const isValidArray = data.content instanceof Array;
     const isNotEmptyArray = isValidArray ? data.content.length : false;
-    const contentRows = (isValidArray) ? data.content.length : undefined;
-    const contentCols = (isNotEmptyArray) ? data.content[0].length : undefined;
+    const contentRows = isValidArray ? data.content.length : undefined;
+    const contentCols = isNotEmptyArray ? data.content[0].length : undefined;
     // value of config have to be positive number
     const configRows = (typeof (+config.rows) === 'number' && config.rows > 0) ? config.rows : undefined;
     const configCols = (typeof (+config.cols) === 'number' && config.cols > 0) ? config.cols : undefined;
