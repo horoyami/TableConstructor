@@ -24,21 +24,21 @@ class BorderToolBar {
   constructor() {
     this._plusButton = this._generatePlusButton();
     this._highlightingLine = this._generateHighlightingLine();
-    this._toolBar = this._generateToolBar([this._plusButton, this._highlightingLine]);
+    this._toolbar = this._generateToolBar([this._plusButton, this._highlightingLine]);
   }
 
   /**
    * Make the entire item invisible
    */
   hide() {
-    this._toolBar.classList.add(CSS.hidden);
+    this._toolbar.classList.add(CSS.hidden);
   }
 
   /**
    * Make the entire item visible
    */
   show() {
-    this._toolBar.classList.remove(CSS.hidden);
+    this._toolbar.classList.remove(CSS.hidden);
     this._highlightingLine.classList.remove(CSS.hidden);
   };
 
@@ -54,7 +54,7 @@ class BorderToolBar {
    * @returns {HTMLElement}
    */
   get htmlElement() {
-    return this._toolBar;
+    return this._toolbar;
   }
 
   /**
@@ -65,11 +65,11 @@ class BorderToolBar {
     const button = create('div', [CSS.plusButton]);
 
     button.innerHTML = svgPlusButton;
-    button.querySelector('svg').addEventListener('click', (event) => {
+    button.addEventListener('click', (event) => {
       event.stopPropagation();
       const e = new CustomEvent('click', {'detail': {'x': event.pageX, 'y': event.pageY}, 'bubbles': true});
 
-      this._toolBar.dispatchEvent(e);
+      this._toolbar.dispatchEvent(e);
     });
     return button;
   }
@@ -85,7 +85,7 @@ class BorderToolBar {
       event.stopPropagation();
       const e = new CustomEvent('click', {'bubbles': true});
 
-      this._toolBar.dispatchEvent(e);
+      this._toolbar.dispatchEvent(e);
     });
     return line;
   }
@@ -110,7 +110,7 @@ export class HorizontalBorderToolBar extends BorderToolBar {
   constructor() {
     super();
 
-    this._toolBar.classList.add(CSS.horizontalToolBar);
+    this._toolbar.classList.add(CSS.horizontalToolBar);
     this._plusButton.classList.add(CSS.horizontalPlusButton);
     this._highlightingLine.classList.add(CSS.horizontalHighlightingLine);
   }
@@ -120,9 +120,9 @@ export class HorizontalBorderToolBar extends BorderToolBar {
    * @param {number} y - coord
    */
   showIn(y) {
-    const halfHeight = Math.floor(Number.parseInt(getComputedStyle(this._toolBar).height) / 2);
+    const halfHeight = Math.floor(Number.parseInt(getComputedStyle(this._toolbar).height) / 2);
 
-    this._toolBar.style.top = (y - halfHeight) + 'px';
+    this._toolbar.style.top = (y - halfHeight) + 'px';
     this.show();
   }
 }
@@ -137,7 +137,7 @@ export class VerticalBorderToolBar extends BorderToolBar {
   constructor() {
     super();
 
-    this._toolBar.classList.add(CSS.verticalToolBar);
+    this._toolbar.classList.add(CSS.verticalToolBar);
     this._plusButton.classList.add(CSS.verticalPlusButton);
     this._highlightingLine.classList.add(CSS.verticalHighlightingLine);
   }
@@ -147,9 +147,9 @@ export class VerticalBorderToolBar extends BorderToolBar {
    * @param {number} x - coord
    */
   showIn(x) {
-    const halfWidth = Math.floor(Number.parseInt(getComputedStyle(this._toolBar).width) / 2);
+    const halfWidth = Math.floor(Number.parseInt(getComputedStyle(this._toolbar).width) / 2);
 
-    this._toolBar.style.left = (x - halfWidth) + 'px';
+    this._toolbar.style.left = (x - halfWidth) + 'px';
     this.show();
   }
 }
