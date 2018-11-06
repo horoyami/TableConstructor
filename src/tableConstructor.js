@@ -117,6 +117,7 @@ export class TableConstructor {
    */
   _findParentByTag(element, tag) {
     let parent = element.closest(tag);
+
     if (parent == null) {
       parent = this._container;
     }
@@ -219,7 +220,7 @@ export class TableConstructor {
 
       /** delay PlusButton under mouse*/
       if (detailHasData) {
-        console.log("true");
+        console.log('true');
         const containerCoords = getCoords(this._table.htmlElement);
         let coord;
 
@@ -296,7 +297,7 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const index = this._calculateToolBarPosition(this._findParentByTag(this._coveredBlock, "TR"));
+    const index = this._calculateToolBarPosition(this._findParentByTag(this._coveredBlock, 'TR'));
 
     this._table.addRow(index);
   }
@@ -318,7 +319,7 @@ export class TableConstructor {
    */
   _enterPressed(event) {
     if (this._table.selectedCell !== null && !event.shiftKey) {
-      const index = this._calculateToolBarPosition(this._findParentByTag(this._table.selectedCell, "TR"), false);
+      const index = this._calculateToolBarPosition(this._findParentByTag(this._table.selectedCell, 'TR'), false);
       const newstr = this._table.addRow(index + 1);
 
       newstr.cells[0].click();
