@@ -109,17 +109,16 @@ export class TableConstructor {
   }
 
   /**
-   * Find element's parent with specific tag
+   * Find element's parent with specific tag or this._container if parent dosen't exist
    * @param {HTMLElement} element - the element
    * @param {string} tag - searching tag
-   * @return {HTMLElement} - parent with the tag or this._container if parent dosen't exist
+   * @return {HTMLElement} - the parent or this._container
    * @private
    */
   _findParentByTag(element, tag) {
-    let parent = element;
-
-    while (!(parent === null || parent.tagName === tag || parent === this._container)) {
-      parent = parent.parentElement;
+    let parent = element.closest(tag);
+    if (parent == null) {
+      parent = this._container;
     }
     return parent;
   }
