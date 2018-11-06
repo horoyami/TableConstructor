@@ -7,7 +7,8 @@ const CSS = {
 
 /**
  *  Tool for table's creating
- *  @typedef {Object} TableData - object with two-dimensional array which contains table content
+ *  @typedef {object} TableData - object with the data transferred to form a table
+ *  @property {string[][]} content - two-dimensional array which contains table content
  */
 class Table {
   /**
