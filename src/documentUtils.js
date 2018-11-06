@@ -44,7 +44,7 @@ export function create(tagName, cssClasses = null, attrs = null, children = null
 /**
  * Get item position relative to document
  * @param {HTMLElement} elem - item
- * @returns {object} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
+ * @returns {{x1: number, y1: number, x2: number, y2: number}} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
  */
 export function getCoords(elem) {
   const rect = elem.getBoundingClientRect();

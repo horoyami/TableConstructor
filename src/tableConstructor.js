@@ -59,7 +59,7 @@ export class TableConstructor {
   /**
    *  Fill table data passed to the constructor
    * @param {TableData} data - data for insert in table
-   * @param {object} size - contains number of rows and cols
+   * @param {{rows: number, cols: number}} size - contains number of rows and cols
    * @private
    */
   _fillTable(data, size) {
@@ -79,7 +79,9 @@ export class TableConstructor {
    * resize to match config or transmitted data
    * @param {TableData} data - data for insert in table
    * @param {object} config - configuration of table
-   * @return {object} - cols and rows
+   * @param {number|string} config.rows - number of rows in configuration
+   * @param {number|string} config.cols - number of cols in configuration
+   * @return {{rows: number, cols: number}} - number of cols and rows
    * @private
    */
   _resizeTable(data, config) {
