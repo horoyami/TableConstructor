@@ -1,4 +1,2 @@
 .idea
-yarn.lock
 node_modules
-tableConstructor.js

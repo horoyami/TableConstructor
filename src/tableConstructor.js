@@ -1,4 +1,4 @@
-import './tableConstructor.scss';
+import './tableConstructor.pcss';
 import {create, getCoords} from './documentUtils';
 import {addDetectionAreas} from './DetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
@@ -38,9 +38,9 @@ export class TableConstructor {
     this._table.htmlElement.appendChild(this._verticalToolBar.htmlElement);
 
     /** Activated elements */
-    this._coveredBlock = null;
+    this._hoveredCell = null;
     this._activatedToolBar = null;
-    this._side = null;
+    this._hoveredCellSide = null;
 
     /** Timer for delay plus button */
     this._plusButDelay = null;
@@ -85,15 +85,17 @@ export class TableConstructor {
    * @private
    */
   _resizeTable(data, config) {
-    const isValidArray = data.content instanceof Array;
+    const isValidArray = Array.isArray(data.content);
     const isNotEmptyArray = isValidArray ? data.content.length : false;
     const contentRows = isValidArray ? data.content.length : undefined;
     const contentCols = isNotEmptyArray ? data.content[0].length : undefined;
-    // value of config have to be positive number
-    const configRows = (typeof (+config.rows) === 'number' && config.rows > 0) ? config.rows : undefined;
-    const configCols = (typeof (+config.cols) === 'number' && config.cols > 0) ? config.cols : undefined;
-    const rows = (configRows || contentRows || 1);
-    const cols = (configCols || contentCols || 1);
+      const parsedRows = Number.parseInt(config.rows);
+      const parsedCols = Number.parseInt(config.cols);
+      // value of config have to be positive number
+      const configRows = !isNaN(parsedRows) && parsedRows > 0 ? parsedRows : undefined;
+    const configCols = !isNaN(parsedCols) && parsedCols > 0 ? parsedCols : undefined;
+    const rows = configRows || contentRows || 1;
+    const cols = configCols || contentCols || 1;
 
     for (let i = 0; i < rows; i++) {
       this._table.addRow();
@@ -148,7 +150,7 @@ export class TableConstructor {
     });
 
     this._container.addEventListener('keydown', (event) => {
-      this._keyDownListener(event);
+      this._containerKeydown(event);
     });
 
     this._container.addEventListener('mouseleave', () => {
@@ -162,25 +164,25 @@ export class TableConstructor {
    * @private
    */
   _mouseInActivatingAreaListener(event) {
-    this._side = event.detail.side;
+    this._hoveredCellSide = event.detail.side;
     const areaCoords = getCoords(event.target);
     const containerCoords = getCoords(this._table.htmlElement);
 
-    this._coveredBlock = event.target.closest('TD');
-    if (this._coveredBlock === null) {
-      this._coveredBlock = this._container;
+    this._hoveredCell = event.target.closest('TD');
+    if (this._hoveredCell === null) {
+      this._hoveredCell = this._container;
     }
 
-    if (this._side === 'top') {
+    if (this._hoveredCellSide === 'top') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 2);
     }
-    if (this._side === 'bottom') {
+    if (this._hoveredCellSide === 'bottom') {
       this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1 - 1);
     }
-    if (this._side === 'left') {
+    if (this._hoveredCellSide === 'left') {
       this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 2);
     }
-    if (this._side === 'right') {
+    if (this._hoveredCellSide === 'right') {
       this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1 - 1);
     }
   }
@@ -191,35 +193,32 @@ export class TableConstructor {
    * @private
    */
   _clickToolbar(event) {
-    if (event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer)) {
+      if (!(event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer))) {
+          return;
+      }
       let typeCoord;
-
       if (this._activatedToolBar === this._horizontalToolBar) {
-        this._addRow();
-        typeCoord = 'y';
+          this._addRow();
+          typeCoord = 'y';
       } else {
-        this._addColumn();
-        typeCoord = 'x';
+          this._addColumn();
+          typeCoord = 'x';
       }
       /** If event has transmitted data (coords of mouse) */
-      const detailHasData = typeof event.detail !== 'number' && event.detail !== null;
-
-      /** delay PlusButton under mouse*/
+      const detailHasData = isNaN(event.detail) && event.detail !== null;
       if (detailHasData) {
-        console.log('true');
-        const containerCoords = getCoords(this._table.htmlElement);
-        let coord;
+          const containerCoords = getCoords(this._table.htmlElement);
+          let coord;
 
-        if (typeCoord === 'x') {
-          coord = event.detail.x - containerCoords.x1;
-        } else {
-          coord = event.detail.y - containerCoords.y1;
-        }
-        this._delayAddButtonForMultiClickingNearMouse(coord);
+          if (typeCoord === 'x') {
+              coord = event.detail.x - containerCoords.x1;
+          } else {
+              coord = event.detail.y - containerCoords.y1;
+          }
+          this._delayAddButtonForMultiClickingNearMouse(coord);
       } else {
-        this._hideToolBar();
+          this._hideToolBar();
       }
-    }
   }
 
   /**
@@ -227,9 +226,9 @@ export class TableConstructor {
    * @param {KeyboardEvent} event
    * @private
    */
-  _keyDownListener(event) {
+  _containerKeydown(event) {
     if (event.keyCode === 13) {
-      this._enterPressed(event);
+      this._containerEnterPressed(event);
     }
   }
 
@@ -249,33 +248,25 @@ export class TableConstructor {
     }, 500);
   }
 
-  /**
-   * Calculates the place where you can insert a new row or column so that it is beside the element, depending on this._side
-   * @param {HTMLElement} element - insert immediately after that
-   * @param {boolean} withAnError - Whether to consider border type
-   * @return {number} - index, where insert
-   * @private
-   */
-  _calculatePositionForInserting(element, withAnError = true) {
-    if (this._coveredBlock === this._container) {
-      return (this._side === 'top' || this._side === 'left') ? -1 : 0;
-    }
-    let index = 0;
+    /**
+     * Check if the addition is initiated by the container and which side
+     * @returns {number} - -1 for left or top; 0 for bottom or right; 1 if not container
+     * @private
+     */
+  _getHoveredSideOfContainer() {
+      if (this._hoveredCell === this._container) {
+          return this._isBottomOrRight() ? 0 : -1;
+      }
+      return 1;
+  }
 
-    // If child is cell
-    if (element.cellIndex !== undefined) {
-      index = element.cellIndex;
-    }
-    // If child is row
-    if (element.sectionRowIndex !== undefined) {
-      index = element.sectionRowIndex;
-    }
-
-    /** If the node must be placed after the element but click was before*/
-    if (withAnError === true && (this._side === 'bottom' || this._side === 'right')) {
-      index++;
-    }
-    return index;
+    /**
+     * check if hovered cell side is top or left. (lefter in array of cells or rows than hovered cell)
+     * @returns {boolean}
+     * @private
+     */
+  _isBottomOrRight() {
+    return this._hoveredCellSide === 'top' || this._hoveredCellSide === 'left';
   }
 
   /**
@@ -283,8 +274,13 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const indicativeRow = this._coveredBlock.closest('TR');
-    const index = this._calculatePositionForInserting(indicativeRow);
+    const indicativeRow = this._hoveredCell.closest('TR');
+    let index = this._getHoveredSideOfContainer();
+    if (index === 1) {
+      index = indicativeRow.sectionRowIndex;
+        // if inserting after hovered cell
+        index = index + this._isBottomOrRight();
+    }
 
     this._table.addRow(index);
   }
@@ -294,7 +290,12 @@ export class TableConstructor {
    * @private
    */
   _addColumn() {
-    const index = this._calculatePositionForInserting(this._coveredBlock);
+      let index = this._getHoveredSideOfContainer();
+      if (index === 1) {
+        index = this._hoveredCell.cellIndex;
+          // if inserting after hovered cell
+          index = index + this._isBottomOrRight();
+      }
 
     this._table.addColumn(index);
   }
@@ -304,13 +305,16 @@ export class TableConstructor {
    * @param {KeyboardEvent} event
    * @private
    */
-  _enterPressed(event) {
-    if (this._table.selectedCell !== null && !event.shiftKey) {
+  _containerEnterPressed(event) {
+      if (!(this._table.selectedCell !== null && !event.shiftKey)) {
+          return;
+      }
       const indicativeRow = this._table.selectedCell.closest('TR');
-      const index = this._calculatePositionForInserting(indicativeRow, false);
-      const newstr = this._table.addRow(index + 1);
-
+      let index = this._getHoveredSideOfContainer();
+      if (index === 1) {
+          index = indicativeRow.sectionRowIndex + 1;
+      }
+      const newstr = this._table.addRow(index);
       newstr.cells[0].click();
-    }
   }
 }
