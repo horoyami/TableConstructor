@@ -62,7 +62,7 @@ class BorderToolBar {
    * @return {HTMLElement}
    */
   _generatePlusButton() {
-    const button = create('div', [CSS.plusButton]);
+    const button = create('div', [ CSS.plusButton ]);
 
     button.innerHTML = svgPlusButton;
     button.addEventListener('click', (event) => {
@@ -79,7 +79,7 @@ class BorderToolBar {
    * @private
    */
   _generateHighlightingLine() {
-    const line = create('div', [CSS.highlightingLine]);
+    const line = create('div', [ CSS.highlightingLine ]);
 
     line.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -96,7 +96,7 @@ class BorderToolBar {
    * @private
    */
   _generateToolBar(children) {
-    return create('div', [CSS.hidden], null, children);
+    return create('div', [ CSS.hidden ], null, children);
   }
 }
 

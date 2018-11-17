@@ -82,7 +82,7 @@ export class Table {
    * @private
    */
   _createTableWrapper() {
-    return create('div', [CSS.wrapper], null, [create('table', [CSS.table])]);
+    return create('div', [ CSS.wrapper ], null, [ create('table', [ CSS.table ]) ]);
   }
 
   /**
@@ -92,7 +92,7 @@ export class Table {
    * @private
    */
   _createContenteditableArea(cell) {
-    const div = create('div', [CSS.inputField], {contenteditable: 'true'});
+    const div = create('div', [ CSS.inputField ], {contenteditable: 'true'});
 
     div.addEventListener('keydown', (event) => {
       if (event.keyCode === 13 && !event.shiftKey) {

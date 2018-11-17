@@ -263,12 +263,12 @@ export class TableConstructor {
   }
 
   /**
-     * check if hovered cell side is top or left. (lefter in array of cells or rows than hovered cell)
+     * check if hovered cell side is bottom or right. (lefter in array of cells or rows than hovered cell)
      * @returns {boolean}
      * @private
      */
   _isBottomOrRight() {
-    return this._hoveredCellSide === 'top' || this._hoveredCellSide === 'left';
+    return this._hoveredCellSide === 'bottom' || this._hoveredCellSide === 'right';
   }
 
   /**

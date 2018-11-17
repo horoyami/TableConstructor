@@ -64,7 +64,7 @@ class Table {
    * @public
    */
   save(toolsContent) {
-    const table = toolsContent.querySelector("table");
+    const table = toolsContent.querySelector('table');
     const data = [];
     const rows = table.rows;
     const height = rows.length;
