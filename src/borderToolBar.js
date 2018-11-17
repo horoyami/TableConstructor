@@ -120,7 +120,7 @@ export class HorizontalBorderToolBar extends BorderToolBar {
    * @param {number} y - coord
    */
   showIn(y) {
-    const halfHeight = Math.floor(Number.parseInt(getComputedStyle(this._toolbar).height) / 2);
+    const halfHeight = Math.floor(Number.parseInt(window.getComputedStyle(this._toolbar).height) / 2);
 
     this._toolbar.style.top = (y - halfHeight) + 'px';
     this.show();
@@ -147,7 +147,7 @@ export class VerticalBorderToolBar extends BorderToolBar {
    * @param {number} x - coord
    */
   showIn(x) {
-    const halfWidth = Math.floor(Number.parseInt(getComputedStyle(this._toolbar).width) / 2);
+    const halfWidth = Math.floor(Number.parseInt(window.getComputedStyle(this._toolbar).width) / 2);
 
     this._toolbar.style.left = (x - halfWidth) + 'px';
     this.show();
