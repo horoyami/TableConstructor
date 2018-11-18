@@ -1,22 +1,22 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  entry: "./src/tableConstructor.js",
+  entry: './src/plugin.js',
   output: {
-    filename: "tableConstructor.js",
-    path: __dirname,
-    library: "TableConstructor",
+    filename: 'bundle.js',
+    path: __dirname + '/dist/',
+    library: 'Table',
     libraryTarget: 'umd'
   },
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        test: /\.pcss$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.svg$/,
-        loader: "svg-inline-loader"
+        loader: 'svg-inline-loader'
       }
     ]
   }

@@ -1,12 +1,14 @@
-import './tableConstructor.scss';
-import {getCoords, create} from './documentUtils';
+import './tableConstructor.pcss';
+import {create, getCoords} from './documentUtils';
 import {addDetectionAreas} from './DetectionAreas';
 import {HorizontalBorderToolBar, VerticalBorderToolBar} from './borderToolBar';
 import {Table} from './table';
 
 const CSS = {
-  editor: 'tcm-table-editor',
-  plusButton: 'tcm-border-menu__plus-button'
+  editor: 'tc-editor',
+  toolBarHor: 'tc-toolbar--hor',
+  toolBarVer: 'tc-toolbar--ver',
+  inputField: 'tc-table__inp'
 };
 
 /**
@@ -15,13 +17,18 @@ const CSS = {
 export class TableConstructor {
   /**
    * Creates
+   * @param {TableData} data - previously saved data for insert in table
+   * @param {object} config - configuration of table
    */
-  constructor() {
+  constructor(data, config) {
     /** creating table */
-    this._table = this._createBlankTable();
+    this._table = new Table();
+    const size = this._resizeTable(data, config);
+
+    this._fillTable(data, size);
 
     /** creating container around table */
-    this._container = create('div', [CSS.editor], null, [this._table.htmlElement]);
+    this._container = create('div', [ CSS.editor ], null, [ this._table.htmlElement ]);
     addDetectionAreas(this._container, false);
 
     /** creating ToolBars */
@@ -31,9 +38,9 @@ export class TableConstructor {
     this._table.htmlElement.appendChild(this._verticalToolBar.htmlElement);
 
     /** Activated elements */
-    this._coveredBlock = null;
+    this._hoveredCell = null;
     this._activatedToolBar = null;
-    this._side = null;
+    this._hoveredCellSide = null;
 
     /** Timer for delay plus button */
     this._plusButDelay = null;
@@ -50,35 +57,63 @@ export class TableConstructor {
   }
 
   /**
-   * Creates clear table
-   * @return {Table}
+   *  Fill table data passed to the constructor
+   * @param {TableData} data - data for insert in table
+   * @param {{rows: number, cols: number}} size - contains number of rows and cols
    * @private
    */
-  _createBlankTable() {
-    const table = new Table();
-    table.addColumn();
-    table.addColumn();
-    table.addRow();
-    table.addRow();
-    return table;
+  _fillTable(data, size) {
+    if (data.content !== undefined) {
+      for (let i = 0; i < size.rows && i < data.content.length; i++) {
+        for (let j = 0; j < size.cols && j < data.content[i].length; j++) {
+          // get current cell and her editable part
+          const input = this._table.body.rows[i].cells[j].querySelector('.' + CSS.inputField);
+
+          input.innerHTML = data.content[i][j];
+        }
+      }
+    }
   }
 
   /**
-   * Remembers after which element to insert a row or column.
-   * @param {HTMLElement} content - the element
+   * resize to match config or transmitted data
+   * @param {TableData} data - data for inserting to the table
+   * @param {object} config - configuration of table
+   * @param {number|string} config.rows - number of rows in configuration
+   * @param {number|string} config.cols - number of cols in configuration
+   * @return {{rows: number, cols: number}} - number of cols and rows
    * @private
    */
-  _setHoverBlock(content) {
-    this._coveredBlock = content;
-    while (!(this._coveredBlock === null || this._coveredBlock.tagName === 'TD' || this._coveredBlock === this._container)) {
-      this._coveredBlock = this._coveredBlock.parentElement;
+  _resizeTable(data, config) {
+    const isValidArray = Array.isArray(data.content);
+    const isNotEmptyArray = isValidArray ? data.content.length : false;
+    const contentRows = isValidArray ? data.content.length : undefined;
+    const contentCols = isNotEmptyArray ? data.content[0].length : undefined;
+    const parsedRows = Number.parseInt(config.rows);
+    const parsedCols = Number.parseInt(config.cols);
+    // value of config have to be positive number
+    const configRows = !isNaN(parsedRows) && parsedRows > 0 ? parsedRows : undefined;
+    const configCols = !isNaN(parsedCols) && parsedCols > 0 ? parsedCols : undefined;
+    const rows = configRows || contentRows || 1;
+    const cols = configCols || contentCols || 1;
+
+    for (let i = 0; i < rows; i++) {
+      this._table.addRow();
     }
+    for (let i = 0; i < cols; i++) {
+      this._table.addColumn();
+    }
+
+    return {
+      rows: rows,
+      cols: cols
+    };
   }
 
   /**
    * Show ToolBar
    * @param {BorderToolBar} toolBar - which toolbar to show
-   * @param {numver} coord - where show. x or y depending on the grade of the toolbar
+   * @param {number} coord - where show. x or y depending on the grade of the toolbar
    * @private
    */
   _showToolBar(toolBar, coord) {
@@ -107,7 +142,7 @@ export class TableConstructor {
     });
 
     this._container.addEventListener('click', (event) => {
-      this._clickListener(event);
+      this._clickToolbar(event);
     });
 
     this._container.addEventListener('input', () => {
@@ -115,64 +150,87 @@ export class TableConstructor {
     });
 
     this._container.addEventListener('keydown', (event) => {
-      this._keyDownListener(event);
+      this._containerKeydown(event);
+    });
+
+    this._container.addEventListener('mouseleave', () => {
+      this._hideToolBar();
     });
   }
 
   /**
    * detects a mouseenter on a special area
-   * @param event
+   * @param {MouseEvent} event
    * @private
    */
   _mouseInActivatingAreaListener(event) {
-    this._side = event.detail.side;
+    this._hoveredCellSide = event.detail.side;
     const areaCoords = getCoords(event.target);
     const containerCoords = getCoords(this._table.htmlElement);
-    this._setHoverBlock(event.target);
 
-    //console.log(event.target.parentElement);
+    this._hoveredCell = event.target.closest('TD');
+    if (this._hoveredCell === null) {
+      this._hoveredCell = this._container;
+    }
 
-    if (this._side === 'top') {
-      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 1);
+    if (this._hoveredCellSide === 'top') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y1 - containerCoords.y1 - 2);
     }
-    if (this._side === 'bottom') {
-      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1);
+    if (this._hoveredCellSide === 'bottom') {
+      this._showToolBar(this._horizontalToolBar, areaCoords.y2 - containerCoords.y1 - 1);
     }
-    if (this._side === 'left') {
-      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 1);
+    if (this._hoveredCellSide === 'left') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x1 - containerCoords.x1 - 2);
     }
-    if (this._side === 'right') {
-      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1);
+    if (this._hoveredCellSide === 'right') {
+      this._showToolBar(this._verticalToolBar, areaCoords.x2 - containerCoords.x1 - 1);
     }
   }
 
   /**
-   * handling clicks on items
-   * @param {object} event
+   * handling clicks on toolbars
+   * @param {MouseEvent} event
    * @private
    */
-  _clickListener(event) {
-    if (event.target.classList.contains(CSS.plusButton)) {
-      if (this._activatedToolBar === this._horizontalToolBar) {
-        this._addRow();
-        const containerCoords = getCoords(this._tbody);
-        this._delayAddButtonForMultiClickingNearMouse(event.detail.y - containerCoords.y1);
+  _clickToolbar(event) {
+    if (!(event.target.classList.contains(CSS.toolBarHor) || event.target.classList.contains(CSS.toolBarVer))) {
+      return;
+    }
+    let typeCoord;
+
+    if (this._activatedToolBar === this._horizontalToolBar) {
+      this._addRow();
+      typeCoord = 'y';
+    } else {
+      this._addColumn();
+      typeCoord = 'x';
+    }
+    /** If event has transmitted data (coords of mouse) */
+    const detailHasData = isNaN(event.detail) && event.detail !== null;
+
+    if (detailHasData) {
+      const containerCoords = getCoords(this._table.htmlElement);
+      let coord;
+
+      if (typeCoord === 'x') {
+        coord = event.detail.x - containerCoords.x1;
       } else {
-        this._addColumn();
-        const containerCoords = getCoords(this._tbody);
-        this._delayAddButtonForMultiClickingNearMouse(event.detail.x - containerCoords.x1);
+        coord = event.detail.y - containerCoords.y1;
       }
+      this._delayAddButtonForMultiClickingNearMouse(coord);
+    } else {
+      this._hideToolBar();
     }
   }
 
   /**
-   * detects button presses
-   * @param {object} event
+   * detects button presses when editing a table's content
+   * @param {KeyboardEvent} event
    * @private
    */
-  _keyDownListener(event) {
-    if (event.code === 'Enter') {
-      this._enterPressed(event);
+  _containerKeydown(event) {
+    if (event.keyCode === 13) {
+      this._containerEnterPressed(event);
     }
   }
 
@@ -184,7 +242,6 @@ export class TableConstructor {
    * @private
    */
   _delayAddButtonForMultiClickingNearMouse(coord) {
-    console.log("lol");
     this._showToolBar(this._activatedToolBar, coord);
     this._activatedToolBar.hideLine();
     clearTimeout(this._plusButDelay);
@@ -194,38 +251,24 @@ export class TableConstructor {
   }
 
   /**
-   * Calculates the place where you can insert a new row or column so that it is immediately after the child element.
-   * @param {HTMLElement} parent - where to insert
-   * @param {HTMLELement} child - insert immediately after that
-   * @param {boolean} withAnError - Whether to consider border type
-   * @return {number} - index, where insert
-   * @private
-   */
-  _calculateToolBarPosition(parent, child, withAnError = true) {
-    if (this._coveredBlock === this._container) {
-      return (this._side === 'top' || this._side === 'left') ? Infinity : 0;
+     * Check if the addition is initiated by the container and which side
+     * @returns {number} - -1 for left or top; 0 for bottom or right; 1 if not container
+     * @private
+     */
+  _getHoveredSideOfContainer() {
+    if (this._hoveredCell === this._container) {
+      return this._isBottomOrRight() ? 0 : -1;
     }
-    let index = 0;
-    /** Runs through the array in search of an element */
-    for (index; index < parent.children.length; index++) {
-      if (parent.children[index] === child) {
-        break;
-      }
-    }
-    /** If the node must be placed after the element */
-    if (withAnError == true && (this._side === 'bottom' || this._side == 'right')) {
-      index++;
-    }
-    return index;
+    return 1;
   }
 
   /**
-   * returns tbody element of table
-   * @return {HTMLElement}
-   * @private
-   */
-  get _tbody() {
-    return this._table.htmlElement.firstChild;
+     * check if hovered cell side is bottom or right. (lefter in array of cells or rows than hovered cell)
+     * @returns {boolean}
+     * @private
+     */
+  _isBottomOrRight() {
+    return this._hoveredCellSide === 'bottom' || this._hoveredCellSide === 'right';
   }
 
   /**
@@ -233,7 +276,15 @@ export class TableConstructor {
    * @private
    */
   _addRow() {
-    const index = this._calculateToolBarPosition(this._tbody, this._coveredBlock.parentElement);
+    const indicativeRow = this._hoveredCell.closest('TR');
+    let index = this._getHoveredSideOfContainer();
+
+    if (index === 1) {
+      index = indicativeRow.sectionRowIndex;
+      // if inserting after hovered cell
+      index = index + this._isBottomOrRight();
+    }
+
     this._table.addRow(index);
   }
 
@@ -242,20 +293,34 @@ export class TableConstructor {
    * @private
    */
   _addColumn() {
-    const index = this._calculateToolBarPosition(this._coveredBlock.parentElement, this._coveredBlock);
+    let index = this._getHoveredSideOfContainer();
+
+    if (index === 1) {
+      index = this._hoveredCell.cellIndex;
+      // if inserting after hovered cell
+      index = index + this._isBottomOrRight();
+    }
+
     this._table.addColumn(index);
   }
 
   /**
    * if "cntrl + Eneter" is pressed then create new line under current and focus it
-   * @param {object} event
+   * @param {KeyboardEvent} event
    * @private
    */
-  _enterPressed(event) {
-    if (this._table.selectedCell !== null && event.ctrlKey) {
-      const index = this._calculateToolBarPosition(this._tbody, this._table.selectedCell.parentElement, false);
-      const newstr = this._table.addRow(index + 1);
-      newstr.firstElementChild.click();
+  _containerEnterPressed(event) {
+    if (!(this._table.selectedCell !== null && !event.shiftKey)) {
+      return;
     }
+    const indicativeRow = this._table.selectedCell.closest('TR');
+    let index = this._getHoveredSideOfContainer();
+
+    if (index === 1) {
+      index = indicativeRow.sectionRowIndex + 1;
+    }
+    const newstr = this._table.addRow(index);
+
+    newstr.cells[0].click();
   }
 }

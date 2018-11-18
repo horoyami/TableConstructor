@@ -1,12 +1,12 @@
 import {create} from './documentUtils';
 import {addDetectionAreas} from './DetectionAreas';
-import './table.scss';
+import './table.pcss';
 
 const CSS = {
-  table: 'tcm-editable-table',
-  inputField: 'tcm-editable-table__input-field',
-  cell: 'tcm-editable-table__cell',
-  wrapper: 'tcm-editable-table__wrapper'
+  table: 'tc-table',
+  inputField: 'tc-table__inp',
+  cell: 'tc-table__cell',
+  wrapper: 'tc-table__wrap'
 };
 
 /**
@@ -19,31 +19,36 @@ export class Table {
   constructor() {
     this._numberOfColumns = 0;
     this._numberOfRows = 0;
-    this._table = this._createTableWrapper();
+    this._element = this._createTableWrapper();
+    this._table = this._element.querySelector('table');
   }
 
   /**
    * Add column in table on index place
-   * @param {number} index
+   * @param {number} index - number in the array of columns, where new column to insert,-1 if insert at the end
    */
-  addColumn(index = Infinity) {
+  addColumn(index = -1) {
     this._numberOfColumns++;
     /** Add cell in each row */
-    for (let i = 0; i < this._table.children.length; i++) {
-      const cell = this._createClearCell();
-      this._addChildToElem(this._table.children[i], index, cell);
+    const rows = this._table.rows;
+
+    for (let i = 0; i < rows.length; i++) {
+      const cell = rows[i].insertCell(index);
+
+      this._fillCell(cell);
     }
   };
 
   /**
    * Add row in table on index place
-   * @param {number} index
+   * @param {number} index - number in the array of columns, where new column to insert,-1 if insert at the end
    * @return {HTMLElement} row
    */
-  addRow(index = Infinity) {
+  addRow(index = -1) {
     this._numberOfRows++;
-    const row = this._createClearRow();
-    this._addChildToElem(this._table, index, row);
+    const row = this._table.insertRow(index);
+
+    this._fillRow(row);
     return row;
   };
 
@@ -52,7 +57,15 @@ export class Table {
    * @return {HTMLElement}
    */
   get htmlElement() {
-    return this._table.parentElement;
+    return this._element;
+  }
+
+  /**
+   * get real table tag
+   * @return {HTMLElement}
+   */
+  get body() {
+    return this._table;
   }
 
   /**
@@ -69,8 +82,7 @@ export class Table {
    * @private
    */
   _createTableWrapper() {
-    let table = create('table', [CSS.table], null, [create('tbody')]);
-    return table.firstElementChild;
+    return create('div', [ CSS.wrapper ], null, [ create('table', [ CSS.table ]) ]);
   }
 
   /**
@@ -80,7 +92,13 @@ export class Table {
    * @private
    */
   _createContenteditableArea(cell) {
-    const div = create('div', [CSS.inputField], {contenteditable: 'true'});
+    const div = create('div', [ CSS.inputField ], {contenteditable: 'true'});
+
+    div.addEventListener('keydown', (event) => {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault();
+      }
+    });
     div.addEventListener('focus', () => {
       this._selectedCell = cell;
     });
@@ -91,57 +109,32 @@ export class Table {
   }
 
   /**
-   * Creates clear cell
-   * @return {HTMLElement} - the cell
+   * Fills the empty cell of the editable area
+   * @param {HTMLElement} cell - empty cell
    * @private
    */
-  _createClearCell() {
-    const cell = create('td', [CSS.cell]);
+  _fillCell(cell) {
+    cell.classList.add(CSS.cell);
     const content = this._createContenteditableArea(cell);
+
     cell.appendChild(content);
     addDetectionAreas(cell, true);
 
     cell.addEventListener('click', () => {
-      /** Get to the edited part of the cell */
       content.focus();
     });
-    return cell;
   }
 
   /**
-   * Create container int cell, where mouse will be detected
-   * @param {HTMLElement} content - the container content
-   * @return {HTMLElement} - the container
+   * Fills the empty row with cells  in the size of numberOfColumns
+   * @param row = the empty row
    * @private
    */
-  _createActivatingConteiner(content) {
-    const area = (new ContainerWithDetectionAreas(content)).htmlElement;
-    return area;
-  }
-
-  /**
-   * Add child element to elem's children on index place
-   * @param {HTMLElement} elem - container for child
-   * @param {number} index - place where child will be
-   * @param child - element for insert
-   * @private
-   */
-  _addChildToElem(elem, index, child) {
-    /** if index is bigger than length of array then add in end */
-    const indexToInsert = (index >= elem.children.length) ? null : elem.children[index];
-    elem.insertBefore(child, indexToInsert);
-  }
-
-  /**
-   * creates clear row
-   * @return {HTMLElement} the row
-   * @private
-   */
-  _createClearRow() {
-    const str = create('tr');
+  _fillRow(row) {
     for (let i = 0; i < this._numberOfColumns; i++) {
-      str.appendChild(this._createClearCell());
+      const cell = row.insertCell();
+
+      this._fillCell(cell);
     }
-    return str;
   }
 }

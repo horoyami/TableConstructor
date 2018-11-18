@@ -44,15 +44,15 @@ export function create(tagName, cssClasses = null, attrs = null, children = null
 /**
  * Get item position relative to document
  * @param {HTMLElement} elem - item
- * @returns {object} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
+ * @returns {{x1: number, y1: number, x2: number, y2: number}} coordinates of the upper left (x1,y1) and lower right(x2,y2) corners
  */
 export function getCoords(elem) {
   const rect = elem.getBoundingClientRect();
 
   return {
-    y1: rect.top + pageYOffset,
-    x1: rect.left + pageXOffset,
-    x2: rect.right + pageXOffset,
-    y2: rect.bottom + pageYOffset
+    y1: rect.top + window.pageYOffset,
+    x1: rect.left + window.pageXOffset,
+    x2: rect.right + window.pageXOffset,
+    y2: rect.bottom + window.pageYOffset
   };
 }
